@@ -3,6 +3,7 @@ import { Menu, Button } from 'antd';
 import styled from 'styled-components';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { MenuOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 const Logo =  styled.div`
   font-weight: bold;
@@ -55,7 +56,11 @@ function NavBar() {
   return(
     <div>
       <BrowserView>
-        <Logo>TIMELINE</Logo>
+        <Logo>
+          <Link to="/">
+            TIMELINE
+          </Link>
+        </Logo>
         <MenuList>
           <Menu selectedKeys="mail" mode="horizontal">
             <Menu.Item key="timeline">
@@ -67,17 +72,23 @@ function NavBar() {
           </Menu>
           <Menu mode="horizontal">
             <Menu.Item key="login">
-              로그인
+              <Link to="/login">
+                로그인
+              </Link>
             </Menu.Item>
             <Menu.Item key="signup">
-              회원가입
+              <Link to="/signup">
+                회원가입
+              </Link>
             </Menu.Item>
           </Menu>
         </MenuList>
       </BrowserView>
       <MobileView>
         <LogoM>
-          TIMELINE
+          <Link to="/">
+            TIMELINE
+          </Link>
           <div >
             <Button type="primary" onClick={toggleChange} style={{ marginBottom: 16 }}>
               { toggleBar ? <MenuOutlined /> : <MenuFoldOutlined /> }
@@ -98,10 +109,14 @@ function NavBar() {
               클래스
             </Menu.Item>
             <Menu.Item key="login">
-              로그인
+              <Link to="/login">
+                로그인
+              </Link>
             </Menu.Item>
             <Menu.Item key="signup">
-              회원가입
+              <Link to="/signup">
+                회원가입
+              </Link>
             </Menu.Item>
           </Menu>
           : <></>
