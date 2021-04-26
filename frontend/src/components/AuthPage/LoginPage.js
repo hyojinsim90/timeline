@@ -3,7 +3,7 @@ import { Input } from 'antd';
 import styled from 'styled-components';
 
 const LoginDiv = styled.div`
-  padding: 3rem;
+  padding: 3rem 0;
   form {
     width: 320px;
     display: inline-block;

@@ -9,6 +9,9 @@ const Logo =  styled.div`
   font-weight: bold;
   font-size: 3.5vh;
   padding: 1rem;
+  span {
+    color: #f0f0f0;
+  }
   a {
     color: black !important;
   }
@@ -28,6 +31,9 @@ const LogoM = styled.div`
   padding: 1rem;
   display: flex;
   justify-content: space-between;
+  span {
+    color: #f0f0f0;
+  }
   a {
     color: black !important;
   }
@@ -58,7 +64,7 @@ function NavBar() {
       <BrowserView>
         <Logo>
           <Link to="/">
-            TIMELINE
+            TI<span>MELI</span>NE
           </Link>
         </Logo>
         <MenuList>
@@ -87,7 +93,7 @@ function NavBar() {
       <MobileView>
         <LogoM>
           <Link to="/">
-            TIMELINE
+            TI<span>MELI</span>NE
           </Link>
           <div >
             <Button type="primary" onClick={toggleChange} style={{ marginBottom: 16 }}>
@@ -101,6 +107,7 @@ function NavBar() {
             mode="inline"
             theme="light"
             inlineCollapsed={toggleBar}
+            onClick={onMenuClick}
           >
             <Menu.Item key="timeline">
               타임라인
