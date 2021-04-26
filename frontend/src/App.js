@@ -1,24 +1,21 @@
-import logo from './logo.svg';
+import React, { Suspense } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
+import NavBar from './components/NavBar/NavBar';
+import LoginPage from './components/AuthPage/LoginPage';
+import SignupPage from './components/AuthPage/SignupPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense fallback={(<div>...</div>)}>
+      <NavBar />
+      <div className="App">
+        <Switch>
+          <Route exact path="/login" component={LoginPage}></Route>
+          <Route exact path="/signup" component={SignupPage}></Route>
+        </Switch>
+      </div>
+    </Suspense>
   );
 }
 
