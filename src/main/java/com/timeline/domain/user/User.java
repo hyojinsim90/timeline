@@ -11,9 +11,11 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
+@Table(name = "user")
 public class User extends BaseTimeEntity {
 
     @Id
+    @Column(updatable = false, nullable = false)
     private String email;
 
     private String number;
