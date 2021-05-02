@@ -1,5 +1,6 @@
 package com.timeline.controller;
 
+import com.timeline.controller.dto.user.UserListResponseDto;
 import com.timeline.controller.dto.user.UserResponseDto;
 import com.timeline.controller.dto.user.UserSaveRequestDto;
 import com.timeline.controller.dto.user.UserUpdateRequestDto;
@@ -24,7 +25,7 @@ public class UserController {
 
     // 회원정보 전체 가져오기
     @GetMapping("user")
-    public List findAllDesc () {
+    public List<UserListResponseDto> findAllDesc () {
         return userService.findAll();
     }
 
