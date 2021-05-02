@@ -52,4 +52,11 @@ public class UserService {
         return userRepository.save(requestDto.toEntity()).getEmail();
     }
 
+    // 전체 회원 조회
+    @Transactional(readOnly = true)
+    public List<UserListResponseDto> findAll() {
+        return userRepository.findAll().stream()
+                .map(UserListResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

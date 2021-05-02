@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class UserController {
@@ -18,6 +20,12 @@ public class UserController {
     @GetMapping("user/{email}")
     public UserResponseDto findByEmail (@PathVariable String email) {
         return userService.findByEmail(email);
+    }
+
+    // 회원정보 전체 가져오기
+    @GetMapping("user")
+    public List findAllDesc () {
+        return userService.findAll();
     }
 
     // 회원정보 수정
