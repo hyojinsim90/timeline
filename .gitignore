@@ -1,4 +1,4 @@
 .gradle
 .idea
-gradle-wrapper.properties
-application-oauth.property
+gradle/wrapper/gradle-wrapper.properties
+src/main/resources
