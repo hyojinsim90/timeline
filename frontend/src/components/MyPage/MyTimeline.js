@@ -2,6 +2,7 @@ import React from 'react';
 import MenuBar from './Sections/MenuBar';
 import { Row, Col, Card, Button } from 'antd';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const TimelineDiv = styled.div`
   padding: 3rem 2rem;
@@ -23,7 +24,7 @@ const MyTimeline = () => {
       <TimelineDiv>
         <Row gutter={16}>
           <Col span={24}>
-            <Card title="내 타임라인" bordered={false} extra={<Button size="large">생성하기</Button>}>
+            <Card title="내 타임라인" bordered={false} extra={<Link to="/createtimeline"><Button size="large">생성하기</Button></Link>}>
               내 타임라인이 없습니다
             </Card>
           </Col>
