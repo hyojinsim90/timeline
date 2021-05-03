@@ -25,7 +25,6 @@ const SignupPage = () => {
   const [email, setEmail] = useState('')
   const [password1, setPassword1] = useState('')
   const [password2, setPassword2] = useState('')
-  const [errors, setErrors] = useState(false)
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value)

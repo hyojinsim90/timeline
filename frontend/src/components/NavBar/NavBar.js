@@ -77,6 +77,11 @@ function NavBar() {
             </Menu.Item>
           </Menu>
           <Menu mode="horizontal">
+            <Menu.Item key="mypage">
+              <Link to="/mypage">
+                마이페이지
+              </Link>
+            </Menu.Item>
             <Menu.Item key="login">
               <Link to="/login">
                 로그인
@@ -114,6 +119,11 @@ function NavBar() {
             </Menu.Item>
             <Menu.Item key="class">
               클래스
+            </Menu.Item>
+            <Menu.Item key="mypage">
+              <Link to="/mypage">
+                마이페이지
+              </Link>
             </Menu.Item>
             <Menu.Item key="login">
               <Link to="/login">
