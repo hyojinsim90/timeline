@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MariaDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-05-01T02:59:51" hostname="DESKTOP-UK9VMDU" time="0.251">
-  <properties/>
-  <testcase name="test()" classname="MariaDBTest" time="0.251"/>
-  <system-out><![CDATA[org.mariadb.jdbc.MariaDbConnection@7686b6a1
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
