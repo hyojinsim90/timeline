@@ -26,6 +26,11 @@ public class AuthController {
 
     /* 일반 로그인/ 회원가입 */
 
+    @GetMapping("/hello")
+    public String hello() {
+        return "aws test success!";
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberSaveRequestDto memberSaveRequestDto) {
         return ResponseEntity.ok(authService.signup(memberSaveRequestDto));
