@@ -26,6 +26,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="67a6be8a-b4b4-432b-916a-7abe0d930ddc">
+        <schema name="information_schema" object-types="table, procedure, view, function" />
         <schema name="mysql" object-types="table, view, function" />
         <schema name="timeline" object-types="table, procedure, view, function" />
       </connection>
