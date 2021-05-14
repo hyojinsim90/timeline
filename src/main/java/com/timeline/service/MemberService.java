@@ -1,8 +1,8 @@
 package com.timeline.service;
 
-import com.timeline.controller.dto.MemberListResponseDto;
-import com.timeline.controller.dto.MemberResponseDto;
-import com.timeline.controller.dto.MemberUpdateRequestDto;
+import com.timeline.controller.dto.member.MemberListResponseDto;
+import com.timeline.controller.dto.member.MemberResponseDto;
+import com.timeline.controller.dto.member.MemberUpdateRequestDto;
 import com.timeline.entity.Member;
 import com.timeline.repository.MemberRepository;
 import com.timeline.util.SecurityUtil;
@@ -37,9 +37,9 @@ public class MemberService {
 
     /* 유저 정보 가져옴(한명) */
     @Transactional(readOnly = true)
-    public MemberResponseDto getMemberInfo(String email) {
+    public MemberListResponseDto getMemberInfo(String email) {
         return memberRepository.findByEmail(email)
-                .map(MemberResponseDto::of)
+                .map(MemberListResponseDto::new)
                 .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
     }
 
@@ -54,12 +54,12 @@ public class MemberService {
 
     /* 회원정보 수정 */
     @Transactional
-    public MemberResponseDto update(String email, MemberUpdateRequestDto requestDto){
+    public MemberListResponseDto update(String email, MemberUpdateRequestDto requestDto){
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다. email =" + email));
 
         member.update(requestDto.getPassword(), requestDto.getNickname());
 
-        return new MemberResponseDto(member.getEmail());
+        return new MemberListResponseDto(member);
     }
 
     /* 회원정보 삭제 */

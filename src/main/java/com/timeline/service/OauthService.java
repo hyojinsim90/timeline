@@ -1,18 +1,14 @@
 package com.timeline.service;
 
-import com.timeline.controller.dto.MemberOauthAttributeDto;
-import com.timeline.entity.Member;
 import com.timeline.oauth.SocialLoginType;
 import com.timeline.oauth.social.SocialOauth;
 import com.timeline.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**

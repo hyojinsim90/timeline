@@ -1,4 +1,4 @@
-package com.timeline.controller.dto;
+package com.timeline.controller.dto.member;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.timeline.controller.dto;
+package com.timeline.controller.dto.auth;
 
 import lombok.*;
 

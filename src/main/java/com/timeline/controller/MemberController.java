@@ -1,8 +1,8 @@
 package com.timeline.controller;
 
-import com.timeline.controller.dto.MemberListResponseDto;
-import com.timeline.controller.dto.MemberResponseDto;
-import com.timeline.controller.dto.MemberUpdateRequestDto;
+import com.timeline.controller.dto.member.MemberListResponseDto;
+import com.timeline.controller.dto.member.MemberResponseDto;
+import com.timeline.controller.dto.member.MemberUpdateRequestDto;
 import com.timeline.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class MemberController {
 
     /* 유저 정보 가져옴(한명) */
     @GetMapping("/{email}")
-    public ResponseEntity<MemberResponseDto> getMemberInfo(@PathVariable String email) {
+    public ResponseEntity<MemberListResponseDto> getMemberInfo(@PathVariable String email) {
         return ResponseEntity.ok(memberService.getMemberInfo(email));
     }
 
@@ -45,7 +45,7 @@ public class MemberController {
 
     /* 회원정보 수정 */
     @PutMapping("/{email}")
-    public ResponseEntity<MemberResponseDto> update(@PathVariable String email, @RequestBody MemberUpdateRequestDto requestDto) {
+    public ResponseEntity<MemberListResponseDto> update(@PathVariable String email, @RequestBody MemberUpdateRequestDto requestDto) {
         return ResponseEntity.ok(memberService.update(email, requestDto));
     }
 

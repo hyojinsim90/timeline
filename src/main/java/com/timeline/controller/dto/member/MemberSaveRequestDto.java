@@ -1,4 +1,4 @@
-package com.timeline.controller.dto;
+package com.timeline.controller.dto.member;
 
 import com.timeline.entity.Authority;
 import com.timeline.entity.Member;
