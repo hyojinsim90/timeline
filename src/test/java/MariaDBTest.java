@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class MariaDBTest {
 
-   @Test
+   /*@Test
     public void test() throws Exception {
        Class.forName("org.mariadb.jdbc.Driver"); // 마리아DB
        // Class.forName("com.mysql.jdbc.Driver")
@@ -14,5 +14,5 @@ public class MariaDBTest {
 
        System.out.println(con);
 
-   }
+   }*/
 }
