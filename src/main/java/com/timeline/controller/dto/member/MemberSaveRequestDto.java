@@ -4,6 +4,7 @@ import com.timeline.entity.Authority;
 import com.timeline.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -13,12 +14,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @brief : 유저 저장 요청 Dto
  **/
 @Getter
+@Setter
 @NoArgsConstructor
 public class MemberSaveRequestDto {
 
     private String email;
     private String password;
     private String nickname;
+    private String gubun;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
@@ -26,9 +29,19 @@ public class MemberSaveRequestDto {
                 .password(passwordEncoder.encode(password))
                 .nickname(nickname)
                 .authority(Authority.ROLE_USER)
+                .gubun("general")
                 .build();
     }
 
+    public Member toGoogleMember(PasswordEncoder passwordEncoder) {
+        return Member.builder()
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .nickname(nickname)
+                .authority(Authority.ROLE_USER)
+                .gubun("google")
+                .build();
+    }
 
 
 }

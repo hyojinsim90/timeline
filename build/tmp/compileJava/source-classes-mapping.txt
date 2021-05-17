@@ -1,25 +1,20 @@
-com/timeline/controller/dto/MemberUpdateRequestDto.java
- com.timeline.controller.dto.MemberUpdateRequestDto
- com.timeline.controller.dto.MemberUpdateRequestDto$MemberUpdateRequestDtoBuilder
-com/timeline/controller/dto/TokenDto.java
- com.timeline.controller.dto.TokenDto
- com.timeline.controller.dto.TokenDto$TokenDtoBuilder
 com/timeline/config/SecurityConfig.java
  com.timeline.config.SecurityConfig
+com/timeline/controller/dto/auth/TokenDto.java
+ com.timeline.controller.dto.auth.TokenDto
+ com.timeline.controller.dto.auth.TokenDto$TokenDtoBuilder
 com/timeline/oauth/social/FacebookOauth.java
  com.timeline.oauth.social.FacebookOauth
 com/timeline/oauth/social/SocialOauth.java
  com.timeline.oauth.social.SocialOauth
-com/timeline/controller/AuthController.java
- com.timeline.controller.AuthController
-com/timeline/controller/dto/TokenRequestDto.java
- com.timeline.controller.dto.TokenRequestDto
+com/timeline/repository/RefreshTokenRepository.java
+ com.timeline.repository.RefreshTokenRepository
 com/timeline/oauth/SocialLoginTypeConverter.java
  com.timeline.oauth.SocialLoginTypeConverter
 com/timeline/oauth/social/KakaoOauth.java
  com.timeline.oauth.social.KakaoOauth
-com/timeline/service/CustomUserDetailsService.java
- com.timeline.service.CustomUserDetailsService
+com/timeline/oauth/SocialLoginType.java
+ com.timeline.oauth.SocialLoginType
 com/timeline/entity/RefreshToken.java
  com.timeline.entity.RefreshToken
  com.timeline.entity.RefreshToken$RefreshTokenBuilder
@@ -27,53 +22,58 @@ com/timeline/oauth/social/GoogleOauth.java
  com.timeline.oauth.social.GoogleOauth
 com/timeline/controller/OauthController.java
  com.timeline.controller.OauthController
+com/timeline/util/SecurityUtil.java
+ com.timeline.util.SecurityUtil
 com/timeline/config/SwaggerConfig.java
  com.timeline.config.SwaggerConfig
 com/timeline/entity/BaseTimeEntity.java
  com.timeline.entity.BaseTimeEntity
-com/timeline/controller/MemberController.java
- com.timeline.controller.MemberController
+com/timeline/JwtSecurityApplication.java
+ com.timeline.JwtSecurityApplication
+com/timeline/oauth/social/NaverOauth.java
+ com.timeline.oauth.social.NaverOauth
 com/timeline/service/OauthService.java
  com.timeline.service.OauthService
-com/timeline/controller/dto/MemberListResponseDto.java
- com.timeline.controller.dto.MemberListResponseDto
 com/timeline/jwt/JwtAccessDeniedHandler.java
  com.timeline.jwt.JwtAccessDeniedHandler
 com/timeline/jwt/JwtFilter.java
  com.timeline.jwt.JwtFilter
-com/timeline/controller/dto/MemberSaveRequestDto.java
- com.timeline.controller.dto.MemberSaveRequestDto
 com/timeline/jwt/TokenProvider.java
  com.timeline.jwt.TokenProvider
 com/timeline/entity/Authority.java
  com.timeline.entity.Authority
 com/timeline/config/JwtSecurityConfig.java
  com.timeline.config.JwtSecurityConfig
-com/timeline/controller/dto/MemberOauthAttributeDto.java
- com.timeline.controller.dto.MemberOauthAttributeDto
- com.timeline.controller.dto.MemberOauthAttributeDto$MemberOauthAttributeDtoBuilder
 com/timeline/jwt/JwtAuthenticationEntryPoint.java
  com.timeline.jwt.JwtAuthenticationEntryPoint
+com/timeline/controller/dto/member/MemberUpdateRequestDto.java
+ com.timeline.controller.dto.member.MemberUpdateRequestDto
+ com.timeline.controller.dto.member.MemberUpdateRequestDto$MemberUpdateRequestDtoBuilder
 com/timeline/repository/MemberRepository.java
  com.timeline.repository.MemberRepository
-com/timeline/controller/dto/MemberResponseDto.java
- com.timeline.controller.dto.MemberResponseDto
-com/timeline/service/MemberService.java
- com.timeline.service.MemberService
-com/timeline/repository/RefreshTokenRepository.java
- com.timeline.repository.RefreshTokenRepository
-com/timeline/JwtSecurityApplication.java
- com.timeline.JwtSecurityApplication
-com/timeline/oauth/social/NaverOauth.java
- com.timeline.oauth.social.NaverOauth
-com/timeline/util/SecurityUtil.java
- com.timeline.util.SecurityUtil
-com/timeline/oauth/SocialLoginType.java
- com.timeline.oauth.SocialLoginType
-com/timeline/controller/dto/MemberRequestDto.java
- com.timeline.controller.dto.MemberRequestDto
-com/timeline/service/AuthService.java
- com.timeline.service.AuthService
+com/timeline/controller/dto/member/MemberRequestDto.java
+ com.timeline.controller.dto.member.MemberRequestDto
+com/timeline/controller/dto/auth/TokenRequestDto.java
+ com.timeline.controller.dto.auth.TokenRequestDto
+com/timeline/controller/dto/member/MemberSaveRequestDto.java
+ com.timeline.controller.dto.member.MemberSaveRequestDto
 com/timeline/entity/Member.java
  com.timeline.entity.Member
  com.timeline.entity.Member$MemberBuilder
+com/timeline/controller/dto/member/MemberOauthAttributeDto.java
+ com.timeline.controller.dto.member.MemberOauthAttributeDto
+ com.timeline.controller.dto.member.MemberOauthAttributeDto$MemberOauthAttributeDtoBuilder
+com/timeline/service/CustomUserDetailsService.java
+ com.timeline.service.CustomUserDetailsService
+com/timeline/controller/AuthController.java
+ com.timeline.controller.AuthController
+com/timeline/controller/dto/member/MemberListResponseDto.java
+ com.timeline.controller.dto.member.MemberListResponseDto
+com/timeline/controller/dto/member/MemberResponseDto.java
+ com.timeline.controller.dto.member.MemberResponseDto
+com/timeline/service/AuthService.java
+ com.timeline.service.AuthService
+com/timeline/controller/MemberController.java
+ com.timeline.controller.MemberController
+com/timeline/service/MemberService.java
+ com.timeline.service.MemberService

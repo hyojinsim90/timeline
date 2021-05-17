@@ -80,8 +80,10 @@ public class TokenProvider {
                 .compact();
 
         log.info("---AUTHORIZATION_HEADER---> " + JwtFilter.AUTHORIZATION_HEADER);
-        log.info("---AUTHORIZATION_HEADER---> " + JwtFilter.BEARER_PREFIX);
-        log.info("---AUTHORIZATION_HEADER---> " + accessToken );
+        log.info("---BEARER_PREFIX---> " + JwtFilter.BEARER_PREFIX);
+        log.info("---accessToken---> " + accessToken );
+        log.info("---refreshToken---> " + refreshToken );
+
         response.addHeader(JwtFilter.AUTHORIZATION_HEADER, JwtFilter.BEARER_PREFIX + " " + accessToken);
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
         // 왜 저장 안되냐
@@ -130,6 +132,7 @@ public class TokenProvider {
 
     /*
     * 토큰 정보를 검증합니다.
+    * request로 넘어온 access_token을 받아 Jwts를 통해 검증합니다.
     * Jwts 모듈이 알아서 Exception 을 던져줍니다.
     * */
     public boolean validateToken(String token) {

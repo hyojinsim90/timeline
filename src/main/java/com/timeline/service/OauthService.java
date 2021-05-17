@@ -1,5 +1,7 @@
 package com.timeline.service;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.timeline.oauth.SocialLoginType;
 import com.timeline.oauth.social.SocialOauth;
 import com.timeline.repository.MemberRepository;
@@ -8,7 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,6 +33,11 @@ public class OauthService {
     private final HttpServletResponse response;
     private final MemberRepository memberRepository;
 
+
+    /**
+     * 로그인 요청을 받았을 때
+     * @param socialLoginType 로그인 서비스 형태 ex) GOOGLE
+     * */
     public void request(SocialLoginType socialLoginType) {
         log.info("[ OauthService - request ]");
         SocialOauth socialOauth = this.findSocialOauthByType(socialLoginType);
@@ -38,11 +50,15 @@ public class OauthService {
         }
 
         /*
-        * 설명 : 이게 어떤 과정인가하면 내 서비스가 예를들어 쇼핑몰 서비스라고 가정했을때 사용자가 구글 로그인 요청을 했을때 구글 웹페이지에서 사용자의 브라우저 세션에 구글 계정이 로그인되어있는가 및 구글 로그인을 할 수 있는 페이지로 이동되어야 됩니다.
-        * OauthService에서 각 소셜 서비스 타입별로 분기처리하여 getOauthRedirectURL 메소드를 호출할 수 있도록 하고 알 수 없는 타입의 파라미터가 전달되었을때는 Exception을 발생시키도록 처리했습니다
-        * */
+         * 설명 : 이게 어떤 과정인가하면 내 서비스가 예를들어 쇼핑몰 서비스라고 가정했을때 사용자가 구글 로그인 요청을 했을때 구글 웹페이지에서 사용자의 브라우저 세션에 구글 계정이 로그인되어있는가 및 구글 로그인을 할 수 있는 페이지로 이동되어야 됩니다.
+         * OauthService에서 각 소셜 서비스 타입별로 분기처리하여 getOauthRedirectURL 메소드를 호출할 수 있도록 하고 알 수 없는 타입의 파라미터가 전달되었을때는 Exception을 발생시키도록 처리했습니다
+         * */
     }
 
+    /**
+     * 회원인증 후 API Server로부터 소셜타입과 code를 받아옴
+     * 받아온 코드로 토큰 생성
+     * */
     public String requestAccessToken(SocialLoginType socialLoginType, String code) {
         log.info("[ OauthService - requestAccessToken ]");
 
@@ -54,15 +70,17 @@ public class OauthService {
 
 
     /**
-    * SocialLoginType에 맞는 SocialOauth 객체를 반환
+     * SocialLoginType에 맞는 SocialOauth 객체를 반환
      * 구글 -> GoogleOauth 반환
-    * */
+     * */
     private SocialOauth findSocialOauthByType(SocialLoginType socialLoginType) {
         return socialOauthList.stream()
                 .filter(x -> x.type() == socialLoginType)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("알 수 없는 SocialLoginType 입니다."));
     }
+
+
 
 
 }

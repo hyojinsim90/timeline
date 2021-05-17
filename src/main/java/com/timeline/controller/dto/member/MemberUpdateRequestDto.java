@@ -3,6 +3,7 @@ package com.timeline.controller.dto.member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author : Hyojin Sim
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
  * @brief : 유저 수정 Dto
  **/
 @Getter
+@Setter
 @NoArgsConstructor
 public class MemberUpdateRequestDto {
 

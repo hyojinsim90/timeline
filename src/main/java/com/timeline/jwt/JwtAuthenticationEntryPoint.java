@@ -24,6 +24,26 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         // 유효한 자격증명을 제공하지 않고 접근하려 할때 401
+/*
+        log.info("getRequestURI : "+ request.getRequestURI());
+        log.info("getParameterMap : "+ request.getParameterMap().entrySet());
+        log.info("getParameterMap : "+ request.getParameterMap().keySet());
+        log.info("getPathInfo : "+ request.getPathInfo());
+        log.info("getMethod : "+ request.getMethod());
+        log.info("getContextPath : "+ request.getContextPath());
+        log.info("getHeaderNames : "+ request.getHeaderNames());
+        log.info("getAuthType : "+ request.getAuthType());
+        log.info("getPathTranslated : "+ request.getPathTranslated());
+        log.info("getRemoteUser : "+ request.getRemoteUser());
+        log.info("getQueryString : "+ request.getQueryString());
+        log.info("getRequestedSessionId : "+ request.getRequestedSessionId());
+        log.info("getServletPath : "+ request.getServletPath());
+        log.info("getContentType : "+ request.getContentType());
+        log.info("getLocalName : "+ request.getLocalName());
+        log.info("getServerName : "+ request.getServerName());
+        log.info("getParameterNames : "+ request.getParameterNames());
+*/
+
         log.info("-------------401에러------유저정보 없음------");
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }

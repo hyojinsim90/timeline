@@ -43,18 +43,35 @@ public class AuthService {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
 
+        log.info("getPassword before password Encoder---> " + memberSaveRequestDto.getPassword() );
+
         Member member = memberSaveRequestDto.toMember(passwordEncoder);
+        log.info("getPassword after password Encoder---> " + member.getPassword() );
+
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
     @Transactional
     public TokenDto login(HttpServletResponse response, MemberRequestDto memberRequestDto) {
+        log.info("[login]");
+
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberRequestDto.toAuthentication();
+        log.info("---getName---> " + authenticationToken.getName() ); // 이메일
+        log.info("---getPrincipal---> " + authenticationToken.getPrincipal() ); //이메일
+        log.info("---getAuthorities---> " + authenticationToken.getAuthorities() );
+        log.info("---getDetails---> " + authenticationToken.getDetails() );
+        log.info("---getCredentials---> " + authenticationToken.getCredentials() ); // 비밀번호
+
 
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        log.info("---getCredentials---> " + authenticationManagerBuilder.getObject()); // ProviderManager 클래스
+        log.info("---getName---> " + authentication.getName()); // 아이디
+        log.info("---getPrincipal---> " + authentication.getPrincipal()); // userdetails(아이디,비번(보호됨)권한)
+        log.info("---getAuthorities---> " + authentication.getAuthorities()); // 권한 ex) ROLE_USER
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(response,authentication);
@@ -64,6 +81,10 @@ public class AuthService {
                 .key(authentication.getName())
                 .value(tokenDto.getRefreshToken())
                 .build();
+
+        log.info("---refreshToken---> " + refreshToken );
+        log.info("---authentication.getName()---> " + authentication.getName() ); // 1 (순서)
+        log.info("---tokenDto.getRefreshToken()---> " + tokenDto.getRefreshToken() ); // refresh_token 들어감
 
         refreshTokenRepository.save(refreshToken);
 

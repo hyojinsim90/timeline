@@ -4,10 +4,13 @@ import com.timeline.controller.dto.member.MemberListResponseDto;
 import com.timeline.controller.dto.member.MemberResponseDto;
 import com.timeline.controller.dto.member.MemberUpdateRequestDto;
 import com.timeline.entity.Member;
+import com.timeline.entity.RefreshToken;
 import com.timeline.repository.MemberRepository;
+import com.timeline.repository.RefreshTokenRepository;
 import com.timeline.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 현재 SecurityContext 에 있는 유저 정보 가져오기
     @Transactional(readOnly = true)
@@ -54,10 +59,21 @@ public class MemberService {
 
     /* 회원정보 수정 */
     @Transactional
-    public MemberListResponseDto update(String email, MemberUpdateRequestDto requestDto){
+    public MemberListResponseDto update(String email, MemberUpdateRequestDto requestDto) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다. email =" + email));
 
+        log.info("getGubun() - origin ---> " + member.getGubun() );
+        if("google".equals(member.getGubun())){
+            requestDto.setPassword(passwordEncoder.encode("google"));
+            log.info("setPassword() - google ---> " + requestDto.getPassword() );
+        } else {
+            requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+            log.info("getPassword() - non-google ---> " + requestDto.getPassword() );
+        }
+
         member.update(requestDto.getPassword(), requestDto.getNickname());
+
+        log.info("---member ---> " + member );
 
         return new MemberListResponseDto(member);
     }
@@ -65,10 +81,17 @@ public class MemberService {
     /* 회원정보 삭제 */
     @Transactional
     public void delete(String email){
-        // 존재하는 Member인지 확인을 위해 엔티티 조회 후 삭제
+
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다. email =" + email));
+
+        // refresh token에서 먼저 삭제
+        RefreshToken refreshToken = refreshTokenRepository.findByKey(member.getId().toString())
+                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다"));
+        refreshTokenRepository.delete(refreshToken);
+
+        // 존재하는 Member인지 확인을 위해 엔티티 조회 후 삭제
         memberRepository.delete(member);
-        // 엔티티를 파라미터로 삭제할 수도 있고, deleteById 메소드를 이용하면 id로 삭제할수도있다.
+
     }
 
 }

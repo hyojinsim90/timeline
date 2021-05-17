@@ -4,6 +4,8 @@ import com.timeline.entity.Authority;
 import com.timeline.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Map;
 /**
@@ -14,6 +16,8 @@ import java.util.Map;
  **/
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class MemberOauthAttributeDto {
 
     private Map<String, Object> attributes;
