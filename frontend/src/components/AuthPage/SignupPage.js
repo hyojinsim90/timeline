@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from 'antd';
 import styled from 'styled-components';
+import Axios from 'axios'
 
 const SignupDiv = styled.div`
   padding: 3rem 0;
@@ -38,11 +39,25 @@ const SignupPage = () => {
     setPassword2(e.target.value)
   }
 
+  const onSignup = () => {
+    const variables = {
+      'email': email,
+      'nickname': 'test',
+      'password': password2
+    }
+
+    Axios.post('/auth/signup', variables)
+      .then(res => {
+        alert(res)
+        console.log(res);
+      })
+  }
+
   return (
     <SignupDiv>
       <h1>회원가입</h1>
       <br />
-      <form>
+      <form onSubmit={onSignup}>
         <label htmlFor='email'>이메일 주소:</label>
         <Input
           type='email'
@@ -69,7 +84,7 @@ const SignupPage = () => {
           pattern='^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[a-z\d$@$!%*#?&]{8,16}$'
           required
         />
-        <Input type='submit' size="large" value='가입하기' />
+        <Input type='submit' size='large' value='가입하기' />
       </form>
     </SignupDiv>
   )

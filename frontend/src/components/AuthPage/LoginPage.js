@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Input } from 'antd';
 import styled from 'styled-components';
+import Axios from 'axios'
+import { useHistory } from 'react-router-dom'
 
 const LoginDiv = styled.div`
   padding: 3rem 0;
@@ -26,6 +28,23 @@ const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const history = useHistory()
+
+  const onLogin = () => {
+
+    let variables = {
+      "email": email,
+      "password": password
+    }
+
+    Axios.post('/auth/login', variables)
+      .then(res => {
+        alert(res.data.accessToken)
+        localStorage.setItem('userId', res.data.accessToken)
+        history.push('/')
+      })
+  }
+
   return (
     <LoginDiv>
       <h1>로그인</h1>
@@ -45,7 +64,7 @@ const LoginPage = () => {
           required
           onChange={e => setPassword(e.target.value)}
         />
-        <Input type='submit' size="large" value='로그인' />
+      <Input type='submit' size="large" value='로그인' onClick={onLogin}/>
       </form>
     </LoginDiv>
   )
