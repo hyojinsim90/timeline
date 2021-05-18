@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { Input } from 'antd';
-import styled from 'styled-components';
+import React, { useState } from 'react'
+import { Input } from 'antd'
+import styled from 'styled-components'
 import Axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
+
 
 const LoginDiv = styled.div`
   padding: 3rem 0;
@@ -27,6 +29,7 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [cookies, setCookie] = useCookies(['tn_e'])
 
   const history = useHistory()
 
@@ -36,11 +39,10 @@ const LoginPage = () => {
       "email": email,
       "password": password
     }
-
+setCookie('tn_e', email)
     Axios.post('/auth/login', variables)
       .then(res => {
-        alert(res.data.accessToken)
-        localStorage.setItem('userId', res.data.accessToken)
+        setCookie('tn_e', email)
         history.push('/')
       })
   }
