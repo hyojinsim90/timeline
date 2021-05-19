@@ -211,9 +211,7 @@ public class GoogleOauth implements SocialOauth {
 
 
                 // 회원가입
-                if (memberRepository.existsByEmail(email)) {
-                    throw new RuntimeException("이미 가입되어 있는 유저입니다");
-                } else {
+                if (!memberRepository.existsByEmail(email)){
 
                     // 회원가입
                     MemberSaveRequestDto memberSaveRequestDto = new MemberSaveRequestDto();
