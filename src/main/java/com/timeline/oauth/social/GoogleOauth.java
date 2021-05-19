@@ -55,12 +55,16 @@ public class GoogleOauth implements SocialOauth {
     private String GOOGLE_SNS_BASE_URL;
     @Value("${sns.google.client.id}")
     private String GOOGLE_SNS_CLIENT_ID;
+    @Value("${sns.google.client.scope}")
+    private String GOOGLE_SNS_CLIENT_SCOPE;
     @Value("${sns.google.callback.url}")
     private String GOOGLE_SNS_CALLBACK_URL;
     @Value("${sns.google.client.secret}")
     private String GOOGLE_SNS_CLIENT_SECRET;
     @Value("${sns.google.token.url}")
     private String GOOGLE_SNS_TOKEN_BASE_URL;
+    @Value("${sns.google.userinfo.url}")
+    private String GOOGLE_SNS_USERINFO_URL;
 
     /**
     *  redirect 처리를 할 URL을 생성하는 메소드
@@ -71,7 +75,7 @@ public class GoogleOauth implements SocialOauth {
         log.info("[ getOauthRedirectURL ]");
 
         Map<String, Object> params = new HashMap<>();
-        params.put("scope", "email");
+        params.put("scope", GOOGLE_SNS_CLIENT_SCOPE);
         params.put("response_type", "code");
         params.put("access_type", "offline");
         params.put("include_granted_scopes", "true");
@@ -183,7 +187,8 @@ public class GoogleOauth implements SocialOauth {
         //요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
         // String reqURL = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token="+access_Token;
         // String reqURL = "https://www.googleapis.com/userinfo/v2/me?access_token="+access_Token;
-        String reqURL = "https://www.googleapis.com/oauth2/v3/userinfo?access_token="+access_token;
+        String reqURL = GOOGLE_SNS_USERINFO_URL+access_token;
+
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
