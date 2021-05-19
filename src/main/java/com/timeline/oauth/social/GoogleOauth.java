@@ -235,13 +235,17 @@ public class GoogleOauth implements SocialOauth {
                     // refresh_token 저장
                     String refresh_token = jsonobeject.get("refresh_token").toString();
 
-                    RefreshToken refreshToken = RefreshToken.builder()
-                            .key(authentication.getName())
-                            .value(refresh_token)
-                            .build();
+                    if (refresh_token != null){
+
+                        log.info("refresh token : " + refresh_token);
+                        RefreshToken refreshToken = RefreshToken.builder()
+                                .key(authentication.getName())
+                                .value(refresh_token)
+                                .build();
 
                     refreshTokenRepository.save(refreshToken);
 
+                    }
 
                 }
 
