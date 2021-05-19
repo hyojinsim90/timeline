@@ -231,11 +231,11 @@ public class GoogleOauth implements SocialOauth {
                     log.info("SecurityContextHolder.getContext() : " +  SecurityContextHolder.getContext().getAuthentication());
 
                     // refresh_token 저장
-                    String refresh_token = jsonobeject.get("refresh_token").toString();
-
-                    if (refresh_token != null){
-
+                    if (jsonobeject.get("refresh_token") != null){
+                        
+                        String refresh_token = jsonobeject.get("refresh_token").toString();
                         log.info("refresh token : " + refresh_token);
+
                         RefreshToken refreshToken = RefreshToken.builder()
                                 .key(authentication.getName())
                                 .value(refresh_token)
