@@ -5,8 +5,8 @@ com/timeline/controller/dto/auth/TokenDto.java
  com.timeline.controller.dto.auth.TokenDto$TokenDtoBuilder
 com/timeline/oauth/social/FacebookOauth.java
  com.timeline.oauth.social.FacebookOauth
-com/timeline/oauth/social/SocialOauth.java
- com.timeline.oauth.social.SocialOauth
+com/timeline/controller/MemberController.java
+ com.timeline.controller.MemberController
 com/timeline/repository/RefreshTokenRepository.java
  com.timeline.repository.RefreshTokenRepository
 com/timeline/oauth/SocialLoginTypeConverter.java
@@ -18,8 +18,8 @@ com/timeline/oauth/SocialLoginType.java
 com/timeline/entity/RefreshToken.java
  com.timeline.entity.RefreshToken
  com.timeline.entity.RefreshToken$RefreshTokenBuilder
-com/timeline/oauth/social/GoogleOauth.java
- com.timeline.oauth.social.GoogleOauth
+com/timeline/service/MemberService.java
+ com.timeline.service.MemberService
 com/timeline/controller/OauthController.java
  com.timeline.controller.OauthController
 com/timeline/util/SecurityUtil.java
@@ -73,7 +73,7 @@ com/timeline/controller/dto/member/MemberResponseDto.java
  com.timeline.controller.dto.member.MemberResponseDto
 com/timeline/service/AuthService.java
  com.timeline.service.AuthService
-com/timeline/controller/MemberController.java
- com.timeline.controller.MemberController
-com/timeline/service/MemberService.java
- com.timeline.service.MemberService
+com/timeline/oauth/social/GoogleOauth.java
+ com.timeline.oauth.social.GoogleOauth
+com/timeline/oauth/social/SocialOauth.java
+ com.timeline.oauth.social.SocialOauth

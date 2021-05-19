@@ -179,7 +179,6 @@ public class GoogleOauth implements SocialOauth {
     public void getGoogleUserInfo (JsonObject jsonobeject) {
 
         String access_token = jsonobeject.get("access_token").toString();
-        String refresh_token = jsonobeject.get("refresh_token").toString();
 
         //요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
         // String reqURL = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token="+access_Token;
@@ -229,6 +228,8 @@ public class GoogleOauth implements SocialOauth {
                     log.info("SecurityContextHolder.getContext() : " +  SecurityContextHolder.getContext().getAuthentication());
 
                     // refresh_token 저장
+                    String refresh_token = jsonobeject.get("refresh_token").toString();
+
                     RefreshToken refreshToken = RefreshToken.builder()
                             .key(authentication.getName())
                             .value(refresh_token)
