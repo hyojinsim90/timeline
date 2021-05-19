@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MariaDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-05-16T10:19:44" hostname="DESKTOP-UK9VMDU" time="0.327">
+<testsuite name="MariaDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-05-19T04:38:53" hostname="DESKTOP-UK9VMDU" time="0.442">
   <properties/>
-  <testcase name="test()" classname="MariaDBTest" time="0.327"/>
-  <system-out><![CDATA[org.mariadb.jdbc.MariaDbConnection@2d2c0094
+  <testcase name="test()" classname="MariaDBTest" time="0.442"/>
+  <system-out><![CDATA[org.mariadb.jdbc.MariaDbConnection@f3d85d4
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
