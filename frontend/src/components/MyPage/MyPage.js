@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import MenuBar from './Sections/MenuBar';
 
 const MyPage = () => {

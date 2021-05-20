@@ -8,6 +8,7 @@ import MyPage from './components/MyPage/MyPage'
 import MyTimeline from './components/MyPage/MyTimeline';
 import CreateTimeline from './components/CreateTimeline/CreateTimeline';
 import TimelinePage from './components/TimelinePage/TimelinePage';
+import MyInfo from './components/MyPage/MyInfo'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/signup" component={SignupPage}></Route>
           <Route exact path="/mypage" component={MyPage}></Route>
           <Route exact path="/mytimeline" component={MyTimeline}></Route>
+          <Route exact path="/myinfo" component={MyInfo}></Route>
           <Route exact path="/createtimeline" component={CreateTimeline}></Route>
           <Route exact path="/timeline" component={TimelinePage}></Route>
         </Switch>

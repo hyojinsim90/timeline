@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Row, Col, Card, Button } from 'antd';
 import { InfoCircleOutlined, FieldTimeOutlined, FundProjectionScreenOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
@@ -47,7 +47,7 @@ const MenuBar = () => {
         </Col>
         <Col lg={8} sm={12} xs={24}>
           <div>
-            <Link to="/mypage">
+            <Link to="/myinfo">
               <InfoCircleOutlined />
               <p>내 정보 관리</p>
             </Link>

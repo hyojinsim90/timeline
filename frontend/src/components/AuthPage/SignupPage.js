@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Input } from 'antd';
 import styled from 'styled-components';
 import Axios from 'axios'
+import { useHistory } from 'react-router-dom'
 
 const SignupDiv = styled.div`
   padding: 3rem 0;
@@ -24,11 +25,18 @@ const SignupDiv = styled.div`
 
 const SignupPage = () => {
   const [email, setEmail] = useState('')
+  const [nickname, setNickname] = useState('')
   const [password1, setPassword1] = useState('')
   const [password2, setPassword2] = useState('')
 
+  const history = useHistory()
+
   const onChangeEmail = (e) => {
     setEmail(e.target.value)
+  }
+
+  const onChangeNickname = (e) => {
+    setNickname(e.target.value)
   }
 
   const onChangePwd1 = (e) => {
@@ -42,15 +50,13 @@ const SignupPage = () => {
   const onSignup = () => {
     const variables = {
       'email': email,
-      'nickname': 'test',
+      'nickname': nickname,
       'password': password2
     }
 
     Axios.post('/auth/signup', variables)
-      .then(res => {
-        alert(res)
-        console.log(res);
-      })
+
+    history.push('/login')
   }
 
   return (
@@ -63,6 +69,13 @@ const SignupPage = () => {
           type='email'
           value={email}
           onChange={onChangeEmail}
+          required
+        />
+      <label>닉네임:</label>
+        <Input
+          type='text'
+          value={nickname}
+          onChange={onChangeNickname}
           required
         />
         <label htmlFor='password1'>비밀번호(소문자, 숫자, 특수문자 포함 8~16자):</label>
