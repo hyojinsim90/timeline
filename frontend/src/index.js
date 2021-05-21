@@ -9,6 +9,8 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import promiseMiddleware from 'redux-promise'
 import ReduxThunk from 'redux-thunk'
 import rootReducer from './_reducers'
+import { ConfigProvider } from 'antd';
+import koKR from 'antd/lib/locale/ko_KR';
 
 const store = createStore(rootReducer, compose(
     applyMiddleware(promiseMiddleware, ReduxThunk),
@@ -21,7 +23,9 @@ ReactDOM.render(
     store={store}
   >
     <BrowserRouter>
-      <App />
+      <ConfigProvider locale={koKR}>
+        <App />
+      </ConfigProvider>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')

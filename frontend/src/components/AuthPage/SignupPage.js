@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input } from 'antd';
+import { Form, Input, Button } from 'antd';
 import styled from 'styled-components';
 import Axios from 'axios'
 import { useHistory } from 'react-router-dom'
@@ -9,16 +9,28 @@ const SignupDiv = styled.div`
   form {
     width: 320px;
     display: inline-block;
+    .ant-form-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .ant-form-item-label {
+        text-align: center;
+      }
+    }
     label {
       margin-bottom: 1rem;
     }
-    input {
-      margin-bottom: 1.5rem;
-      &[type=submit] {
-        background: black;
-        color: white;
-        margin-top: 1rem;
+    .ant-input-password {
+      height: 32px;
+      input {
+        height: 100%;
       }
+    }
+    button {
+      width: 100%;
+      background: black;
+      color: #ffffff;
+      margin-top: 1rem;
     }
   }
 `;
@@ -55,50 +67,50 @@ const SignupPage = () => {
     }
 
     Axios.post('/auth/signup', variables)
-
-    history.push('/login')
+      .then(res => {
+        history.push('/login')
+      })
   }
 
   return (
     <SignupDiv>
       <h1>회원가입</h1>
       <br />
-      <form onSubmit={onSignup}>
-        <label htmlFor='email'>이메일 주소:</label>
-        <Input
-          type='email'
-          value={email}
-          onChange={onChangeEmail}
-          required
-        />
-      <label>닉네임:</label>
-        <Input
-          type='text'
-          value={nickname}
-          onChange={onChangeNickname}
-          required
-        />
-        <label htmlFor='password1'>비밀번호(소문자, 숫자, 특수문자 포함 8~16자):</label>
-        <Input
-          type='password'
-          value={password1}
-          onChange={onChangePwd1}
-          minLength='8'
-          pattern='^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[a-z\d$@$!%*#?&]{8,16}$'
-          required
-        />
-        <br />
-        <label htmlFor='password2'>비밀번호 확인(소문자, 숫자, 특수문자 포함 8~16자):</label>
-        <Input
-          type='password'
-          value={password2}
-          onChange={onChangePwd2}
-          minLength='8'
-          pattern='^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[a-z\d$@$!%*#?&]{8,16}$'
-          required
-        />
-        <Input type='submit' size='large' value='가입하기' />
-      </form>
+      <Form onSubmit={onSignup}>
+        <Form.Item
+          label="이메일 주소:"
+          name="email"
+          rules={[{ required: true }]}
+        >
+          <Input onChange={onChangeEmail} />
+        </Form.Item>
+        <Form.Item
+          label="닉네임:"
+          name="nickname"
+          rules={[{ required: true }]}
+        >
+          <Input onChange={onChangeNickname} />
+        </Form.Item>
+        <Form.Item
+          label="비밀번호(8~16자):"
+          name="password1"
+          rules={[{ required: true, min: 8, max: 16, message: '다시 입력해 주세요' }]}
+        >
+          <Input.Password value={password1} onChange={onChangePwd1} />
+        </Form.Item>
+        <Form.Item
+          label="비밀번호 확인(8~16자):"
+          name="password2"
+          rules={[{ required: true, min: 8, max: 16, message: '다시 입력해 주세요' }]}
+        >
+          <Input.Password value={password2} onChange={onChangePwd2}  />
+        </Form.Item>
+        <Form.Item>
+          <Button size="large" onClick={onSignup}>
+            가입하기
+          </Button>
+        </Form.Item>
+      </Form>
     </SignupDiv>
   )
 }

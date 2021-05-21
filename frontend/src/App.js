@@ -9,6 +9,7 @@ import MyTimeline from './components/MyPage/MyTimeline';
 import CreateTimeline from './components/CreateTimeline/CreateTimeline';
 import TimelinePage from './components/TimelinePage/TimelinePage';
 import MyInfo from './components/MyPage/MyInfo'
+import Auth from "./hoc/auth"
 
 function App() {
   return (
@@ -16,9 +17,9 @@ function App() {
       <NavBar />
       <div className="App">
         <Switch>
-          <Route exact path="/login" component={LoginPage}></Route>
+          <Route exact path="/login" component={Auth(LoginPage, true)}></Route>
           <Route exact path="/signup" component={SignupPage}></Route>
-          <Route exact path="/mypage" component={MyPage}></Route>
+          <Route exact path="/mypage" component={Auth(MyPage, true)}></Route>
           <Route exact path="/mytimeline" component={MyTimeline}></Route>
           <Route exact path="/myinfo" component={MyInfo}></Route>
           <Route exact path="/createtimeline" component={CreateTimeline}></Route>

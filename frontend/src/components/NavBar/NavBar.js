@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { Menu, Button } from 'antd';
-import styled from 'styled-components';
-import { BrowserView, MobileView } from 'react-device-detect';
-import { MenuOutlined, MenuFoldOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { Menu, Button } from 'antd'
+import styled from 'styled-components'
+import { BrowserView, MobileView } from 'react-device-detect'
+import { MenuOutlined, MenuFoldOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useCookies } from "react-cookie"
 
 const Logo =  styled.div`
   font-weight: bold;
@@ -44,10 +46,18 @@ const LogoM = styled.div`
   }
 `;
 
-function NavBar() {
+const NavBar = () => {
 
   const [toggleMenu, setToggleMenu] = useState(false)
   const [toggleBar, setToggleBar] = useState(true)
+  const [cookies, setCookie] = useCookies([])
+  const [auth, setAuth] = useState(false)
+
+  useEffect(() => {
+    if(cookies.tl_token !== undefined) {
+      setAuth(true)
+    }
+  }, [cookies])
 
   const toggleChange = () => {
     setToggleMenu(!toggleMenu)
@@ -82,16 +92,28 @@ function NavBar() {
                 마이페이지
               </Link>
             </Menu.Item>
-            <Menu.Item key="login">
-              <Link to="/login">
-                로그인
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="signup">
-              <Link to="/signup">
-                회원가입
-              </Link>
-            </Menu.Item>
+            { auth ?
+            <>
+              <Menu.Item key="logout">
+                <Link to="/logout">
+                  로그아웃
+                </Link>
+              </Menu.Item>
+            </>
+            :
+            <>
+              <Menu.Item key="login">
+                <Link to="/login">
+                  로그인
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="signup">
+                <Link to="/signup">
+                  회원가입
+                </Link>
+              </Menu.Item>
+            </>
+            }
           </Menu>
         </MenuList>
       </BrowserView>
@@ -125,16 +147,28 @@ function NavBar() {
                 마이페이지
               </Link>
             </Menu.Item>
-            <Menu.Item key="login">
-              <Link to="/login">
-                로그인
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="signup">
-              <Link to="/signup">
-                회원가입
-              </Link>
-            </Menu.Item>
+            { auth ?
+              <>
+                <Menu.Item key="logout">
+                  <Link to="/logout">
+                    로그아웃
+                  </Link>
+                </Menu.Item>
+              </>
+              :
+              <>
+                <Menu.Item key="login">
+                  <Link to="/login">
+                    로그인
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="signup">
+                  <Link to="/signup">
+                    회원가입
+                  </Link>
+                </Menu.Item>
+              </>
+            }
           </Menu>
           : <></>
         }
