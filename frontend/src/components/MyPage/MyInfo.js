@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Input, Button } from 'antd'
+import { useSelector } from "react-redux"
+import Axios from "axios"
 
 const InfoDiv = styled.div`
   padding: 3rem 0;
@@ -30,21 +32,51 @@ const InfoDiv = styled.div`
 
 
 const MyInfo = () => {
+
+  const [email, setEmail] = useState("")
+  const [nicknamelist, setNicknameList] = useState([])
+  const [nickname, setNickname] = useState([])
+  const user = useSelector(state => state.user.userData)
+
+  useEffect(() => {
+    if(user !== undefined) {
+      setEmail(user.email)
+    }
+    Axios.get("/member/ids")
+      .then(res => {
+        res.data.forEach((item, i) => {
+          setNicknameList(item.nickname)
+        })
+      })
+  }, [user])
+
+  const onChangeNick = (e) => {
+    setNickname(e.target.value)
+  }
+
+  // 중복확인 체크
+  const onCheckDup = () => {
+
+  }
+
   return (
     <InfoDiv>
       <form>
         <label>이메일 주소:</label>
         <Input
           type='email'
+          value={email}
           disabled
         />
         <label>닉네임:</label><br/>
         <div>
           <Input
-            type='password'
+            type="text"
+            value={nickname}
+            onChange={onChangeNick}
             required
           />
-          <Button>중복확인</Button>
+          <Button onClick={onCheckDup}>중복확인</Button>
         </div>
         <label>비밀번호:</label>
         <Input

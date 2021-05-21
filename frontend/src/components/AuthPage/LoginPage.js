@@ -64,8 +64,9 @@ const LoginPage = () => {
         setCookie("tl_token", res.data.accessToken)
         setCookie("tl_exp", res.data.accessTokenExpiresIn)
         setCookie("tl_e", email)
-        history.push("/mypage")
-        window.location.reload()
+        setCookie("tl_re", res.data.refreshToken)
+        // history.push("/mypage")
+        // window.location.reload()
       })
   }
 
