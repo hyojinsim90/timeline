@@ -232,7 +232,7 @@ public class GoogleOauth implements SocialOauth {
 
                     // refresh_token 저장
                     if (jsonobeject.get("refresh_token") != null){
-                        
+
                         String refresh_token = jsonobeject.get("refresh_token").toString();
                         log.info("refresh token : " + refresh_token);
 

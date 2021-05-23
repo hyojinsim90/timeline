@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Table(name = "refresh_token")
 @Entity
-public class RefreshToken {
+public class RefreshToken extends BaseTimeEntity{
 
     @Id
     @Column(name="token_key")

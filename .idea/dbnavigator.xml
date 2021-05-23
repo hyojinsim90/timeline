@@ -30,7 +30,6 @@
     <connection id="67a6be8a-b4b4-432b-916a-7abe0d930ddc">
       <console name="timeline" type="STANDARD" schema="mysql" session="Main"><![CDATA[use timeline;
 
-
 show tables;
 
 create table member 
@@ -50,12 +49,17 @@ create table refresh_token
 (
 token_key varchar(255) not null, 
 token_value varchar(255), 
+created_date datetime(6), 
+modified_date datetime(6), 
 primary key (token_key)
 ) engine=InnoDB;
 
 select * from member;
 
-select * from refresh_token;]]></console>
+select * from refresh_token;
+
+ALTER TABLE refresh_token ADD created_date datetime(6);
+ALTER TABLE refresh_token ADD modified_date datetime(6);]]></console>
     </connection>
     <connection id="0b985d6b-adb0-4232-9a2f-42b49e2fc776">
       <console name="localhost" type="STANDARD" schema="timeline" session="Main"><![CDATA[select

@@ -54,18 +54,20 @@ public class TokenProvider {
     * Access Token 에는 유저와 권한 정보를 담고 Refresh Token 에는 아무 정보도 담지 않습니다.
     * */
     public TokenDto generateTokenDto(HttpServletResponse response,Authentication authentication) {
-        log.info("[ generateTokenDto ]");
+        log.info("[토큰 생성]");
+
         // 권한들 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        log.info("---authorities--->" + authorities);
+        log.info(" - 권한 : " + authorities);
 
+        // 토큰 만료시간 설정
         long now = (new Date()).getTime();
+        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
 
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())       // 유저 // payload "sub": "name" // sub: 토큰 제목
                 .claim(AUTHORITIES_KEY, authorities)        // 권한 정보 // payload "auth": "ROLE_USER"
@@ -73,21 +75,19 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512" // alg: Signature 를 해싱하기 위한 알고리즘 정보를 갖고 있음
                 .compact();
 
+        log.info("- access token : " + accessToken );
+
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        log.info("---AUTHORIZATION_HEADER---> " + JwtFilter.AUTHORIZATION_HEADER);
-        log.info("---BEARER_PREFIX---> " + JwtFilter.BEARER_PREFIX);
-        log.info("---accessToken---> " + accessToken );
-        log.info("---refreshToken---> " + refreshToken );
+        log.info("- refresh token : " + refreshToken );
 
         response.addHeader(JwtFilter.AUTHORIZATION_HEADER, JwtFilter.BEARER_PREFIX + " " + accessToken);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-        // 왜 저장 안되냐
-        
+        // response header에 Authorization: Bearer + access token 추가
+
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
@@ -106,9 +106,8 @@ public class TokenProvider {
     * 사실 좀 불필요한 절차라고 생각되지만 SecurityContext 가 Authentication 객체를 저장하기 때문에 어쩔수 없습니다.
     * */
     public Authentication getAuthentication(String accessToken) {
-        log.info("[ getAuthentication ]");
+        log.info("[토큰 복호화]");
 
-        log.info("--------------토큰 복호화----------------");
         // 토큰 복호화
         Claims claims = parseClaims(accessToken);
 
@@ -123,8 +122,8 @@ public class TokenProvider {
                         .collect(Collectors.toList());
 
         // UserDetails 객체를 만들어서 Authentication 리턴
-        log.info("--------------UserDetails----------------" + authorities); // [ROLE_USER]
-        log.info("--------------UserDetails----------------" + claims.getSubject()); // 1
+        log.info("- UserDetails - 권한 : " + authorities); // [ROLE_USER]
+        log.info("- UserDetails- 아이디 : " + claims.getSubject()); // 1
         UserDetails principal = new User(claims.getSubject(), "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
@@ -136,8 +135,15 @@ public class TokenProvider {
     * Jwts 모듈이 알아서 Exception 을 던져줍니다.
     * */
     public boolean validateToken(String token) {
-        log.info("[ validateToken ]");
-        log.info("----------토큰 정보를 검증-----------");
+        log.info("[토큰 정보 검증]");
+
+        Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+        log.info(" - jwt 정보 " + claims.getBody());
+
+        boolean isNotExpire = claims.getBody().getExpiration().after(new Date());
+
+        log.info(" - jwt isNotExpire " + isNotExpire);
+
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
@@ -156,7 +162,7 @@ public class TokenProvider {
     /*
     * 만료된 토큰이어도 정보를 꺼내기 위해
     * */
-    private Claims parseClaims(String accessToken) {
+    public Claims parseClaims(String accessToken) {
         log.info("[ parseClaims ]");
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
@@ -164,4 +170,5 @@ public class TokenProvider {
             return e.getClaims();
         }
     }
+
 }

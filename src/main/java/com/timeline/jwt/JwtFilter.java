@@ -41,7 +41,7 @@ public class JwtFilter extends OncePerRequestFilter { // OncePerRequestFilter : 
 
     /*
      * 실제 필터링 로직 수행 - 토큰을 꺼내서 검사하는 필터링
-     * Request Header 에서 Access Token 을 꺼내고 여러가지 검사 후 유저 정보를 꺼내서 SecurityContext 에 저장
+     * Request Header 에서 Access Token 을 꺼내고 여러가지 검사 후 유저 정보를 꺼내서 SecurityContext 의 UserDetail에 저장
      *
      * 가입/로그인/재발급을 제외한 모든 Request 요청은 이 필터를 거치기 때문에 토큰 정보가 없거나 유효하지 않으면 정상적으로 수행되지 않습니다.
      * 그리고 요청이 정상적으로 Controller 까지 도착했다면 SecurityContext 에 Member ID 가 존재한다는 것이 보장됩니다.
@@ -49,16 +49,15 @@ public class JwtFilter extends OncePerRequestFilter { // OncePerRequestFilter : 
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        log.info("[ doFilterInternal ]");
+        log.info("[ 토큰 검사 ]");
 
         // 1. Request Header 에서 access 토큰을 꺼냄
         String jwt = resolveToken(request);
-        log.info("access token --->" + jwt);
 
         if(jwt != null ){
             if(jwt.startsWith("ya29")){
 
-                log.info("----------------------GOOGLE-----------------" );
+                log.info("- 토큰 유형 : GOOGLE -" );
                 String reqURL = "https://www.googleapis.com/oauth2/v3/userinfo?access_token="+jwt;
 
                 URL url = new URL(reqURL);
@@ -85,6 +84,7 @@ public class JwtFilter extends OncePerRequestFilter { // OncePerRequestFilter : 
                 }
 
             } else {
+                log.info("- 토큰 유형 : 일반사용자 -" );
                 if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) { // validateToken : 토큰 상태가 어떤지 알려줌
                     Authentication authentication = tokenProvider.getAuthentication(jwt); // getAuthentication : 토큰 정보를 꺼냄
                     SecurityContextHolder.getContext().setAuthentication(authentication); // 토큰 정보를 SecurityContext에 저장
@@ -107,16 +107,14 @@ public class JwtFilter extends OncePerRequestFilter { // OncePerRequestFilter : 
 
     // Request Header 에서 토큰 정보를 꺼내오기
     private String resolveToken(HttpServletRequest request) {
-        log.info("[ resolveToken ]");
+        log.info("[ 토큰 정보 꺼내오기 ]");
 
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 
-        log.info("---AUTHORIZATION_HEADER--->" + AUTHORIZATION_HEADER); // 'Authorization'
-        log.info("---bearerToken--->" + bearerToken); // 'Bearer ' + access_token
+        log.info("- Authorization 헤더 확인 : " + bearerToken); // 'Bearer ' + access_token
 
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            log.info("---StringUtils.hasText(bearerToken)--->" + StringUtils.hasText(bearerToken)); // StringUtils.hasText: bearerToken이 텍스트인지 아닌지 반환
-            log.info("---bearerToken.substring(7)--->" + bearerToken.substring(7)); // Bearer 을 제거하고 access_token 만 얻음
+            log.info("- access_token : " + bearerToken.substring(7)); // Bearer 을 제거하고 access_token 만 얻음
             return bearerToken.substring(7); // access_token을 반환
         }
         return null;

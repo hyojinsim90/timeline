@@ -3,15 +3,18 @@ package com.timeline.controller;
 
 import com.timeline.controller.dto.auth.TokenDto;
 import com.timeline.controller.dto.auth.TokenRequestDto;
+import com.timeline.controller.dto.member.MemberEmailRequestDto;
 import com.timeline.controller.dto.member.MemberRequestDto;
 import com.timeline.controller.dto.member.MemberResponseDto;
 import com.timeline.controller.dto.member.MemberSaveRequestDto;
 import com.timeline.service.AuthService;
+import com.timeline.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -27,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthController {
 
     private final AuthService authService;
+    private final MemberService memberService;
 
     /* 일반 로그인/ 회원가입 */
 
@@ -48,6 +52,21 @@ public class AuthController {
     @PostMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(HttpServletResponse response, @RequestBody TokenRequestDto tokenRequestDto) {
         return ResponseEntity.ok(authService.reissue(response, tokenRequestDto));
+    }
+
+    @GetMapping("/logout/{email}")
+    public ResponseEntity<String> logout(@PathVariable String email) {
+        return authService.logout(email);
+    }
+
+    @GetMapping("/findPw/checkmail")
+    public boolean checkMail (@RequestBody MemberEmailRequestDto memberEmailRequestDto){
+        return authService.checkMail(memberEmailRequestDto);
+    }
+
+    @PostMapping("/findPw/sendmail")
+    public void findPw (@RequestBody MemberEmailRequestDto memberEmailRequestDto) {
+        authService.findPw(memberEmailRequestDto);
     }
 
 

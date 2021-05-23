@@ -63,13 +63,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
             .and()
             .authorizeRequests()
-            .antMatchers("/auth/**", "/login/oauth2/**").permitAll()
+            .antMatchers("/auth/**", "/login/oauth2/**","/timeline/**").permitAll()
             .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
             .anyRequest().authenticated()  // 나머지 API 는 전부 인증 필요
 
             // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
             .and()
-            .apply(new JwtSecurityConfig(tokenProvider));
+            .apply(new JwtSecurityConfig(tokenProvider))
+
+            .and()
+            .logout()
+            .logoutUrl("/auth/logout")
+            .logoutSuccessUrl("/auth/login");
 
             // OAuth2 로그인 기능에 대한 여러 설정의 진입점.
             //  OAuth2 로그인 성공 이후 사용자 정보를 가져올 때의 설정을 담당
