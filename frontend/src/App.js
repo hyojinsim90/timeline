@@ -22,7 +22,7 @@ function App() {
           <Route exact path="/signup" component={SignupPage}></Route>
           <Route exact path="/findpw" component={FindPwPage}></Route>
           <Route exact path="/mypage" component={Auth(MyPage, true)}></Route>
-          <Route exact path="/mytimeline" component={MyTimeline}></Route>
+          <Route exact path="/mytimeline" component={Auth(MyTimeline, true)}></Route>
           <Route exact path="/myinfo" component={Auth(MyInfo, true)}></Route>
           <Route exact path="/createtimeline" component={CreateTimeline}></Route>
           <Route exact path="/timeline" component={TimelinePage}></Route>

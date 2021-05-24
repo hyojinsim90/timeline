@@ -1,8 +1,9 @@
-import React from 'react';
-import { Row, Col, Card, Button } from 'antd';
-import { InfoCircleOutlined, FieldTimeOutlined, FundProjectionScreenOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react"
+import { Row, Col, Card, Button } from "antd"
+import { InfoCircleOutlined, FieldTimeOutlined, FundProjectionScreenOutlined, QuestionCircleOutlined } from "@ant-design/icons"
+import styled from "styled-components"
+import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 const MenuDiv = styled.div`
   padding: 3rem 2rem;
@@ -36,12 +37,21 @@ const MenuDiv = styled.div`
 
 const MenuBar = () => {
 
+  const [nickname, setNickname] = useState("")
+  const user = useSelector(state => state.user.userData)
+
+  useEffect(() => {
+    if(user !== undefined) {
+      setNickname(user.nickname)
+    }
+  }, [user])
+
   return (
     <MenuDiv>
       <Row>
         <Col lg={8} sm={24} xs={24}>
           <Card>
-            <p>username님 안녕하세요</p>
+            <p>{nickname}님 안녕하세요</p>
             <Button shape="round">정회원</Button>
           </Card>
         </Col>
