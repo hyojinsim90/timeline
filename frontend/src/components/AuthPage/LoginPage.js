@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import { Form, Input, Button } from 'antd'
-import styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
-import { useCookies } from 'react-cookie'
-import Axios from 'axios'
+import React, { useState } from "react"
+import { Form, Input, Button } from "antd"
+import styled from "styled-components"
+import { useHistory } from "react-router-dom"
+import { useCookies } from "react-cookie"
+import Axios from "axios"
+import { Link } from "react-router-dom"
 
 const LoginDiv = styled.div`
   padding: 3rem 0;
@@ -16,6 +17,16 @@ const LoginDiv = styled.div`
       justify-content: center;
       .ant-form-item-label {
         text-align: center;
+      }
+    }
+    // 비밀번호 찾기 영역
+    .ant-form-item:nth-child(2) {
+      margin-bottom: 0;
+      & + .ant-form-item .ant-col {
+        text-align: right;
+        #search {
+          color: lightgray !important;
+        }
       }
     }
     label {
@@ -38,9 +49,9 @@ const LoginDiv = styled.div`
 
 const LoginPage = () => {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [cookies, setCookie] = useCookies('')
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [cookies, setCookie] = useCookies("")
 
   const history = useHistory()
 
@@ -88,6 +99,11 @@ const LoginPage = () => {
           rules={[{ required: true }]}
         >
           <Input.Password value={password} onChange={onChangePwd} />
+        </Form.Item>
+        <Form.Item name="search">
+          <Link to="/findpw">
+            비밀번호 찾기
+          </Link>
         </Form.Item>
         <Form.Item>
           <Button size="large" onClick={onLogin}>
