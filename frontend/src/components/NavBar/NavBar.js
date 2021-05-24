@@ -47,7 +47,7 @@ const LogoM = styled.div`
   }
 `;
 
-const NavBar = () => {
+const NavBar = (props) => {
 
   const [toggleMenu, setToggleMenu] = useState(false)
   const [toggleBar, setToggleBar] = useState(true)
@@ -79,6 +79,7 @@ const NavBar = () => {
           removeCookie("tl_exp")
           removeCookie("tl_token")
           window.location.reload()
+          props.history("/login")
         })
     }
   }
