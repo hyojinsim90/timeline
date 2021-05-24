@@ -51,6 +51,7 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
   const [cookies, setCookie] = useCookies("")
 
   const history = useHistory()
@@ -79,6 +80,9 @@ const LoginPage = () => {
         history.push("/mypage")
         window.location.reload()
       })
+      .catch(err => {
+        setErrorMessage("이메일이나 비밀번호를 다시 확인해 주세요")
+      })
   }
 
   return (
@@ -105,6 +109,9 @@ const LoginPage = () => {
             비밀번호 찾기
           </Link>
         </Form.Item>
+        {errorMessage && (
+          <label><p style={{ color: '#ff0000bf', fontSize: '0.7rem', border: '1px solid', padding: '1rem', borderRadius: '10px' }}>{errorMessage}</p></label>
+        )}
         <Form.Item>
           <Button size="large" onClick={onLogin}>
             로그인

@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Form, Input, Button } from "antd"
 import { useSelector } from "react-redux"
 import Axios from "axios"
+import MenuBar from "./Sections/MenuBar"
 
 const InfoDiv = styled.div`
   padding: 3rem 0;
@@ -131,52 +132,55 @@ const MyInfo = () => {
   }
 
   return (
-    <InfoDiv>
-      <Form>
-        <Form.Item
-          label="이메일:"
-          name="email"
-          rules={[{ required: true }]}
-        >
-          <div>
-            { email &&
-              <Input value={email} disabled />
-            }
-          </div>
-        </Form.Item>
-        <Form.Item
-          label="닉네임:"
-          name="nickname"
-          rules={[{ required: true }]}
-        >
-          <div>
-            <Input value={nickname} onChange={onChangeNick} />
-            <Button onClick={onCheckDup}>중복확인</Button>
-          </div>
-        </Form.Item>
-        <Form.Item
-          label="비밀번호(8~16자):"
-          name="password1"
-          rules={[{ required: true, min: 8, max: 16, message: '다시 입력해 주세요' }]}
-        >
-          <Input.Password value={password1} onChange={onChangePwd1} />
-        </Form.Item>
-        <Form.Item
-          label="비밀번호 확인(8~16자):"
-          name="password2"
-          rules={[{ required: true, min: 8, max: 16, message: '다시 입력해 주세요' }]}
-        >
-          <Input.Password value={password2} onChange={onChangePwd2} />
-        </Form.Item>
-        <Form.Item
-          name="button"
-        >
-          <Button size="large" onClick={onChangeInfo}>
-            수정하기
-          </Button>
-        </Form.Item>
-      </Form>
-    </InfoDiv>
+    <div>
+      <MenuBar />
+      <InfoDiv>
+        <Form>
+          <Form.Item
+            label="이메일:"
+            name="email"
+            rules={[{ required: true }]}
+          >
+            <div>
+              { email &&
+                <Input value={email} disabled />
+              }
+            </div>
+          </Form.Item>
+          <Form.Item
+            label="닉네임:"
+            name="nickname"
+            rules={[{ required: true }]}
+          >
+            <div>
+              <Input value={nickname} onChange={onChangeNick} />
+              <Button onClick={onCheckDup}>중복확인</Button>
+            </div>
+          </Form.Item>
+          <Form.Item
+            label="비밀번호(8~16자):"
+            name="password1"
+            rules={[{ required: true, min: 8, max: 16, message: '다시 입력해 주세요' }]}
+          >
+            <Input.Password value={password1} onChange={onChangePwd1} />
+          </Form.Item>
+          <Form.Item
+            label="비밀번호 확인(8~16자):"
+            name="password2"
+            rules={[{ required: true, min: 8, max: 16, message: '다시 입력해 주세요' }]}
+          >
+            <Input.Password value={password2} onChange={onChangePwd2} />
+          </Form.Item>
+          <Form.Item
+            name="button"
+          >
+            <Button size="large" onClick={onChangeInfo}>
+              수정하기
+            </Button>
+          </Form.Item>
+        </Form>
+      </InfoDiv>
+    </div>
   )
 }
 

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useCookies } from "react-cookie"
 import Axios from "axios"
 
-export default function (SpecificComponent, option, adminRoute = null) {
+export default function authHoc(SpecificComponent, option, adminRoute = null) {
     function AuthenticationCheck(props) {
 
       const [cookies, setCookie] = useCookies([])
