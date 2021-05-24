@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import { Form, Input, Button } from "antd"
 import Axios from "axios"
+import { useHistory } from "react-router-dom"
 
 const FindPwDiv = styled.div`
   padding: 3rem 0;
@@ -42,6 +43,8 @@ const FindPwPage = () => {
 
   const [email, setEmail] = useState("")
 
+  const history = useHistory()
+
   const onChangeEmail = (e) => {
     setEmail(e.target.value)
   }
@@ -50,9 +53,11 @@ const FindPwPage = () => {
     let variable = {
       "email": email
     }
+
     Axios.post("/auth/findPw/sendmail", variable)
       .then(res => {
-        console.log(res);
+        alert("메일 발송이 완료되었습니다")
+        history.push("/login")
       })
   }
 
