@@ -12,14 +12,13 @@ export default function (SpecificComponent, option, adminRoute = null) {
       const dispatch = useDispatch()
 
       useEffect(() => {
-          if (!cookies.tl_e) {
+          if (!cookies.tl_e || !cookies.tl_token || !cookies.tl_re || !cookies.tl_exp) {
             if (option) {
               props.history.push("/login")
             }
             } else {
               const date = new Date()
               const expTime = parseInt(cookies.tl_exp)
-              console.log(typeof(date.getTime()));
 
               const tokens = {
                 "accessToken": cookies.tl_token,

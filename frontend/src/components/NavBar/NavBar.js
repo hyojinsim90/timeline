@@ -6,6 +6,7 @@ import { MenuOutlined, MenuFoldOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useCookies } from "react-cookie"
+import Axios from "axios"
 
 const Logo =  styled.div`
   font-weight: bold;
@@ -50,7 +51,7 @@ const NavBar = () => {
 
   const [toggleMenu, setToggleMenu] = useState(false)
   const [toggleBar, setToggleBar] = useState(true)
-  const [cookies, setCookie] = useCookies([])
+  const [cookies, setCookie, removeCookie] = useCookies([])
   const [auth, setAuth] = useState(false)
 
   useEffect(() => {
@@ -67,6 +68,19 @@ const NavBar = () => {
   const onMenuClick = () => {
     setToggleMenu(!toggleMenu)
     setToggleBar(!toggleBar)
+  }
+
+  const onLogout = () => {
+    if(auth && cookies.tl_e) {
+      Axios.get(`/auth/logout/${cookies.tl_e}`)
+        .then(res => {
+          removeCookie("tl_e")
+          removeCookie("tl_re")
+          removeCookie("tl_exp")
+          removeCookie("tl_token")
+          window.location.reload()
+        })
+    }
   }
 
   return(
@@ -94,10 +108,8 @@ const NavBar = () => {
             </Menu.Item>
             { auth ?
             <>
-              <Menu.Item key="logout">
-                <Link to="/logout">
-                  로그아웃
-                </Link>
+              <Menu.Item key="logout" onClick={onLogout}>
+                로그아웃
               </Menu.Item>
             </>
             :
@@ -149,10 +161,8 @@ const NavBar = () => {
             </Menu.Item>
             { auth ?
               <>
-                <Menu.Item key="logout">
-                  <Link to="/logout">
-                    로그아웃
-                  </Link>
+                <Menu.Item key="logout" onClick={onLogout}>
+                  로그아웃
                 </Menu.Item>
               </>
               :
