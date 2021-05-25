@@ -4,8 +4,7 @@ import { Form, Input, Select, Button, DatePicker, Divider } from "antd"
 import { Link } from "react-router-dom"
 import Axios from "axios"
 import { PlusCircleOutlined } from "@ant-design/icons"
-
-const { TextArea } = Input
+import TimelineDetail from "./Sections/TimelineDetail"
 
 const CreateTimelineDiv = styled.div`
   padding: 3rem 0;
@@ -23,14 +22,11 @@ const CreateTimelineDiv = styled.div`
     label {
       margin-bottom: 1rem;
     }
-    .ant-divider + div {
-      border: 1px solid lightgray;
-    }
     a button {
       width: 100%;
       background: black;
       color: #ffffff;
-      margin-top: 1rem;
+      margin-top: 100px;
     }
   }
 `
@@ -38,11 +34,16 @@ const CreateTimelineDiv = styled.div`
 const { Option } = Select
 
 const CreateTimeline = () => {
-  const [countDiv, setCountDiv] = useState(0)
+  const [title, setTitle] = useState("")
+  const [countList, setCountList] = useState([0])
 
   const onCreateTimeline = () => {
-    Axios.post("/timeline/master/save")
-      .then()
+    // Axios.post("/timeline/master/save")
+    //   .then()
+  }
+
+  const onChangeTitle = (e) => {
+    setTitle(e.target.value)
   }
 
   const onChangeDate = (date, dateString) => {
@@ -50,16 +51,11 @@ const CreateTimeline = () => {
   }
 
   const onAddDetailDiv = () => {
-    let count = countDiv
-    setCountDiv(count+1)
-  }
-
-  const renderItems = () => {
-    // for(var i=0; i<2; i++) {
-    //   <div>
-    //     d
-    //   </div>
-    // }
+    let countArr = [...countList]
+    let counter = countArr.slice(-1)[0]
+    counter += 1
+    countArr[counter] = counter
+    setCountList(countArr)
   }
 
   return (
@@ -73,6 +69,7 @@ const CreateTimeline = () => {
         >
           <Input
             type="text"
+            onChange={onChangeTitle}
             required
           />
         </Form.Item>
@@ -99,30 +96,11 @@ const CreateTimeline = () => {
             <Option value="public">공개</Option>
           </Select>
         </Form.Item>
-        <Divider />
-        <div>
-          <Form.Item
-            label="타임라인 상세 제목"
-          >
-            <Input
-              type="text"
-              required
-            />
-          </Form.Item>
-          <Form.Item
-            label="내용"
-          >
-            <div>
-              <DatePicker onChange={onChangeDate} />
-              <TextArea
-                autoSize={{ minRows: 6, maxRows: 6 }}
-              />
-            </div>
-          </Form.Item>
-        </div>
+        <TimelineDetail countList={countList} onAddDetailDiv={onAddDetailDiv} />
         <Button onClick={onAddDetailDiv}>
           <PlusCircleOutlined />추가
         </Button>
+        <Divider />
         <Link to="/timeline">
           <Button size="large" onClick={onCreateTimeline}>생성하기</Button>
         </Link>
