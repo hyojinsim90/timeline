@@ -1,16 +1,36 @@
 import React from "react"
-import { Form, Input, DatePicker, Divider } from "antd"
+import { Form, Input, DatePicker, Divider, Button } from "antd"
 import styled from "styled-components"
+import { CloseSquareOutlined } from "@ant-design/icons"
 
 const DetailDiv = styled.div`
   div {
     display: flex;
     flex-direction: column;
     div {
-      margin-bottom: 20px;
-      .ant-picker-input {
+      button {
         display: flex;
-        flex-direction: row;
+        justify-content: flex-end;
+        border: none;
+        outline: none;
+        color: #FF4B2B;
+        &:active: {
+          border: none;
+          outline: none;
+        }
+        &::after {
+          border: none;
+          outline: none;
+
+        }
+      }
+      margin-bottom: 20px;
+      .ant-picker {
+        height: 32px;
+        .ant-picker-input {
+          display: flex;
+          flex-direction: row;
+        }
       }
     }
   }
@@ -26,9 +46,15 @@ const TimelineDetail = (props) => {
         <div key={i}>
           <Divider />
           <div>
+            {item}
+            <Button onClick={() => props.onDeleteDetail(item, i)}>
+              <CloseSquareOutlined />
+            </Button>
             <label>타임라인 상세 제목</label>
             <Input
               type="text"
+              value={props.detailTitle[i]}
+              onChange={(e) => props.onChangeDetailTitle(e, i)}
               required
             />
           </div>
