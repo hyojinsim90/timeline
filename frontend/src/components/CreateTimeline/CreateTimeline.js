@@ -36,6 +36,7 @@ const { Option } = Select
 const CreateTimeline = () => {
   const [title, setTitle] = useState("")
   const [countList, setCountList] = useState([0])
+  const [detailTitle, setDetailTitle] = useState([])
 
   const onCreateTimeline = () => {
     // Axios.post("/timeline/master/save")
@@ -46,16 +47,44 @@ const CreateTimeline = () => {
     setTitle(e.target.value)
   }
 
+  const onChangeDetailTitle= (e, i) => {
+    let detailTitleArr = [...detailTitle]
+
+    detailTitleArr[i] = e.target.value
+    setDetailTitle(detailTitleArr)
+  }
+
   const onChangeDate = (date, dateString) => {
     console.log(date, dateString);
   }
 
   const onAddDetailDiv = () => {
-    let countArr = [...countList]
+    let countArr = countList.length === 0 ? [0] : [...countList]
     let counter = countArr.slice(-1)[0]
-    counter += 1
-    countArr[counter] = counter
-    setCountList(countArr)
+
+    // 타임라인 상세 영역 다 삭제해서 하나도 없을 때
+    if(countList.length === 0) {
+      setCountList(countArr)
+    // 타임라인 상세 영역 1개 이상일 때
+    } else {
+      counter += 1
+      countArr[countArr.length] = counter
+      setCountList(countArr)
+    }
+  }
+
+  const onDeleteDetailTitle = (i) => {
+    let titleArr = [...detailTitle]
+    titleArr.splice(i, 1)
+    setDetailTitle(titleArr)
+  }
+
+  const onDeleteDetail = (item, i) => {
+    let countArr = [...countList]
+    // array 값과 일치하는 것만 삭제, 일치하지 않는 것들만 남김
+    const newCountArr = countArr.filter((arr) => arr !== item)
+    setCountList(newCountArr)
+    onDeleteDetailTitle(i)
   }
 
   return (
@@ -96,14 +125,14 @@ const CreateTimeline = () => {
             <Option value="public">공개</Option>
           </Select>
         </Form.Item>
-        <TimelineDetail countList={countList} onAddDetailDiv={onAddDetailDiv} />
+        <TimelineDetail countList={countList} onDeleteDetail={onDeleteDetail} onChangeDetailTitle={onChangeDetailTitle} detailTitle={detailTitle} />
         <Button onClick={onAddDetailDiv}>
           <PlusCircleOutlined />추가
         </Button>
         <Divider />
-        <Link to="/timeline">
+
           <Button size="large" onClick={onCreateTimeline}>생성하기</Button>
-        </Link>
+
       </Form>
     </CreateTimelineDiv>
   )
