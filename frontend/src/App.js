@@ -24,7 +24,7 @@ function App() {
           <Route exact path="/mypage" component={Auth(MyPage, true)}></Route>
           <Route exact path="/mytimeline" component={Auth(MyTimeline, true)}></Route>
           <Route exact path="/myinfo" component={Auth(MyInfo, true)}></Route>
-          <Route exact path="/createtimeline" component={CreateTimeline}></Route>
+          <Route exact path="/createtimeline" component={Auth(CreateTimeline, true)}></Route>
           <Route exact path="/timeline" component={TimelinePage}></Route>
         </Switch>
       </div>
