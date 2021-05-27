@@ -60,12 +60,17 @@ const TimelineDetail = (props) => {
           </div>
           <div>
             <label>날짜</label>
-            <DatePicker />
+            <DatePicker
+              value={props.detailDate[i]}
+              onChange={(date, dateString) => props.onChangeDate(date, dateString, i)}
+            />
           </div>
           <div>
             <label>내용</label>
             <TextArea
               autoSize={{ minRows: 6, maxRows: 6 }}
+              value={props.detailContent[i]}
+              onChange={(e) => props.onchangeDetailContent(e, i)}
             />
           </div>
         </div>
