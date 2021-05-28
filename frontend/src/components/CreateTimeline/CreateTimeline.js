@@ -6,6 +6,7 @@ import Axios from "axios"
 import { PlusCircleOutlined } from "@ant-design/icons"
 import TimelineDetail from "./Sections/TimelineDetail"
 import { useSelector } from "react-redux"
+import TimelineView from "./Sections/TimelineView"
 
 const CreateTimelineDiv = styled.div`
   padding: 3rem 0;
@@ -39,6 +40,7 @@ const CreateTimeline = () => {
   const [countList, setCountList] = useState([0])
   const [detailTitle, setDetailTitle] = useState([])
   const [detailDate, setDetailDate] = useState([])
+  const [detailDateString, setDetailDateString] = useState([])
   const [detailContent, setDetailContent] = useState([])
   const [category, setCategory] = useState("경제")
   const [complete, setComplete] = useState(false)
@@ -121,9 +123,12 @@ const CreateTimeline = () => {
 
   const onChangeDate = (date, dateString, i) => {
     let detailDateArr = [...detailDate]
+    let detailDatestringArr = [...detailDateString]
 
     detailDateArr[i] = date
+    detailDatestringArr[i] = dateString
     setDetailDate(detailDateArr)
+    setDetailDateString(detailDatestringArr)
   }
 
   const onchangeDetailContent = (e, i) => {
@@ -168,8 +173,12 @@ const CreateTimeline = () => {
 
   const onDeleteDetailDate = (i) => {
     let dateArr = [...detailDate]
+    let datestringArr = [...detailDateString]
+
     dateArr.splice(i, 1)
+    datestringArr.splice(i, 1)
     setDetailDate(dateArr)
+    setDetailDateString(datestringArr)
   }
 
   const onDeleteDetailContent = (i) => {
@@ -234,9 +243,9 @@ const CreateTimeline = () => {
           <PlusCircleOutlined />추가
         </Button>
         <Divider />
-
-          <Button size="large" onClick={onCreateTimeline}>생성하기</Button>
-
+        <TimelineView countList={countList} detailTitle={detailTitle} detailDateString={detailDateString} detailContent={detailContent}/>
+        <Divider />
+        <Button size="large" onClick={onCreateTimeline}>생성하기</Button>
       </Form>
     </CreateTimelineDiv>
   )
