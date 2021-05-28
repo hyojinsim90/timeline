@@ -86,20 +86,23 @@ const CreateTimeline = () => {
         .then(res => {
           // master에서 id값 return하면 받아서 detail 저장
           if(res.data.id) {
-            console.log(res.data.id);
             countList.forEach((item, i) => {
+              let year = detailDate[i]._d.getFullYear().toString()
+              let month = (detailDate[i]._d.getMonth() + 1) < 10 ? "0" + (detailDate[i]._d.getMonth() + 1) : (detailDate[i]._d.getMonth() + 1).toString()
+              let date = (detailDate[i]._d.getDate()) < 10 ? "0" + (detailDate[i]._d.getDate()) : detailDate[i]._d.getDate()
+
               detailList.push({
                 "content": detailContent[i],
                 "masterId": res.data.id,
-                "scheduleDate": detailDate[i]._d.getTime().toString(),
+                "scheduleDate": year + month + date,
                 "title": detailTitle[i]
               })
             })
 
-            // Axios.post("/timeline/detail/save", detailList)
-            //   .then(response => {
-            //     console.log(response);
-            //   })
+            Axios.post("/timeline/detail/save", detailList)
+              .then(response => {
+                console.log(response);
+              })
           }
         })
     }
