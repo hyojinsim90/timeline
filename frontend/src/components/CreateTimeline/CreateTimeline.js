@@ -216,9 +216,12 @@ const CreateTimeline = () => {
         <Form.Item
           label="분야"
         >
-          <Select defaultValue="경제" onChange={onSelectCategory}>
+          <Select defaultValue="생활" onChange={onSelectCategory}>
+            <Option value="생활">생활</Option>
+            <Option value="여행">여행</Option>
+            <Option value="문화">문화</Option>
             <Option value="경제">경제</Option>
-            <Option value="사회">사회</Option>
+            <Option value="기타">기타</Option>
           </Select>
         </Form.Item>
         <Form.Item
