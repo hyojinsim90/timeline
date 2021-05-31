@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import MenuBar from './Sections/MenuBar';
+import React from "react"
+import MenuBar from "./Sections/MenuBar"
 
 const MyPage = () => {
 
@@ -11,4 +10,4 @@ const MyPage = () => {
   )
 }
 
-export default MyPage;
+export default MyPage

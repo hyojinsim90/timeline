@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
-import { Menu, Button } from 'antd';
-import styled from 'styled-components';
-import { BrowserView, MobileView } from 'react-device-detect';
-import { MenuOutlined, MenuFoldOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { Menu, Button } from 'antd'
+import styled from 'styled-components'
+import { BrowserView, MobileView } from 'react-device-detect'
+import { MenuOutlined, MenuFoldOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useCookies } from "react-cookie"
+import Axios from "axios"
 
 const Logo =  styled.div`
   font-weight: bold;
@@ -44,10 +47,18 @@ const LogoM = styled.div`
   }
 `;
 
-function NavBar() {
+const NavBar = (props) => {
 
   const [toggleMenu, setToggleMenu] = useState(false)
   const [toggleBar, setToggleBar] = useState(true)
+  const [cookies, setCookie, removeCookie] = useCookies([])
+  const [auth, setAuth] = useState(false)
+
+  useEffect(() => {
+    if(cookies.tl_token !== undefined) {
+      setAuth(true)
+    }
+  }, [cookies])
 
   const toggleChange = () => {
     setToggleMenu(!toggleMenu)
@@ -57,6 +68,20 @@ function NavBar() {
   const onMenuClick = () => {
     setToggleMenu(!toggleMenu)
     setToggleBar(!toggleBar)
+  }
+
+  const onLogout = () => {
+    if(auth && cookies.tl_e) {
+      Axios.get(`/auth/logout/${cookies.tl_e}`)
+        .then(res => {
+          removeCookie("tl_e")
+          removeCookie("tl_re")
+          removeCookie("tl_exp")
+          removeCookie("tl_token")
+          window.location.reload()
+          props.history("/login")
+        })
+    }
   }
 
   return(
@@ -82,16 +107,26 @@ function NavBar() {
                 마이페이지
               </Link>
             </Menu.Item>
-            <Menu.Item key="login">
-              <Link to="/login">
-                로그인
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="signup">
-              <Link to="/signup">
-                회원가입
-              </Link>
-            </Menu.Item>
+            { auth ?
+            <>
+              <Menu.Item key="logout" onClick={onLogout}>
+                로그아웃
+              </Menu.Item>
+            </>
+            :
+            <>
+              <Menu.Item key="login">
+                <Link to="/login">
+                  로그인
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="signup">
+                <Link to="/signup">
+                  회원가입
+                </Link>
+              </Menu.Item>
+            </>
+            }
           </Menu>
         </MenuList>
       </BrowserView>
@@ -125,16 +160,26 @@ function NavBar() {
                 마이페이지
               </Link>
             </Menu.Item>
-            <Menu.Item key="login">
-              <Link to="/login">
-                로그인
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="signup">
-              <Link to="/signup">
-                회원가입
-              </Link>
-            </Menu.Item>
+            { auth ?
+              <>
+                <Menu.Item key="logout" onClick={onLogout}>
+                  로그아웃
+                </Menu.Item>
+              </>
+              :
+              <>
+                <Menu.Item key="login">
+                  <Link to="/login">
+                    로그인
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="signup">
+                  <Link to="/signup">
+                    회원가입
+                  </Link>
+                </Menu.Item>
+              </>
+            }
           </Menu>
           : <></>
         }

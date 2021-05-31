@@ -3,10 +3,7 @@ package com.timeline.controller;
 
 import com.timeline.controller.dto.auth.TokenDto;
 import com.timeline.controller.dto.auth.TokenRequestDto;
-import com.timeline.controller.dto.member.MemberEmailRequestDto;
-import com.timeline.controller.dto.member.MemberRequestDto;
-import com.timeline.controller.dto.member.MemberResponseDto;
-import com.timeline.controller.dto.member.MemberSaveRequestDto;
+import com.timeline.controller.dto.member.*;
 import com.timeline.service.AuthService;
 import com.timeline.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author : Hyojin Sim
@@ -59,14 +57,20 @@ public class AuthController {
         return authService.logout(email);
     }
 
-    @GetMapping("/findPw/checkmail")
-    public boolean checkMail (@RequestBody MemberEmailRequestDto memberEmailRequestDto){
-        return authService.checkMail(memberEmailRequestDto);
+    @GetMapping("/findPw/checkmail/{email}")
+    public boolean checkMail (@PathVariable String email){
+        return authService.checkMail(email);
     }
 
     @PostMapping("/findPw/sendmail")
     public void findPw (@RequestBody MemberEmailRequestDto memberEmailRequestDto) {
         authService.findPw(memberEmailRequestDto);
+    }
+
+    /* 전체 닉네임 리스트 가져옴  */
+    @GetMapping("/nicknames")
+    public List<MemberNicknameResponseDto> findAll() {
+        return authService.findAllNickname();
     }
 
 

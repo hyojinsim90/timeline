@@ -24,7 +24,11 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="67a6be8a-b4b4-432b-916a-7abe0d930ddc">
+        <schema name="mysql" object-types="view, table" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="67a6be8a-b4b4-432b-916a-7abe0d930ddc">
@@ -32,34 +36,41 @@
 
 show tables;
 
-create table member 
-(
-id bigint not null auto_increment, 
-created_date datetime(6), 
-modified_date datetime(6), 
-authority varchar(255), 
-email varchar(255), 
-gubun varchar(255),
-nickname varchar(255),
-password varchar(255), 
-primary key (id)
-) engine=InnoDB;
-
-create table refresh_token 
-(
-token_key varchar(255) not null, 
-token_value varchar(255), 
-created_date datetime(6), 
-modified_date datetime(6), 
-primary key (token_key)
-) engine=InnoDB;
 
 select * from member;
 
 select * from refresh_token;
 
-ALTER TABLE refresh_token ADD created_date datetime(6);
-ALTER TABLE refresh_token ADD modified_date datetime(6);]]></console>
+--create table member 
+--(
+--id bigint not null auto_increment, 
+--created_date datetime(6), 
+--modified_date datetime(6), 
+--authority varchar(255), 
+--email varchar(255), 
+--gubun varchar(255),
+--nickname varchar(255),
+--password varchar(255), 
+--primary key (id)
+--) engine=InnoDB;
+--
+--create table refresh_token 
+--(
+--token_key varchar(255) not null, 
+--token_value varchar(255), 
+--created_date datetime(6), 
+--modified_date datetime(6), 
+--primary key (token_key)
+--) engine=InnoDB;
+
+--
+--ALTER TABLE refresh_token ADD created_date datetime(6);
+--ALTER TABLE refresh_token ADD modified_date datetime(6);
+
+--show index from timeline_detail;
+--DROP INDEX `UK_6aj67uhag640cx48wbp0is7gy` ON `timeline_detail`;
+
+select * from timeline_detail;]]></console>
     </connection>
     <connection id="0b985d6b-adb0-4232-9a2f-42b49e2fc776">
       <console name="localhost" type="STANDARD" schema="timeline" session="Main"><![CDATA[select

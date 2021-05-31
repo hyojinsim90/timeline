@@ -26,7 +26,7 @@ public class TimelineDetail  extends BaseTimeEntity {
     @Column(name = "master_id")
     private Long masterId; // timeline_master_id
 
-    @Column(name = "schedule_date", unique = true)
+    @Column(name = "schedule_date", unique = false)
     private LocalDate scheduleDate; // 계획일자
 
     @Column(name = "titile")

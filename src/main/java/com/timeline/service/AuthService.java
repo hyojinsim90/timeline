@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : Hyojin Sim
@@ -150,8 +152,8 @@ public class AuthService {
     }
 
     /* 이메일 존재 체크 */
-    public boolean checkMail(MemberEmailRequestDto memberEmailRequestDto) {
-        return memberRepository.existsByEmail(memberEmailRequestDto.getEmail());
+    public boolean checkMail(String email) {
+        return memberRepository.existsByEmail(email);
     }
 
     /* 비밀번호 찾기 - 인증 이메일 발송 */
@@ -218,6 +220,15 @@ public class AuthService {
             str += charSet[idx];
         }
         return str;
+    }
+
+
+    /* 전체 닉네임 가져옴 */
+    @Transactional(readOnly = true)
+    public List<MemberNicknameResponseDto> findAllNickname() {
+        return memberRepository.findAll().stream()
+                .map(MemberNicknameResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }
