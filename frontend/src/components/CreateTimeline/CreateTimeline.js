@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { Form, Input, Select, Button, DatePicker, Divider } from "antd"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import Axios from "axios"
 import { PlusCircleOutlined } from "@ant-design/icons"
 import TimelineDetail from "./Sections/TimelineDetail"
@@ -11,7 +11,8 @@ import TimelineView from "./Sections/TimelineView"
 const CreateTimelineDiv = styled.div`
   padding: 3rem 0;
   form {
-    width: 320px;
+    width: 100%;
+    padding: 3rem;
     display: inline-block;
     .ant-form-item {
       display: flex;
@@ -33,6 +34,14 @@ const CreateTimelineDiv = styled.div`
   }
 `
 
+const CreateDetailDiv = styled.div`
+  display: flex;
+  width: 100%;
+  div {
+    width: 100%;
+  }
+`
+
 const { Option } = Select
 
 const CreateTimeline = () => {
@@ -47,6 +56,7 @@ const CreateTimeline = () => {
   const [open, setOpen] = useState(false)
 
   const user = useSelector(state => state.user)
+  const history = useHistory()
 
   const onCreateTimeline = (e) => {
     let variables = {
@@ -103,7 +113,9 @@ const CreateTimeline = () => {
 
             Axios.post("/timeline/detail/save", detailList)
               .then(response => {
-                console.log(response);
+                if(response.status === 200) {
+                  history.push("/mytimeline")
+                }
               })
           }
         })
@@ -202,52 +214,59 @@ const CreateTimeline = () => {
       <h1>타임라인 생성하기</h1>
       <br />
       <Form onSubmit={onCreateTimeline}>
-        <Form.Item
-          label="타임라인 제목"
-          name="title"
-        >
-          <Input
-            type="text"
-            onChange={onChangeTitle}
-            value={title}
-            required
-          />
-        </Form.Item>
-        <Form.Item
-          label="분야"
-        >
-          <Select defaultValue="생활" onChange={onSelectCategory}>
-            <Option value="생활">생활</Option>
-            <Option value="여행">여행</Option>
-            <Option value="문화">문화</Option>
-            <Option value="경제">경제</Option>
-            <Option value="기타">기타</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="진행 여부"
-        >
-          <Select defaultValue="false" onChange={onSelectComplete}>
-            <Option value="false">진행중</Option>
-            <Option value="true">진행완료</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="공개 여부"
-        >
-          <Select defaultValue="false" onChange={onSelectOpen}>
-            <Option value="false">비공개</Option>
-            <Option value="true">공개</Option>
-          </Select>
-        </Form.Item>
-        <TimelineDetail countList={countList} onDeleteDetail={onDeleteDetail} onChangeDetailTitle={onChangeDetailTitle} detailTitle={detailTitle}
-          onChangeDate={onChangeDate} detailDate={detailDate} onchangeDetailContent={onchangeDetailContent} detailContent={detailContent} />
-        <Button onClick={onAddDetailDiv}>
-          <PlusCircleOutlined />추가
-        </Button>
+        <div>
+          <Form.Item
+            label="타임라인 제목"
+            name="title"
+          >
+            <Input
+              type="text"
+              onChange={onChangeTitle}
+              value={title}
+              required
+            />
+          </Form.Item>
+          <Form.Item
+            label="분야"
+          >
+            <Select defaultValue="생활" onChange={onSelectCategory}>
+              <Option value="생활">생활</Option>
+              <Option value="여행">여행</Option>
+              <Option value="문화">문화</Option>
+              <Option value="경제">경제</Option>
+              <Option value="기타">기타</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="진행 여부"
+          >
+            <Select defaultValue="false" onChange={onSelectComplete}>
+              <Option value="false">진행중</Option>
+              <Option value="true">진행완료</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="공개 여부"
+          >
+            <Select defaultValue="false" onChange={onSelectOpen}>
+              <Option value="false">비공개</Option>
+              <Option value="true">공개</Option>
+            </Select>
+          </Form.Item>
+        </div>
         <Divider />
-        <TimelineView countList={countList} detailTitle={detailTitle} detailDateString={detailDateString} detailContent={detailContent}/>
-        <Divider />
+        <CreateDetailDiv>
+          <div>
+            <TimelineDetail countList={countList} onDeleteDetail={onDeleteDetail} onChangeDetailTitle={onChangeDetailTitle} detailTitle={detailTitle}
+              onChangeDate={onChangeDate} detailDate={detailDate} onchangeDetailContent={onchangeDetailContent} detailContent={detailContent} />
+            <Button onClick={onAddDetailDiv}>
+              <PlusCircleOutlined />추가
+            </Button>
+          </div>
+          <div>
+            <TimelineView countList={countList} detailTitle={detailTitle} detailDateString={detailDateString} detailContent={detailContent}/>
+          </div>
+        </CreateDetailDiv>
         <Button size="large" onClick={onCreateTimeline}>생성하기</Button>
       </Form>
     </CreateTimelineDiv>
