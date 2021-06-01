@@ -40,7 +40,7 @@ const InfoDiv = styled.div`
       }
     }
   }
-`;
+`
 
 
 const MyInfo = () => {
@@ -69,6 +69,7 @@ const MyInfo = () => {
 
   const onChangeNick = (e) => {
     setNickname(e.target.value)
+    setCheckDuplicate(false)
   }
 
   const onChangePwd1 = (e) => {
@@ -89,7 +90,7 @@ const MyInfo = () => {
           // 다른 사람 닉네임과 중복일 경우
           if(nickname !== user.nickname) {
             setCheckDuplicate(false)
-            alert("이미 있는 닉네임입니다")
+            alert("이미 사용 중인 닉네임입니다")
           // 내 기존 닉네임일 경우
           } else {
             setCheckDuplicate(true)
@@ -104,7 +105,7 @@ const MyInfo = () => {
 
   const onChangeInfo = () => {
 
-      // 닉네임 중복확인 버튼 클릭하도록 하기
+    // 닉네임 중복확인 버튼 클릭하도록 하기
     if(checkDuplicate === false) {
       alert("닉네임 중복확인을 해주세요")
       return false
