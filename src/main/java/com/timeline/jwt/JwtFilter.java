@@ -100,6 +100,24 @@ public class JwtFilter extends OncePerRequestFilter { // OncePerRequestFilter : 
 //            SecurityContextHolder.getContext().setAuthentication(authentication); // 토큰 정보를 SecurityContext에 저장
 //        }
 
+        log.info("getRequestURI : "+ request.getRequestURI());
+        log.info("getParameterMap : "+ request.getParameterMap().entrySet());
+        log.info("getParameterMap : "+ request.getParameterMap().keySet());
+        log.info("getPathInfo : "+ request.getPathInfo());
+        log.info("getMethod : "+ request.getMethod());
+        log.info("getContextPath : "+ request.getContextPath());
+        log.info("getHeaderNames : "+ request.getHeaderNames());
+        log.info("getAuthType : "+ request.getAuthType());
+        log.info("getPathTranslated : "+ request.getPathTranslated());
+        log.info("getRemoteUser : "+ request.getRemoteUser());
+        log.info("getQueryString : "+ request.getQueryString());
+        log.info("getRequestedSessionId : "+ request.getRequestedSessionId());
+        log.info("getServletPath : "+ request.getServletPath());
+        log.info("getContentType : "+ request.getContentType());
+        log.info("getLocalName : "+ request.getLocalName());
+        log.info("getServerName : "+ request.getServerName());
+        log.info("getParameterNames : "+ request.getParameterNames());
+
         filterChain.doFilter(request, response);
         // 실제 필터링 로직은 doFilterInternal 에 들어감
         // filterChain.doFilter : JWT 토큰의 인증 정보를 현재 쓰레드의 SecurityContext 에 저장하는 역할 수행
