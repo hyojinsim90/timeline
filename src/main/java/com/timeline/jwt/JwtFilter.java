@@ -107,11 +107,11 @@ public class JwtFilter extends OncePerRequestFilter { // OncePerRequestFilter : 
 
     // Request Header 에서 토큰 정보를 꺼내오기
     private String resolveToken(HttpServletRequest request) {
-        log.info("[ 토큰 정보 꺼내오기 ]");
+//        log.info("[ 토큰 정보 꺼내오기 ]");
 
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 
-        log.info("- Authorization 헤더 확인 : " + bearerToken); // 'Bearer ' + access_token
+//        log.info("- Authorization 헤더 확인 : " + bearerToken); // 'Bearer ' + access_token
 
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             log.info("- access_token : " + bearerToken.substring(7)); // Bearer 을 제거하고 access_token 만 얻음

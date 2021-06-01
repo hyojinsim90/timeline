@@ -135,14 +135,14 @@ public class TokenProvider {
     * Jwts 모듈이 알아서 Exception 을 던져줍니다.
     * */
     public boolean validateToken(String token) {
-        log.info("[토큰 정보 검증]");
+//        log.info("[토큰 정보 검증]");
 
         Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-        log.info(" - jwt 정보 " + claims.getBody());
+//        log.info(" - jwt 정보 " + claims.getBody());
 
-        boolean isNotExpire = claims.getBody().getExpiration().after(new Date());
-
-        log.info(" - jwt isNotExpire " + isNotExpire);
+//        boolean isNotExpire = claims.getBody().getExpiration().after(new Date());
+//
+//        log.info(" - jwt isNotExpire " + isNotExpire);
 
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
