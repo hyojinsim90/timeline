@@ -226,6 +226,7 @@ public class AuthService {
     /* 전체 닉네임 가져옴 */
     @Transactional(readOnly = true)
     public List<MemberNicknameResponseDto> findAllNickname() {
+        log.info("[service- findAllNickname]");
         return memberRepository.findAll().stream()
                 .map(MemberNicknameResponseDto::new)
                 .collect(Collectors.toList());

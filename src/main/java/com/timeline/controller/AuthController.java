@@ -59,6 +59,7 @@ public class AuthController {
 
     @GetMapping("/findPw/checkmail/{email}")
     public boolean checkMail (@PathVariable String email){
+        log.info("[controller - /findPw/checkmail/{email}]");
         return authService.checkMail(email);
     }
 
@@ -70,6 +71,8 @@ public class AuthController {
     /* 전체 닉네임 리스트 가져옴  */
     @GetMapping("/nicknames")
     public List<MemberNicknameResponseDto> findAll() {
+
+        log.info("[controller - /auth/nicknames]");
         return authService.findAllNickname();
     }
 
