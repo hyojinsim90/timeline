@@ -3,7 +3,6 @@ package com.timeline.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @NoArgsConstructor

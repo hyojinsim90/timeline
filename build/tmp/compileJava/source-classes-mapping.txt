@@ -1,7 +1,7 @@
 com/timeline/controller/dto/timeline/TimelineMasterSaveRequestDto.java
  com.timeline.controller.dto.timeline.TimelineMasterSaveRequestDto
-com/timeline/controller/dto/member/MemberRequestDto.java
- com.timeline.controller.dto.member.MemberRequestDto
+com/timeline/controller/dto/timeline/TimelineDetailSaveRequestDto.java
+ com.timeline.controller.dto.timeline.TimelineDetailSaveRequestDto
 com/timeline/config/SecurityConfig.java
  com.timeline.config.SecurityConfig
 com/timeline/controller/dto/auth/TokenDto.java
@@ -13,8 +13,8 @@ com/timeline/oauth/social/FacebookOauth.java
  com.timeline.oauth.social.FacebookOauth
 com/timeline/oauth/social/SocialOauth.java
  com.timeline.oauth.social.SocialOauth
-com/timeline/controller/TimelineController.java
- com.timeline.controller.TimelineController
+com/timeline/controller/AuthController.java
+ com.timeline.controller.AuthController
 com/timeline/oauth/SocialLoginTypeConverter.java
  com.timeline.oauth.SocialLoginTypeConverter
 com/timeline/oauth/social/KakaoOauth.java
@@ -32,9 +32,9 @@ com/timeline/controller/OauthController.java
  com.timeline.controller.OauthController
 com/timeline/controller/dto/member/MemberListResponseDto.java
  com.timeline.controller.dto.member.MemberListResponseDto
-com/timeline/entity/Member.java
- com.timeline.entity.Member
- com.timeline.entity.Member$MemberBuilder
+com/timeline/entity/TimelineDetail.java
+ com.timeline.entity.TimelineDetail
+ com.timeline.entity.TimelineDetail$TimelineDetailBuilder
 com/timeline/controller/dto/FindPwMailDto.java
  com.timeline.controller.dto.FindPwMailDto
  com.timeline.controller.dto.FindPwMailDto$FindPwMailDtoBuilder
@@ -73,6 +73,8 @@ com/timeline/repository/MemberRepository.java
 com/timeline/controller/dto/member/MemberOauthAttributeDto.java
  com.timeline.controller.dto.member.MemberOauthAttributeDto
  com.timeline.controller.dto.member.MemberOauthAttributeDto$MemberOauthAttributeDtoBuilder
+com/timeline/controller/dto/member/MemberNicknameResponseDto.java
+ com.timeline.controller.dto.member.MemberNicknameResponseDto
 com/timeline/service/MemberService.java
  com.timeline.service.MemberService
 com/timeline/repository/RefreshTokenRepository.java
@@ -87,20 +89,18 @@ com/timeline/controller/dto/member/MemberResponseDto.java
  com.timeline.controller.dto.member.MemberResponseDto
 com/timeline/util/SecurityUtil.java
  com.timeline.util.SecurityUtil
-com/timeline/oauth/SocialLoginType.java
- com.timeline.oauth.SocialLoginType
-com/timeline/controller/dto/auth/TokenRequestDto.java
- com.timeline.controller.dto.auth.TokenRequestDto
-com/timeline/controller/dto/timeline/TimelineDetailSaveRequestDto.java
- com.timeline.controller.dto.timeline.TimelineDetailSaveRequestDto
-com/timeline/controller/dto/member/MemberNicknameResponseDto.java
- com.timeline.controller.dto.member.MemberNicknameResponseDto
-com/timeline/entity/TimelineDetail.java
- com.timeline.entity.TimelineDetail
- com.timeline.entity.TimelineDetail$TimelineDetailBuilder
 com/timeline/service/TimelineService.java
  com.timeline.service.TimelineService
+com/timeline/controller/dto/auth/TokenRequestDto.java
+ com.timeline.controller.dto.auth.TokenRequestDto
+com/timeline/controller/TimelineController.java
+ com.timeline.controller.TimelineController
+com/timeline/oauth/SocialLoginType.java
+ com.timeline.oauth.SocialLoginType
 com/timeline/service/AuthService.java
  com.timeline.service.AuthService
-com/timeline/controller/AuthController.java
- com.timeline.controller.AuthController
+com/timeline/entity/Member.java
+ com.timeline.entity.Member
+ com.timeline.entity.Member$MemberBuilder
+com/timeline/controller/dto/member/MemberRequestDto.java
+ com.timeline.controller.dto.member.MemberRequestDto

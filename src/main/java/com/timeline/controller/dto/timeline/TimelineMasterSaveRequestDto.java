@@ -18,6 +18,7 @@ public class TimelineMasterSaveRequestDto {
 
     private String title;
     private String author;
+    private String imgFilePath;
     private String category;
     private boolean isOpen;
     private boolean isComplete;
@@ -26,6 +27,7 @@ public class TimelineMasterSaveRequestDto {
         return TimelineMaster.builder()
                 .title(title)
                 .author(author)
+                .imgFilePath(imgFilePath)
                 .category(category)
                 .viewCount(0)
                 .likeCount(0)

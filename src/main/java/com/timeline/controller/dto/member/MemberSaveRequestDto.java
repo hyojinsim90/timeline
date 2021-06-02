@@ -21,7 +21,6 @@ public class MemberSaveRequestDto {
     private String email;
     private String password;
     private String nickname;
-    private String gubun;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
