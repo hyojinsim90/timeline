@@ -9,6 +9,7 @@ import MyPage from "./components/MyPage/MyPage"
 import MyTimeline from "./components/MyPage/MyTimeline"
 import CreateTimeline from "./components/CreateTimeline/CreateTimeline"
 import TimelinePage from "./components/TimelinePage/TimelinePage"
+import TimelineList from "./components/MyPage/Sections/TimelineList"
 import MyInfo from "./components/MyPage/MyInfo"
 import Auth from "./hoc/auth"
 
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/myinfo" component={Auth(MyInfo, true)}></Route>
           <Route exact path="/createtimeline" component={Auth(CreateTimeline, true)}></Route>
           <Route exact path="/timeline" component={TimelinePage}></Route>
+          <Route exact path="/timeline" component={TimelineList}></Route>
         </Switch>
       </div>
     </Suspense>
