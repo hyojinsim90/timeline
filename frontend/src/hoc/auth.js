@@ -7,7 +7,7 @@ import Axios from "axios"
 export default function authHoc(SpecificComponent, option, adminRoute = null) {
     function AuthenticationCheck(props) {
 
-      const [cookies, setCookie] = useCookies([])
+      const [cookies, setCookie, removeCookie] = useCookies([])
       let user = useSelector(state => state.user)
       const dispatch = useDispatch()
 
@@ -25,7 +25,20 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
                 "refreshToken": cookies.tl_re
               }
 
+              let over8h = expTime + 28800000
+
               if(date.getTime() > expTime) {
+
+                // 로그인 후 8시간 이상 지났을 때는 cookie 삭제
+                if(date.getTime() > over8h) {
+                  removeCookie("tl_e")
+                  removeCookie("tl_re")
+                  removeCookie("tl_exp")
+                  removeCookie("tl_token")
+                  window.location.reload()
+                  props.history("/login")
+                }
+
                 Axios.post("/auth/reissue", tokens)
                   .then(res => {
                     setCookie("tl_token", res.data.accessToken)
