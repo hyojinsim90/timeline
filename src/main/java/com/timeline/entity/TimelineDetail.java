@@ -31,7 +31,7 @@ public class TimelineDetail  extends BaseTimeEntity {
     @Column(name = "schedule_date", unique = false)
     private LocalDate scheduleDate; // 계획일자
 
-    @Column(name = "titile")
+    @Column(name = "title")
     private String title; // 간단한 일정소개
 
     @Column(name = "content")

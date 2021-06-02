@@ -92,8 +92,8 @@ com/timeline/controller/dto/timeline/TimelineMasterSaveRequestDto.java
  com.timeline.controller.dto.timeline.TimelineMasterSaveRequestDto
 com/timeline/service/S3Service.java
  com.timeline.service.S3Service
-com/timeline/controller/dto/timeline/TimelineDetailSaveRequestDto.java
- com.timeline.controller.dto.timeline.TimelineDetailSaveRequestDto
+com/timeline/controller/dto/timeline/TimelineDetailUpdateRequestDto.java
+ com.timeline.controller.dto.timeline.TimelineDetailUpdateRequestDto
 com/timeline/entity/TimelineMaster.java
  com.timeline.entity.TimelineMaster
  com.timeline.entity.TimelineMaster$TimelineMasterBuilder
@@ -106,8 +106,8 @@ com/timeline/controller/dto/timeline/TimelineMasterListResponseDto.java
  com.timeline.controller.dto.timeline.TimelineMasterListResponseDto
 com/timeline/controller/dto/timeline/TimelineMasterResponseDto.java
  com.timeline.controller.dto.timeline.TimelineMasterResponseDto
-com/timeline/controller/dto/timeline/TimelineDetailUpdateRequestDto.java
- com.timeline.controller.dto.timeline.TimelineDetailUpdateRequestDto
+com/timeline/controller/dto/timeline/TimelineDetailSaveRequestDto.java
+ com.timeline.controller.dto.timeline.TimelineDetailSaveRequestDto
 com/timeline/entity/TimelineDetail.java
  com.timeline.entity.TimelineDetail
  com.timeline.entity.TimelineDetail$TimelineDetailBuilder

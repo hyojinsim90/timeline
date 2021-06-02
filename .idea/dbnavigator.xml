@@ -76,7 +76,23 @@ select * from timeline_detail;
 -- timeline_master에서 대표 이미지 컬럼 추가
 --alter table timeline_master add imgFilePath varchar(3000);
 
-select * from timeline_master;]]></console>
+select * from timeline_master;
+
+-- timeline_detail pk - 복합키(id, master_id로 설정해줌)
+drop table timeline_detail;
+
+create table timeline_detail 
+(id int, 
+created_date datetime, 
+modified_date datetime, 
+content varchar(255),
+master_id bigint, 
+schedule_date date, 
+titile varchar(255), 
+primary key (id, master_id)
+) engine=InnoDB;
+
+commit;]]></console>
     </connection>
     <connection id="0b985d6b-adb0-4232-9a2f-42b49e2fc776">
       <console name="localhost" type="STANDARD" schema="timeline" session="Main"><![CDATA[select
