@@ -25,12 +25,12 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
                 "refreshToken": cookies.tl_re
               }
 
-              let over8h = expTime + 28800000
+              let over3h = expTime + 10800000
 
               if(date.getTime() > expTime) {
 
-                // 로그인 후 8시간 이상 지났을 때는 cookie 삭제
-                if(date.getTime() > over8h) {
+                // 로그인 후 3시간 이상 지났을 때는 cookie 삭제
+                if(date.getTime() > over3h) {
                   removeCookie("tl_e")
                   removeCookie("tl_re")
                   removeCookie("tl_exp")
