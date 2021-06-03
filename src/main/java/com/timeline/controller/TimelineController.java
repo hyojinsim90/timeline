@@ -29,13 +29,15 @@ import java.util.List;
 public class TimelineController {
 
     private final TimelineService timelineService;
+    private S3Service s3Service;
 
     /* 타임라인 마스터 저장 */
     @PostMapping("/master/save")
     public ResponseEntity<TimelineMasterResponseDto> saveMaster(@RequestBody TimelineMasterSaveRequestDto timelineMasterSaveRequestDto, MultipartFile file) throws IOException {
-//        String imgPath = s3Service.upload(file);
+        String imgPath = s3Service.upload(timelineMasterSaveRequestDto.getImgFilePath(), file);
+        timelineMasterSaveRequestDto.setImgFilePath(imgPath);
 
-        return ResponseEntity.ok(timelineService.saveMaster(timelineMasterSaveRequestDto, file));
+        return ResponseEntity.ok(timelineService.saveMaster(timelineMasterSaveRequestDto));
     }
 
     /* 타임라인 디테일 저장 */

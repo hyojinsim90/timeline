@@ -39,11 +39,8 @@ public class TimelineService {
 
 
     @Transactional
-    public TimelineMasterResponseDto saveMaster(TimelineMasterSaveRequestDto timelineMasterSaveRequestDto, MultipartFile file) throws IOException {
+    public TimelineMasterResponseDto saveMaster(TimelineMasterSaveRequestDto timelineMasterSaveRequestDto) throws IOException {
         log.info("[ timeline_master 저장 ]");
-
-        String imgPath = s3Service.upload(timelineMasterSaveRequestDto.getImgFilePath(), file);
-        timelineMasterSaveRequestDto.setImgFilePath(imgPath);
 
         TimelineMaster timelineMaster = timelineMasterSaveRequestDto.toTimelineMaster();
 
@@ -60,7 +57,6 @@ public class TimelineService {
         LocalDate scheduleDate = null;
         String beforeDate = "";
         String afterDate = "";
-        int id;
         TimelineDetail timelineDetail = null;
         List<TimelineDetail> timelineDetails = new ArrayList<>();
 
@@ -74,11 +70,8 @@ public class TimelineService {
 //            log.info("[ afterDate ]" + afterDate);
             log.info("[ scheduleDate ]" + scheduleDate);
 
-            // detail id 생성
-            id = (i + 1);
-
             // timeline_detail 생성
-            timelineDetail = timelineDetailList.get(i).toTimelineDetail(scheduleDate, id);
+            timelineDetail = timelineDetailList.get(i).toTimelineDetail(scheduleDate);
 
             // detail 리스트에 객체 저장
             timelineDetails.add(timelineDetail);
