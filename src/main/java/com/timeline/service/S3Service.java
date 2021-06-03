@@ -7,9 +7,13 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.timeline.controller.dto.timeline.TimelineMasterSaveRequestDto;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +27,7 @@ import java.util.Date;
  * @date : 2021-06-01 오후 6:07
  * @brief : aws s3 이미지 업로드
  **/
+@Slf4j
 @Service
 @NoArgsConstructor
 public class S3Service {
@@ -54,7 +59,7 @@ public class S3Service {
 
     public String upload(String currentFilePath, MultipartFile file) throws IOException {
         // S3에 직접 접근하는 것이 아닌, CloudFront을 통해 캐싱된 이미지를 가져올 것
-
+//        MultipartFile file = timelineMasterSaveRequestDto.getFile();
         // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
         SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
         String fileName = file.getOriginalFilename() + "-" + date.format(new Date());
@@ -65,6 +70,7 @@ public class S3Service {
 
             if (isExistObject == true) {
                 s3Client.deleteObject(bucket, currentFilePath);
+                log.info("기존파일 존재. 삭제 완료.");
             }
         }
 

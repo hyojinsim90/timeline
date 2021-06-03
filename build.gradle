@@ -54,6 +54,9 @@ dependencies {
     // AWS S3
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
 
+    // 파일 처리 관련
+    implementation 'commons-io:commons-io:2.6'
+
 
 }
 

@@ -21,7 +21,7 @@ import java.time.LocalDate;
 public class TimelineDetailSaveRequestDto {
 
     private Long masterId; // timeline_master_id
-    private int id; // timeline_detail_id
+    private Long id; // timeline_detail_id
     private String scheduleDate; // 계획일자
     private String title; // 간단한 일정소개
     private String content; // 일정내용

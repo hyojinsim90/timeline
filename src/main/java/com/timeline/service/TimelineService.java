@@ -39,17 +39,18 @@ public class TimelineService {
 
 
     @Transactional
-    public TimelineMasterResponseDto saveMaster(TimelineMasterSaveRequestDto timelineMasterSaveRequestDto) throws IOException {
+    public TimelineMasterListResponseDto saveMaster(TimelineMasterSaveRequestDto timelineMasterSaveRequestDto) throws IOException {
         log.info("[ timeline_master 저장 ]");
 
         TimelineMaster timelineMaster = timelineMasterSaveRequestDto.toTimelineMaster();
 
 //        timelineMasterRepository.save(timelineMaster);
 
-        return TimelineMasterResponseDto.of(timelineMasterRepository.save(timelineMaster));
+        return new TimelineMasterListResponseDto(timelineMasterRepository.save(timelineMaster));
 
     }
 
+    @Transactional
     public ResponseEntity<List<TimelineDetail>> saveDetail(List<TimelineDetailSaveRequestDto> timelineDetailList) {
         log.info("[ timeline_detail 저장 ]");
 
@@ -94,15 +95,13 @@ public class TimelineService {
     }
 
     /* 타임라인 마스터 수정 */
+    @Transactional
     public TimelineMasterListResponseDto updateMaster(Long id, TimelineMasterUpdateRequestDto masterUpdateDto, MultipartFile file) throws IOException {
         log.info("[ timeline_master 수정 ]");
 
         TimelineMaster master = timelineMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + id));
 
-        String imgPath = s3Service.upload(masterUpdateDto.getImgFilePath(), file);
-        masterUpdateDto.setImgFilePath(imgPath);
-
-        master.update(masterUpdateDto.getTitle(), masterUpdateDto.getImgFilePath(), masterUpdateDto.getCategory(), masterUpdateDto.isOpen(), masterUpdateDto.isComplete());
+        master.update(masterUpdateDto.getTitle(), masterUpdateDto.getFilePath(), masterUpdateDto.getCategory(), masterUpdateDto.isOpen(), masterUpdateDto.isComplete());
 
         log.info("[ master ] " + master );
 
@@ -111,7 +110,9 @@ public class TimelineService {
     }
 
     /* 타임라인 디테일 수정 */
+    @Transactional
     public Object updateDetail(Long masterId, List<TimelineDetailUpdateRequestDto> timelineDetailList) {
+        log.info("[ timeline_detail 수정 ]");
 
         //  변수선언 : 날짜변환, detail entity, detail담을 리스트
         List<TimelineDetail> timelineDetails = new ArrayList<>();

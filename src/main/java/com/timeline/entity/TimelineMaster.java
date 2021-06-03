@@ -31,7 +31,7 @@ public class TimelineMaster extends BaseTimeEntity{
     private String author; // 작성자 - member의 email
 
     @Column(columnDefinition = "TEXT")
-    private String imgFilePath; // 대표이미지
+    private String filePath; // 대표이미지
 
     @Column(name="category")
     private String category; // 분야
@@ -53,10 +53,10 @@ public class TimelineMaster extends BaseTimeEntity{
 
 
     @Builder
-    public TimelineMaster(String title, String author, String imgFilePath, String category, int viewCount, int likeCount, int reqCount, boolean isOpen, boolean isComplete) {
+    public TimelineMaster(String title, String author, String filePath, String category, int viewCount, int likeCount, int reqCount, boolean isOpen, boolean isComplete) {
         this.title = title;
         this.author = author;
-        this.imgFilePath = imgFilePath;
+        this.filePath = filePath;
         this.category = category;
         this.viewCount = viewCount;
         this.likeCount = likeCount;
@@ -65,9 +65,9 @@ public class TimelineMaster extends BaseTimeEntity{
         this.isComplete = isComplete;
     }
 
-    public void update(String title, String imgFilePath, String category, boolean isOpen, boolean isComplete) {
+    public void update(String title, String filePath, String category, boolean isOpen, boolean isComplete) {
         this.title = title;
-        this.imgFilePath = imgFilePath;
+        this.filePath = filePath;
         this.category = category;
         this.isOpen = isOpen;
         this.isComplete = isComplete;

@@ -4,6 +4,7 @@ import com.timeline.controller.dto.member.MemberListResponseDto;
 import com.timeline.controller.dto.member.MemberResponseDto;
 import com.timeline.controller.dto.member.MemberUpdateRequestDto;
 import com.timeline.controller.dto.timeline.*;
+import com.timeline.entity.TimelineDetail;
 import com.timeline.service.S3Service;
 import com.timeline.service.TimelineService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 /**
  * @author : Hyojin Sim
  * @version : 1.0.0
@@ -23,26 +26,34 @@ import java.util.List;
  * @brief : 타임라인 관련 컨트롤러
  **/
 @Slf4j
+@CrossOrigin // 다른 포트에서의 요청 허용
 @RestController
 @RequestMapping("/timeline")
 @RequiredArgsConstructor
 public class TimelineController {
 
     private final TimelineService timelineService;
-    private S3Service s3Service;
+    private final S3Service s3Service;
 
     /* 타임라인 마스터 저장 */
     @PostMapping("/master/save")
-    public ResponseEntity<TimelineMasterResponseDto> saveMaster(@RequestBody TimelineMasterSaveRequestDto timelineMasterSaveRequestDto, MultipartFile file) throws IOException {
-        String imgPath = s3Service.upload(timelineMasterSaveRequestDto.getImgFilePath(), file);
-        timelineMasterSaveRequestDto.setImgFilePath(imgPath);
+    public ResponseEntity<TimelineMasterListResponseDto> saveMaster(@ModelAttribute TimelineMasterSaveRequestDto timelineMasterSaveRequestDto, @RequestPart MultipartFile file) throws IOException {
+        log.info("[/master/save]");
+
+        /* 수정시 명심 !
+        timelineMasterSaveRequestDto의 filePath : 기존 파일
+        MultipartFile의 파일 : 업로드될, 수정될 파일
+         */
+
+        String imgPath = s3Service.upload(timelineMasterSaveRequestDto.getFilePath(), file);
+        timelineMasterSaveRequestDto.setFilePath(imgPath);
 
         return ResponseEntity.ok(timelineService.saveMaster(timelineMasterSaveRequestDto));
     }
 
     /* 타임라인 디테일 저장 */
     @PostMapping("/detail/save")
-    public ResponseEntity saveDetail(@RequestBody List<TimelineDetailSaveRequestDto> timelineDetailList) {
+    public ResponseEntity<List<TimelineDetail>> saveDetail(@RequestBody List<TimelineDetailSaveRequestDto> timelineDetailList) {
         return timelineService.saveDetail(timelineDetailList);
     }
 
@@ -54,13 +65,18 @@ public class TimelineController {
 
     /* 타임라인 마스터 수정 */
     @PutMapping("/master/{id}")
-    public ResponseEntity<TimelineMasterListResponseDto> updateMaster(@PathVariable Long id, @RequestBody TimelineMasterUpdateRequestDto timelineMasterUpdateRequestDto, MultipartFile file) throws IOException {
+    public ResponseEntity<TimelineMasterListResponseDto> updateMaster(@PathVariable Long id, @ModelAttribute TimelineMasterUpdateRequestDto timelineMasterUpdateRequestDto, @RequestPart MultipartFile file) throws IOException {
+
+        String imgPath = s3Service.upload(timelineMasterUpdateRequestDto.getFilePath(), file);
+        timelineMasterUpdateRequestDto.setFilePath(imgPath);
+
         return ResponseEntity.ok(timelineService.updateMaster(id, timelineMasterUpdateRequestDto, file));
     }
 
     /* 타임라인 디테일 수정 */
-    @PutMapping("/detail/{id}")
+    @PutMapping("/detail/{masterId}")
     public ResponseEntity updateDetail(@PathVariable Long masterId, @RequestBody List<TimelineDetailUpdateRequestDto> timelineDetailList) {
+        log.info("[/detail/{masterId}]");
         return ResponseEntity.ok(timelineService.updateDetail(masterId, timelineDetailList));
     }
 

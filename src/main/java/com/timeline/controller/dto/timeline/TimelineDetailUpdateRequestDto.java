@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public class TimelineDetailUpdateRequestDto {
 
-    private int id; // timeline_detail_id
+    private Long id; // timeline_detail_id
     private String scheduleDate; // 계획일자
     private String title; // 간단한 일정소개
     private String content; // 일정내용

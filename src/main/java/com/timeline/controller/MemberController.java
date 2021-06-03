@@ -19,6 +19,7 @@ import java.util.List;
  * @date : 2021-05-09 오전 4:51
  * @brief : 로그인 인증 후 유저 정보로 할수 있는 것들
 **/
+@CrossOrigin // 다른 포트에서의 요청 허용
 @Slf4j
 @RestController
 @RequiredArgsConstructor

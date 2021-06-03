@@ -13,5 +13,5 @@ import java.io.Serializable;
 @Data
 public class TimelineDetailPK implements Serializable {
     private Long masterId;
-    private int id;
+    private Long id;
 }

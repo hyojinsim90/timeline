@@ -22,15 +22,15 @@ import javax.persistence.Id;
 public class TimelineMasterUpdateRequestDto {
 
     private String title; // 제목
-    private String imgFilePath; // 대표이미지
+    private String filePath; // 대표이미지(기존)
     private String category; // 분야
     private boolean isOpen; // 공개여부
     private boolean isComplete; // 진행여부
 
     @Builder
-    public TimelineMasterUpdateRequestDto(String title, String imgFilePath, String category, boolean isOpen, boolean isComplete) {
+    public TimelineMasterUpdateRequestDto(String title, String filePath, String category, boolean isOpen, boolean isComplete) {
         this.title = title;
-        this.imgFilePath = imgFilePath;
+        this.filePath = filePath;
         this.category = category;
         this.isOpen = isOpen;
         this.isComplete = isComplete;

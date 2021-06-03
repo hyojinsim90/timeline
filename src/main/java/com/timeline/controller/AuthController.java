@@ -21,6 +21,7 @@ import java.util.List;
  * @date : 2021-05-09 오전 4:41
  * @brief : 일반 로그인 / 회원가입
 **/
+@CrossOrigin // 다른 포트에서의 요청 허용
 @Slf4j
 @RestController
 @RequestMapping("/auth")

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @date : 2021-05-09 오전 3:32
  * @brief : 소셜 서비스 로그인/ 회원가입 처리
  **/
-
 @Slf4j
 @CrossOrigin
 @RestController

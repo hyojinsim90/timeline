@@ -18,7 +18,7 @@ import java.util.List;
 public interface TimelineDetailRepository extends JpaRepository<TimelineDetail, Long> {
 
     @Query("SELECT m FROM TimelineDetail m WHERE m.masterId = :masterId AND m.id = :id")
-    TimelineDetail findDetail(@Param("masterId") Long masterId, @Param("id") int id);
+    TimelineDetail findDetail(@Param("masterId") Long masterId, @Param("id") Long id);
 
 
 }

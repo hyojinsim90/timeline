@@ -26,7 +26,7 @@ public class TimelineDetail  extends BaseTimeEntity {
 
     @Id
     @Column(name = "id")
-    private int id; // timeline_detail_id
+    private Long id; // timeline_detail_id
 
     @Column(name = "schedule_date", unique = false)
     private LocalDate scheduleDate; // 계획일자
@@ -38,7 +38,7 @@ public class TimelineDetail  extends BaseTimeEntity {
     private String content; // 일정내용
 
     @Builder
-    public TimelineDetail(Long masterId, int id, LocalDate scheduleDate, String title, String content) {
+    public TimelineDetail(Long masterId, Long id, LocalDate scheduleDate, String title, String content) {
         this.masterId = masterId;
         this.id = id;
         this.scheduleDate = scheduleDate;
