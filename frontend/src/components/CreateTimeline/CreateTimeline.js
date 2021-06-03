@@ -63,6 +63,7 @@ const CreateTimeline = () => {
       "author": user.userData.email,
       "category": category,
       "complete": complete,
+      "imgFilePath": "test",
       "open": open,
       "title": title
     }
@@ -105,6 +106,7 @@ const CreateTimeline = () => {
 
               detailList.push({
                 "content": detailContent[i],
+                "id": res.data.id.toString() + i.toString(),
                 "masterId": res.data.id,
                 "scheduleDate": year + month + date,
                 "title": detailTitle[i]
