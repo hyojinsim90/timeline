@@ -25,6 +25,11 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
 
           if(date.getTime() > expTime) {
 
+            // redux에 데이터값 없으면 새로고침
+            if(!user.userData) {
+              window.location.reload(true)
+            }
+
             // 로그인 후 3시간 이상 지났을 때는 cookie 삭제
             if(date.getTime() > over3h) {
               removeCookie("tl_e")
@@ -40,6 +45,8 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
                 setCookie("tl_token", res.data.accessToken)
                 setCookie("tl_exp", res.data.accessTokenExpiresIn)
                 setCookie("tl_re", res.data.refreshToken)
+                window.location.reload()
+                props.history("/mypage")
               })
             }
 

@@ -7,6 +7,7 @@ import { PlusCircleOutlined } from "@ant-design/icons"
 import TimelineDetail from "./Sections/TimelineDetail"
 import { useSelector } from "react-redux"
 import TimelineView from "./Sections/TimelineView"
+import UploadImage from "./Sections/UploadImage"
 
 const CreateTimelineDiv = styled.div`
   padding: 3rem 0;
@@ -58,14 +59,21 @@ const CreateTimeline = () => {
   const user = useSelector(state => state.user)
   const history = useHistory()
 
+  const formdata = new FormData()
+
   const onCreateTimeline = (e) => {
     let variables = {
-      "author": user.userData.email,
-      "category": category,
-      "complete": complete,
-      "imgFilePath": "test",
-      "open": open,
-      "title": title
+      "author": "string",
+      "category": "string",
+      "complete": true,
+      "createdDate": "2021-06-04T00:47:25.919Z",
+      "filePath": "string",
+      "imgFullPath": "string",
+      "likeCount": 0,
+      "open": true,
+      "reqCount": 0,
+      "title": "string",
+      "viewCount": 0
     }
 
     let detailList = []
@@ -215,7 +223,7 @@ const CreateTimeline = () => {
     <CreateTimelineDiv>
       <h1>타임라인 생성하기</h1>
       <br />
-      <Form onSubmit={onCreateTimeline}>
+      <Form onSubmit={onCreateTimeline} encType="multipart/form-data">
         <div>
           <Form.Item
             label="타임라인 제목"
@@ -254,6 +262,11 @@ const CreateTimeline = () => {
               <Option value="false">비공개</Option>
               <Option value="true">공개</Option>
             </Select>
+          </Form.Item>
+          <Form.Item
+            label="이미지"
+          >
+            <UploadImage />
           </Form.Item>
         </div>
         <Divider />
