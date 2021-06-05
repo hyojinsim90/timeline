@@ -75,18 +75,18 @@ select * from timeline_detail;
 select * from timeline_master;
 
 -- timeline_detail pk - 복합키(id, master_id로 설정해줌)
-drop table timeline_detail;
-
-create table timeline_detail 
-(id int, 
-created_date datetime, 
-modified_date datetime, 
-content varchar(255),
-master_id bigint, 
-schedule_date date, 
-titile varchar(255), 
-primary key (id, master_id)
-) engine=InnoDB;
+--drop table timeline_detail;
+--
+--create table timeline_detail 
+--(id bigint, 
+--created_date datetime, 
+--modified_date datetime, 
+--content varchar(255),
+--master_id bigint, 
+--schedule_date date, 
+--titie varchar(255), 
+--primary key (id, master_id)
+--) engine=InnoDB;
 
 commit;]]></console>
     </connection>
