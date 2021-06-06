@@ -38,6 +38,46 @@ public class TimelineService {
     private S3Service s3Service;
 
 
+    /* 전체 타임라인 마스터 조회 */
+    @Transactional(readOnly = true)
+    public List<TimelineMasterListResponseDto> findAllMaster() {
+        log.info("[ timeline_master 전체 조회 ]");
+
+        return timelineMasterRepository.findAll().stream()
+                .map(TimelineMasterListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 내 타임라인 마스터 조회 */
+    @Transactional(readOnly = true)
+    public List<TimelineMasterListResponseDto> getMytimelieMaster(String author) {
+
+        return timelineMasterRepository.findByAuthor(author).stream()
+                .map(TimelineMasterListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 조회수 top 10 조회 */
+    @Transactional(readOnly = true)
+    public List<TimelineMasterListResponseDto> findMasterView() {
+        log.info("[ timeline_master 조회수 TOP 10 조회 ]");
+
+        return timelineMasterRepository.findTop10ByOrderByViewCountDesc().stream()
+                .map(TimelineMasterListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 추천수 top 10 조회 */
+    @Transactional(readOnly = true)
+    public List<TimelineMasterListResponseDto> findMasterLike() {
+        log.info("[ timeline_master 추천수 TOP 10 조회 ]");
+
+        return timelineMasterRepository.findTop10ByOrderByLikeCountDesc().stream()
+                .map(TimelineMasterListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 타임라인 마스터 저장 */
     @Transactional
     public TimelineMasterListResponseDto saveMaster(TimelineMasterSaveRequestDto timelineMasterSaveRequestDto) throws IOException {
         log.info("[ timeline_master 저장 ]");
@@ -50,6 +90,22 @@ public class TimelineService {
 
     }
 
+    /* 타임라인 마스터 수정 */
+    @Transactional
+    public TimelineMasterListResponseDto updateMaster(Long id, TimelineMasterUpdateRequestDto masterUpdateDto, MultipartFile file) throws IOException {
+        log.info("[ timeline_master 수정 ]");
+
+        TimelineMaster master = timelineMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + id));
+
+        master.update(masterUpdateDto.getTitle(), masterUpdateDto.getFilePath(), masterUpdateDto.getCategory(), masterUpdateDto.isOpen(), masterUpdateDto.isComplete());
+
+        log.info("[ master ] " + master );
+
+        return new TimelineMasterListResponseDto(master);
+
+    }
+
+    /* 타임라인 디테일 저장 */
     @Transactional
     public ResponseEntity<List<TimelineDetail>> saveDetail(List<TimelineDetailSaveRequestDto> timelineDetailList) {
         log.info("[ timeline_detail 저장 ]");
@@ -81,32 +137,6 @@ public class TimelineService {
 
         // timeline_detail List전체 저장
         return ResponseEntity.ok(timelineDetailRepository.saveAll(timelineDetails));
-    }
-
-
-    /* 전체 타임라인 마스터 정보 가져옴 */
-    @Transactional(readOnly = true)
-    public List<TimelineMasterListResponseDto> findAllMaster() {
-        log.info("[ timeline_master 전체 조회 ]");
-
-        return timelineMasterRepository.findAll().stream()
-                .map(TimelineMasterListResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    /* 타임라인 마스터 수정 */
-    @Transactional
-    public TimelineMasterListResponseDto updateMaster(Long id, TimelineMasterUpdateRequestDto masterUpdateDto, MultipartFile file) throws IOException {
-        log.info("[ timeline_master 수정 ]");
-
-        TimelineMaster master = timelineMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + id));
-
-        master.update(masterUpdateDto.getTitle(), masterUpdateDto.getFilePath(), masterUpdateDto.getCategory(), masterUpdateDto.isOpen(), masterUpdateDto.isComplete());
-
-        log.info("[ master ] " + master );
-
-        return new TimelineMasterListResponseDto(master);
-
     }
 
     /* 타임라인 디테일 수정 */
@@ -145,4 +175,5 @@ public class TimelineService {
 
         return ResponseEntity.ok(timelineDetails);
     }
+
 }

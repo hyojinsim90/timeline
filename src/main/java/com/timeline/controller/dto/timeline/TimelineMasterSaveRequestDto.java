@@ -32,7 +32,6 @@ public class TimelineMasterSaveRequestDto {
                 .category(category)
                 .viewCount(0)
                 .likeCount(0)
-                .reqCount(0)
                 .isOpen(isOpen)
                 .isComplete(isComplete)
                 .build();

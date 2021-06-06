@@ -27,7 +27,6 @@ public class TimelineMasterListResponseDto {
     private String category; // 분야
     private int viewCount; // 조회수
     private int likeCount; // 추천수
-    private int reqCount; // 클래스 요청수
     private boolean isOpen; // 공개여부
     private boolean isComplete; // 진행여부
     private String imgFullPath; // CloudFront 주소 (이미지를 불러올때는 cloudFront도메인명+key가 되야함)
@@ -41,7 +40,6 @@ public class TimelineMasterListResponseDto {
         this.category = entity.getCategory();
         this.viewCount = entity.getViewCount();
         this.likeCount = entity.getLikeCount();
-        this.reqCount = entity.getReqCount();
         this.isOpen = entity.isOpen();
         this.isComplete = entity.isComplete();
         this.imgFullPath = "https://" + S3Service.CLOUD_FRONT_DOMAIN_NAME + "/" + entity.getFilePath();

@@ -35,6 +35,33 @@ public class TimelineController {
     private final TimelineService timelineService;
     private final S3Service s3Service;
 
+
+    /* 전체 타임라인 마스터 조회 */
+    @GetMapping("/master/list")
+    public List<TimelineMasterListResponseDto> findAllMaster() {
+        return timelineService.findAllMaster();
+    }
+
+    /* 타임라인 마스터 아이디별 조회 */
+
+    /* 내 타임라인 마스터 조회 */
+    @GetMapping("/master/{email}")
+    public ResponseEntity<List<TimelineMasterListResponseDto>> getMytimelieMaster(@PathVariable String email) {
+        return ResponseEntity.ok(timelineService.getMytimelieMaster(email));
+    }
+
+    /* 조회수 top 10 조회 */
+    @GetMapping("/master/list/view")
+    public List<TimelineMasterListResponseDto> findMasterView() {
+        return timelineService.findMasterView();
+    }
+
+    /* 추천수 top 10 조회 */
+    @GetMapping("/master/list/like")
+    public List<TimelineMasterListResponseDto> findMasterLike() {
+        return timelineService.findMasterLike();
+    }
+
     /* 타임라인 마스터 저장 */
     @PostMapping(path = "/master/save",consumes = {"multipart/form-data"})
     public ResponseEntity<TimelineMasterListResponseDto> saveMaster(@RequestPart(value="dto") TimelineMasterSaveRequestDto timelineMasterSaveRequestDto, @RequestPart(value="file") MultipartFile file) throws IOException {
@@ -51,18 +78,6 @@ public class TimelineController {
         return ResponseEntity.ok(timelineService.saveMaster(timelineMasterSaveRequestDto));
     }
 
-    /* 타임라인 디테일 저장 */
-    @PostMapping("/detail/save")
-    public ResponseEntity<List<TimelineDetail>> saveDetail(@RequestBody List<TimelineDetailSaveRequestDto> timelineDetailList) {
-        return timelineService.saveDetail(timelineDetailList);
-    }
-
-    /* 전체 타임라인 마스터 정보 가져옴 */
-    @GetMapping("/master/list")
-    public List<TimelineMasterListResponseDto> findAllMaster() {
-        return timelineService.findAllMaster();
-    }
-
     /* 타임라인 마스터 수정 */
     @PutMapping(path = "/master/{id}",consumes = {"multipart/form-data"})
     public ResponseEntity<TimelineMasterListResponseDto> updateMaster(@PathVariable Long id, @RequestPart(value="dto") TimelineMasterUpdateRequestDto timelineMasterUpdateRequestDto, @RequestPart MultipartFile file) throws IOException {
@@ -71,6 +86,12 @@ public class TimelineController {
         timelineMasterUpdateRequestDto.setFilePath(imgPath);
 
         return ResponseEntity.ok(timelineService.updateMaster(id, timelineMasterUpdateRequestDto, file));
+    }
+
+    /* 타임라인 디테일 저장 */
+    @PostMapping("/detail/save")
+    public ResponseEntity<List<TimelineDetail>> saveDetail(@RequestBody List<TimelineDetailSaveRequestDto> timelineDetailList) {
+        return timelineService.saveDetail(timelineDetailList);
     }
 
     /* 타임라인 디테일 수정 */
