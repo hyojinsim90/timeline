@@ -34,6 +34,7 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
 
           if(date.getTime() > expTime) {
 
+            // 로그인 후 3시간 이상 지났을 때는 cookie 삭제
             if(date.getTime() > over3h) {
               removeCookies()
             }
@@ -54,7 +55,11 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
         // cookie에 token 관련 값 4개 중 하나라도 없으면 쿠키 삭제 후 login 페이지로 이동
         } else {
           if (option) {
-            removeCookies()
+            removeCookie("tl_e")
+            removeCookie("tl_re")
+            removeCookie("tl_exp")
+            removeCookie("tl_token")
+            props.history.push("/login")
           }
         }
       }, [cookies])

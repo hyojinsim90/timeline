@@ -21,7 +21,6 @@ const TimelineDiv = styled.div`
 `
 
 const MyTimeline = () => {
-  const [timelineList, setTimelineList] = useState([])
   const [list, setList] = useState([])
 
   const user = useSelector(state => state.user)
@@ -65,4 +64,4 @@ const MyTimeline = () => {
   )
 }
 
-export default MyTimeline;
+export default MyTimeline
