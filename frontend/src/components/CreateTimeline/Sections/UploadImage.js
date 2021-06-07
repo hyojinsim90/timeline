@@ -12,19 +12,11 @@ const UploadImageDiv = styled.div`
   justify-content: center;
 `
 
-const UploadImage = () => {
-
-  const onDrop = (files) => {
-  let formData = new FormData();
-  const config = {
-    header: {'content-type': 'multipart/form-data'}
-  }
-  formData.append("file", files[0])
-}
+const UploadImage = (props) => {
 
   return (
     <UploadImageDiv>
-      <Dropzone onDrop={onDrop} multiple={false} maxSize={800000000}>
+      <Dropzone onDrop={props.onDrop} multiple={false} maxSize={800000000}>
         {({ getRootProps, getInputProps }) => (
           <div
             {...getRootProps()}

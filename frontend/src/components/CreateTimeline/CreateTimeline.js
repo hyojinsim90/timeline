@@ -55,6 +55,7 @@ const CreateTimeline = () => {
   const [category, setCategory] = useState("경제")
   const [complete, setComplete] = useState(false)
   const [open, setOpen] = useState(false)
+  const [files, setFiles] = useState([])
 
   const user = useSelector(state => state.user)
   const history = useHistory()
@@ -62,19 +63,15 @@ const CreateTimeline = () => {
   const formdata = new FormData()
 
   const onCreateTimeline = (e) => {
-    let variables = {
-      "author": "string",
-      "category": "string",
-      "complete": true,
-      "createdDate": "2021-06-04T00:47:25.919Z",
-      "filePath": "string",
-      "imgFullPath": "string",
-      "likeCount": 0,
-      "open": true,
-      "reqCount": 0,
-      "title": "string",
-      "viewCount": 0
-    }
+
+    let formData = new FormData()
+
+    formData.append("file", new Blob([files[0]], {type: "multipart/form-data"}))
+
+
+    let variables = {"author": "string","category": "string","complete": true,"createdDate": "2021-06-04T00:47:25.919Z","filePath": "string","imgFullPath": "string","likeCount": 0,"open": true,"reqCount": 0,"title": "string","viewCount": 0}
+
+    formData.append("dto", new Blob([variables], {type: "application/json"}))
 
     let detailList = []
     let valid = true
@@ -103,7 +100,7 @@ const CreateTimeline = () => {
     })
 
     if(valid) {
-      Axios.post("/timeline/master/save", variables)
+      Axios.post("/timeline/master/save", formData)
         .then(res => {
           // master에서 id값 return하면 받아서 detail 저장
           if(res.data.id) {
@@ -219,11 +216,20 @@ const CreateTimeline = () => {
     onDeleteDetailContent(i)
   }
 
+  const onDrop = (files) => {
+    setFiles(files)
+    let formData = new FormData()
+    const config = {
+      header: {"content-type": "multipart/form-data"}
+    }
+    formData.append("file", files[0])
+  }
+
   return (
     <CreateTimelineDiv>
       <h1>타임라인 생성하기</h1>
       <br />
-      <Form onSubmit={onCreateTimeline} encType="multipart/form-data">
+      <Form onSubmit={onCreateTimeline}>
         <div>
           <Form.Item
             label="타임라인 제목"
@@ -266,7 +272,7 @@ const CreateTimeline = () => {
           <Form.Item
             label="이미지"
           >
-            <UploadImage />
+            <UploadImage onDrop={onDrop} />
           </Form.Item>
         </div>
         <Divider />
