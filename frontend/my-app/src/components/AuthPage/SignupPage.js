@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
-import styled from 'styled-components';
-import Axios from 'axios'
-import { useHistory } from 'react-router-dom'
+import React, { useState } from "react"
+import { Form, Input, Button } from "antd"
+import styled from "styled-components"
+import Axios from "axios"
+import { useHistory } from "react-router-dom"
 
 const SignupDiv = styled.div`
   padding: 3rem 0;
@@ -17,6 +17,10 @@ const SignupDiv = styled.div`
         text-align: center;
       }
     }
+    // 닉네임 영역
+    #nickname {
+      display: flex;
+    }
     label {
       margin-bottom: 1rem;
     }
@@ -26,20 +30,23 @@ const SignupDiv = styled.div`
         height: 100%;
       }
     }
-    button {
-      width: 100%;
-      background: black;
-      color: #ffffff;
-      margin-top: 1rem;
+    .ant-form-item:last-child {
+      button {
+        width: 100%;
+        background: black;
+        color: #ffffff;
+        margin-top: 1rem;
+      }
     }
   }
 `;
 
 const SignupPage = () => {
-  const [email, setEmail] = useState('')
-  const [nickname, setNickname] = useState('')
-  const [password1, setPassword1] = useState('')
-  const [password2, setPassword2] = useState('')
+  const [email, setEmail] = useState("")
+  const [nickname, setNickname] = useState("")
+  const [password1, setPassword1] = useState("")
+  const [password2, setPassword2] = useState("")
+  const [checkDuplicate, setCheckDuplicate] = useState(false)
 
   const history = useHistory()
 
@@ -49,6 +56,7 @@ const SignupPage = () => {
 
   const onChangeNickname = (e) => {
     setNickname(e.target.value)
+    setCheckDuplicate(false)
   }
 
   const onChangePwd1 = (e) => {
@@ -59,17 +67,47 @@ const SignupPage = () => {
     setPassword2(e.target.value)
   }
 
+  // 중복확인 체크
+  const onCheckDup = () => {
+    Axios.get("/auth/nicknames")
+      .then(res => {
+        const duplicate = res.data.filter(item => item.nickname === nickname)
+        // 닉네임 중복일 경우
+        if(duplicate.length > 0) {
+          alert("이미 사용 중인 닉네임입니다")
+        } else {
+          setCheckDuplicate(true)
+          alert("사용할 수 있는 닉네임입니다")
+        }
+      })
+  }
+
   const onSignup = () => {
     const variables = {
-      'email': email,
-      'nickname': nickname,
-      'password': password2
+      "email": email,
+      "nickname": nickname,
+      "password": password2
     }
 
-    Axios.post('/auth/signup', variables)
-      .then(res => {
-        history.push('/login')
-      })
+    // 닉네임 중복확인 필수
+    if(checkDuplicate) {
+      Axios.get(`/auth/findPw/checkmail/${email}`)
+        .then(res => {
+          // 이메일 중복 없을 경우에만 회원가입 후 로그인 페이지로 이동
+          if(res.data === false) {
+            Axios.post("/auth/signup", variables)
+              .then(response => {
+                history.push("/login")
+              })
+          // 이메일 중복 있을 경우 alert
+          } else {
+            alert("사용할 수 없는 이메일입니다")
+          }
+        })
+    // 닉네임 중복확인 안 했을 경우
+    } else {
+      alert("닉네임 중복확인을 해주세요")
+    }
   }
 
   return (
@@ -89,7 +127,10 @@ const SignupPage = () => {
           name="nickname"
           rules={[{ required: true }]}
         >
-          <Input onChange={onChangeNickname} />
+          <div>
+            <Input onChange={onChangeNickname} />
+            <Button onClick={onCheckDup}>중복확인</Button>
+          </div>
         </Form.Item>
         <Form.Item
           label="비밀번호(8~16자):"

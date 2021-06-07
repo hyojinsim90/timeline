@@ -64,7 +64,7 @@ public class TimelineController {
 
     /* 타임라인 마스터 저장 */
     @PostMapping(path = "/master/save",consumes = {"multipart/form-data"})
-    public ResponseEntity<TimelineMasterListResponseDto> saveMaster(@RequestPart(value="dto") TimelineMasterSaveRequestDto timelineMasterSaveRequestDto, @RequestPart(value="file") MultipartFile file) throws IOException {
+    public ResponseEntity<TimelineMasterListResponseDto> saveMaster(@RequestPart(value="dto")  List<TimelineMasterSaveRequestDto> timelineMasterSaveRequestDto, @RequestPart(value="file") MultipartFile file) throws IOException {
         log.info("[/master/save]");
 
         /* 수정시 명심 !
@@ -72,20 +72,20 @@ public class TimelineController {
         MultipartFile의 파일 : 업로드될, 수정될 파일
          */
 
-        String imgPath = s3Service.upload(timelineMasterSaveRequestDto.getFilePath(), file);
-        timelineMasterSaveRequestDto.setFilePath(imgPath);
+        String imgPath = s3Service.upload(timelineMasterSaveRequestDto.get(0).getFilePath(), file);
+        timelineMasterSaveRequestDto.get(0).setFilePath(imgPath);
 
-        return ResponseEntity.ok(timelineService.saveMaster(timelineMasterSaveRequestDto));
+        return ResponseEntity.ok(timelineService.saveMaster(timelineMasterSaveRequestDto.get(0)));
     }
 
     /* 타임라인 마스터 수정 */
     @PutMapping(path = "/master/{id}",consumes = {"multipart/form-data"})
-    public ResponseEntity<TimelineMasterListResponseDto> updateMaster(@PathVariable Long id, @RequestPart(value="dto") TimelineMasterUpdateRequestDto timelineMasterUpdateRequestDto, @RequestPart MultipartFile file) throws IOException {
+    public ResponseEntity<TimelineMasterListResponseDto> updateMaster(@PathVariable Long id, @RequestPart(value="dto") List<TimelineMasterUpdateRequestDto> timelineMasterUpdateRequestDto, @RequestPart MultipartFile file) throws IOException {
 
-        String imgPath = s3Service.upload(timelineMasterUpdateRequestDto.getFilePath(), file);
-        timelineMasterUpdateRequestDto.setFilePath(imgPath);
+        String imgPath = s3Service.upload(timelineMasterUpdateRequestDto.get(0).getFilePath(), file);
+        timelineMasterUpdateRequestDto.get(0).setFilePath(imgPath);
 
-        return ResponseEntity.ok(timelineService.updateMaster(id, timelineMasterUpdateRequestDto, file));
+        return ResponseEntity.ok(timelineService.updateMaster(id, timelineMasterUpdateRequestDto.get(0), file));
     }
 
     /* 타임라인 디테일 저장 */

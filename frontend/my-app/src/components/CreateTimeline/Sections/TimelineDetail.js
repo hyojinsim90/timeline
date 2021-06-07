@@ -4,6 +4,9 @@ import styled from "styled-components"
 import { CloseSquareOutlined } from "@ant-design/icons"
 
 const DetailDiv = styled.div`
+  div:first-child .ant-divider {
+    border: none;
+  }
   div {
     display: flex;
     flex-direction: column;
