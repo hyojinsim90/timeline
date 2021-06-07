@@ -6,6 +6,21 @@ import { useSelector } from "react-redux"
 
 const TimelineListDiv = styled.div`
   padding: 3rem 2rem;
+  td {
+    div {
+      div {
+        width: 100PX;
+        height: 100PX;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
 `
 
 const TimelineList = () => {
@@ -16,8 +31,19 @@ const TimelineList = () => {
   const columns = [
     {
       title: '이미지',
-      dataIndex: 'image',
-      key: 'image',
+      dataIndex: 'imgFullPath',
+      key: 'imgFullPath',
+      render: imgFullPath => (
+        <div>
+          { imgFullPath ?
+            <img src={imgFullPath} />
+          :
+            <div>
+              NO IMAGE
+            </div>
+          }
+        </div>
+      )
     },
     {
       title: '제목',
