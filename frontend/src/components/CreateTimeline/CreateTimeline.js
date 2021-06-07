@@ -70,9 +70,9 @@ const CreateTimeline = () => {
     formData.append("file", new Blob([files[0]], {type: "multipart/form-data"}))
 
 
-    let variables = {"author":"timeline0418@gmail.com","category":"category","complete": true,"filePath":"","likeCount":0,"open": false,"title":"title13","viewCount":11}
+    let variables = {"author":"a@gmail.com","category":"category","complete": false,"filePath":"","likeCount":0,"open": true,"title":"title5","viewCount":11}
 
-    formData.append("dto", new Blob([variables], {type: "application/json"}))
+    formData.append("dto", new Blob([JSON.stringify(variables)], {type: "application/json"}))
 
     let detailList = []
     let valid = true

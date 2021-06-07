@@ -47,6 +47,9 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
                 window.location.reload()
                 props.history("/mypage")
               })
+              .catch(err => {
+                removeCookies()
+              })
             }
 
           // member 정보 가져오기 위해 header에 token 담아서 넘김
