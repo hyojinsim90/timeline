@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Card, Button, List } from "antd"
 import { Link } from "react-router-dom"
 import { PlusOutlined } from "@ant-design/icons"
@@ -31,10 +31,7 @@ const SomeTimeline = (props) => {
                 title={item.likeCount.toString()}
               />
               <List.Item.Meta
-                title={item.reqCount.toString()}
-              />
-              <List.Item.Meta
-                title={item.createDate}
+                title={item.createdDate.substring(0, 10)}
               />
             </List.Item>
           ))}
