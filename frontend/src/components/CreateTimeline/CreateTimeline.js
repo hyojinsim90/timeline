@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Form, Input, Select, Button, DatePicker, Divider } from "antd"
-import { Link, useHistory } from "react-router-dom"
+import { Form, Input, Select, Button, Divider } from "antd"
+import { useHistory } from "react-router-dom"
 import Axios from "axios"
 import { PlusCircleOutlined } from "@ant-design/icons"
 import TimelineDetail from "./Sections/TimelineDetail"
@@ -66,10 +66,11 @@ const CreateTimeline = () => {
 
     let formData = new FormData()
 
+
     formData.append("file", new Blob([files[0]], {type: "multipart/form-data"}))
 
 
-    let variables = {"author": "string","category": "string","complete": true,"createdDate": "2021-06-04T00:47:25.919Z","filePath": "string","imgFullPath": "string","likeCount": 0,"open": true,"reqCount": 0,"title": "string","viewCount": 0}
+    let variables = {"author":"timeline0418@gmail.com","category":"category","complete": true,"filePath":"","likeCount":0,"open": false,"title":"title13","viewCount":11}
 
     formData.append("dto", new Blob([variables], {type: "application/json"}))
 

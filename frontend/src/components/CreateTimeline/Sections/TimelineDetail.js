@@ -1,5 +1,5 @@
 import React from "react"
-import { Form, Input, DatePicker, Divider, Button } from "antd"
+import { Input, DatePicker, Divider, Button } from "antd"
 import styled from "styled-components"
 import { CloseSquareOutlined } from "@ant-design/icons"
 
