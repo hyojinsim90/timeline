@@ -60,17 +60,21 @@ const CreateTimeline = () => {
   const user = useSelector(state => state.user)
   const history = useHistory()
 
-  const formdata = new FormData()
-
   const onCreateTimeline = (e) => {
 
     let formData = new FormData()
 
+    formData.append("file", files[0])
 
-    formData.append("file", new Blob([files[0]], {type: "multipart/form-data"}))
-
-
-    let variables = {"author":"a@gmail.com","category":"category","complete": false,"filePath":"","likeCount":0,"open": true,"title":"title5","viewCount":11}
+    let variables = [{
+      "author": user.userData.email,
+      "category": category,
+      "complete": complete,
+      "open": open,
+      "title": title,
+      "likeCount": 0,
+      "viewCount": 0
+    }]
 
     formData.append("dto", new Blob([JSON.stringify(variables)], {type: "application/json"}))
 
@@ -103,6 +107,7 @@ const CreateTimeline = () => {
     if(valid) {
       Axios.post("/timeline/master/save", formData)
         .then(res => {
+          console.log(res);
           // master에서 id값 return하면 받아서 detail 저장
           if(res.data.id) {
             countList.forEach((item, i) => {
@@ -219,11 +224,7 @@ const CreateTimeline = () => {
 
   const onDrop = (files) => {
     setFiles(files)
-    let formData = new FormData()
-    const config = {
-      header: {"content-type": "multipart/form-data"}
-    }
-    formData.append("file", files[0])
+    console.log(files);
   }
 
   return (
