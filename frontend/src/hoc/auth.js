@@ -11,6 +11,15 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
       let user = useSelector(state => state.user)
       const dispatch = useDispatch()
 
+      const removeCookies = () => {
+        removeCookie("tl_e")
+        removeCookie("tl_re")
+        removeCookie("tl_exp")
+        removeCookie("tl_token")
+        window.location.reload()
+        props.history("/login")
+      }
+
       useEffect(() => {
         if(cookies.tl_e && cookies.tl_token && cookies.tl_re && cookies.tl_exp) {
           const date = new Date()
@@ -25,19 +34,8 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
 
           if(date.getTime() > expTime) {
 
-            // redux에 데이터값 없으면 새로고침
-            if(!user.userData) {
-              window.location.reload(true)
-            }
-
-            // 로그인 후 3시간 이상 지났을 때는 cookie 삭제
             if(date.getTime() > over3h) {
-              removeCookie("tl_e")
-              removeCookie("tl_re")
-              removeCookie("tl_exp")
-              removeCookie("tl_token")
-              window.location.reload()
-              props.history("/login")
+              removeCookies()
             }
 
             Axios.post("/auth/reissue", tokens)
@@ -56,11 +54,7 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
         // cookie에 token 관련 값 4개 중 하나라도 없으면 쿠키 삭제 후 login 페이지로 이동
         } else {
           if (option) {
-            removeCookie("tl_e")
-            removeCookie("tl_re")
-            removeCookie("tl_exp")
-            removeCookie("tl_token")
-            props.history.push("/login")
+            removeCookies()
           }
         }
       }, [cookies])
