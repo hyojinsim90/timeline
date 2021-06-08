@@ -27,8 +27,6 @@ const TimelineListDiv = styled.div`
 const TimelineList = (props) => {
   const [list, setList] = useState([])
 
-  const user = useSelector(state => state.user)
-
   const columns = [
     {
       title: '이미지',
@@ -63,9 +61,9 @@ const TimelineList = (props) => {
       render: complete => (
         <div>
           { complete ?
-            <Tag color="skyblue">진행중</Tag>
-            :
             <Tag color="mediumpurple">진행완료</Tag>
+            :
+            <Tag color="skyblue">진행중</Tag>
           }
         </div>
       ),
@@ -108,7 +106,7 @@ const TimelineList = (props) => {
 
   useEffect(() => {
     if(props.user.userData !== undefined && props.user.userData.email !== undefined) {
-      Axios.get(`/timeline/master/${user.userData.email}`)
+      Axios.get(`/timeline/master/${props.user.userData.email}`)
         .then(res => {
           if(res.data) {
             setList(res.data)

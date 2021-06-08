@@ -18,8 +18,7 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
         removeCookie("tl_re")
         removeCookie("tl_exp")
         removeCookie("tl_token")
-        window.location.reload()
-        props.history("/login")
+        history.push("/login")
       }
 
       useEffect(() => {
@@ -35,7 +34,6 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
           let over3h = expTime + 10800000
 
           if(date.getTime() > expTime) {
-
             // 로그인 후 3시간 이상 지났을 때는 cookie 삭제
             if(date.getTime() > over3h) {
               removeCookies()
@@ -46,8 +44,7 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
                 setCookie("tl_token", res.data.accessToken)
                 setCookie("tl_exp", res.data.accessTokenExpiresIn)
                 setCookie("tl_re", res.data.refreshToken)
-                window.location.reload()
-                props.history("/mypage")
+                history.push("/mypage")
               })
               .catch(err => {
                 removeCookies()
@@ -64,7 +61,7 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
             removeCookie("tl_re")
             removeCookie("tl_exp")
             removeCookie("tl_token")
-            props.history.push("/login")
+            history.push("/login")
           }
         }
       }, [cookies])

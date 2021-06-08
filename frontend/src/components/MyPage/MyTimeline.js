@@ -23,12 +23,10 @@ const MyTimeline = (props) => {
   const [allList, setAllList] = useState([])
   const [list, setList] = useState([])
 
-  const user = useSelector(state => state.user)
-
   useEffect(() => {
 
-    if(user.userData !== undefined && user.userData.email !== undefined) {
-      Axios.get(`/timeline/master/${user.userData.email}`)
+    if(props.user.userData !== undefined && props.user.userData.email !== undefined) {
+      Axios.get(`/timeline/master/${props.user.userData.email}`)
         .then(res => {
           if(res.data) {
             const latestData = res.data.slice(-3)
@@ -37,7 +35,7 @@ const MyTimeline = (props) => {
           }
         })
     }
-  }, [user])
+  }, [props.user])
 
   const onMoveToCreate = () => {
     // 타임라인 최대 저장 개수 20개로 제한 => 20개 초과하면 페이지 접근 x

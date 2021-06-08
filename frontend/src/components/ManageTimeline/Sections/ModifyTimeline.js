@@ -1,15 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { Form, Input, Select, Button, Divider, Tag } from "antd"
 import { useHistory } from "react-router-dom"
 import Axios from "axios"
 import { PlusCircleOutlined } from "@ant-design/icons"
-import TimelineDetail from "./Sections/TimelineDetail"
+import TimelineDetail from "../../CreateTimeline/Sections/TimelineDetail"
 import { useSelector } from "react-redux"
-import TimelineView from "./Sections/TimelineView"
-import UploadImage from "./Sections/UploadImage"
+import TimelineView from "../../CreateTimeline/Sections/TimelineView"
+import UploadImage from "../../CreateTimeline/Sections/UploadImage"
 
-const CreateTimelineDiv = styled.div`
+const ModifyTimelineDiv = styled.div`
   padding: 3rem 0;
   form {
     width: 100%;
@@ -38,7 +38,7 @@ const CreateTimelineDiv = styled.div`
   }
 `
 
-const CreateDetailDiv = styled.div`
+const ModifyDetailDiv = styled.div`
   display: flex;
   width: 100%;
   div {
@@ -48,20 +48,34 @@ const CreateDetailDiv = styled.div`
 
 const { Option } = Select
 
-const CreateTimeline = () => {
+const ModifyTimeline = (props) => {
   const [title, setTitle] = useState("")
   const [countList, setCountList] = useState([0])
   const [detailTitle, setDetailTitle] = useState([])
   const [detailDate, setDetailDate] = useState([])
   const [detailDateString, setDetailDateString] = useState([])
   const [detailContent, setDetailContent] = useState([])
-  const [category, setCategory] = useState("경제")
+  const [category, setCategory] = useState("")
   const [complete, setComplete] = useState(false)
   const [open, setOpen] = useState(false)
   const [files, setFiles] = useState([])
+  const [filepath, setFilepath] = useState("")
 
   const user = useSelector(state => state.user)
   const history = useHistory()
+
+  useEffect(() => {
+    if(props.timeline[0] !== undefined) {
+      setTitle(props.timeline[0].title)
+      setCategory(props.timeline[0].category)
+      setComplete(props.timeline[0].complete)
+      setOpen(props.timeline[0].open)
+      if(props.timeline[0].filePath !== "") {
+        const path = props.timeline[0].filePath.split("-")[0]
+        setFilepath(path)
+      }
+    }
+  }, [props.timeline])
 
   const onCreateTimeline = (e) => {
 
@@ -229,26 +243,24 @@ const CreateTimeline = () => {
   }
 
   return (
-    <CreateTimelineDiv>
-      <h1>타임라인 생성하기</h1>
+    <ModifyTimelineDiv>
+      <h1>타임라인 수정하기</h1>
       <br />
       <Form onSubmit={onCreateTimeline}>
         <div>
           <Form.Item
             label="타임라인 제목"
-            name="title"
           >
             <Input
               type="text"
               onChange={onChangeTitle}
               value={title}
-              required
             />
           </Form.Item>
           <Form.Item
             label="분야"
           >
-            <Select defaultValue="생활" onChange={onSelectCategory}>
+            <Select value={category} onChange={onSelectCategory}>
               <Option value="생활">생활</Option>
               <Option value="여행">여행</Option>
               <Option value="문화">문화</Option>
@@ -259,7 +271,7 @@ const CreateTimeline = () => {
           <Form.Item
             label="진행 여부"
           >
-            <Select defaultValue="false" onChange={onSelectComplete}>
+            <Select value={complete.toString()} onChange={onSelectComplete}>
               <Option value="false">진행중</Option>
               <Option value="true">진행완료</Option>
             </Select>
@@ -267,7 +279,7 @@ const CreateTimeline = () => {
           <Form.Item
             label="공개 여부"
           >
-            <Select defaultValue="false" onChange={onSelectOpen}>
+            <Select value={open.toString()} onChange={onSelectOpen}>
               <Option value="false">비공개</Option>
               <Option value="true">공개</Option>
             </Select>
@@ -276,13 +288,16 @@ const CreateTimeline = () => {
             label="이미지"
           >
             <UploadImage onDrop={onDrop} />
-            {files[0] &&
+            {files[0] ?
               <Tag color="black">{files[0].path}</Tag>
+              :
+              filepath &&
+              <Tag color="black">{filepath}</Tag>
             }
           </Form.Item>
         </div>
         <Divider />
-        <CreateDetailDiv>
+        <ModifyDetailDiv>
           <div>
             <TimelineDetail countList={countList} onDeleteDetail={onDeleteDetail} onChangeDetailTitle={onChangeDetailTitle} detailTitle={detailTitle}
               onChangeDate={onChangeDate} detailDate={detailDate} onchangeDetailContent={onchangeDetailContent} detailContent={detailContent} />
@@ -293,10 +308,10 @@ const CreateTimeline = () => {
           <div>
             <TimelineView countList={countList} detailTitle={detailTitle} detailDateString={detailDateString} detailContent={detailContent}/>
           </div>
-        </CreateDetailDiv>
-        <Button size="large" onClick={onCreateTimeline}>생성하기</Button>
+        </ModifyDetailDiv>
+        <Button size="large" onClick={onCreateTimeline}>수정하기</Button>
       </Form>
-    </CreateTimelineDiv>
+    </ModifyTimelineDiv>
   )
 }
-export default CreateTimeline
+export default ModifyTimeline
