@@ -3,6 +3,7 @@ import { Table, Tag } from "antd"
 import styled from "styled-components"
 import Axios from "axios"
 import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 
 const TimelineListDiv = styled.div`
   padding: 3rem 2rem;
@@ -23,7 +24,7 @@ const TimelineListDiv = styled.div`
   }
 `
 
-const TimelineList = () => {
+const TimelineList = (props) => {
   const [list, setList] = useState([])
 
   const user = useSelector(state => state.user)
@@ -106,9 +107,7 @@ const TimelineList = () => {
  ]
 
   useEffect(() => {
-    let idList = []
-
-    if(user.userData !== undefined && user.userData.email !== undefined) {
+    if(props.user.userData !== undefined && props.user.userData.email !== undefined) {
       Axios.get(`/timeline/master/${user.userData.email}`)
         .then(res => {
           if(res.data) {
@@ -116,11 +115,19 @@ const TimelineList = () => {
           }
         })
     }
-  }, [user])
+  }, [props.user])
 
   return (
     <TimelineListDiv>
-      <Table columns={columns} dataSource={list} rowKey={list => list.id} pagination={false} />
+      <Table columns={columns} dataSource={list} rowKey={list => list.id} pagination={false}
+        onRow={(record, rowIndex) => {
+        return {
+          onClick: () => {
+            props.history.push(`/timelinelist/${record.id}`)
+          },
+        }
+      }}
+      />
     </TimelineListDiv>
   )
 }

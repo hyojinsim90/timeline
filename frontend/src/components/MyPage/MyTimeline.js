@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import MenuBar from "./Sections/MenuBar"
 import { Row, Col, Card, Button } from "antd"
 import styled from "styled-components"
-import { Link } from "react-router-dom"
 import SomeTimeline from "./Sections/SomeTimeline"
 import { useSelector } from "react-redux"
 import Axios from "axios"
@@ -20,7 +19,8 @@ const TimelineDiv = styled.div`
   }
 `
 
-const MyTimeline = () => {
+const MyTimeline = (props) => {
+  const [allList, setAllList] = useState([])
   const [list, setList] = useState([])
 
   const user = useSelector(state => state.user)
@@ -32,11 +32,21 @@ const MyTimeline = () => {
         .then(res => {
           if(res.data) {
             const latestData = res.data.slice(-3)
+            setAllList(res.data)
             setList(latestData)
           }
         })
     }
   }, [user])
+
+  const onMoveToCreate = () => {
+    // 타임라인 최대 저장 개수 20개로 제한 => 20개 초과하면 페이지 접근 x
+    if(allList.length > 19) {
+      alert("타임라인은 최대 20개까지 작성할 수 있습니다")
+    } else {
+      props.history.push("/createtimeline")
+    }
+  }
 
   return (
     <div>
@@ -44,7 +54,7 @@ const MyTimeline = () => {
       <TimelineDiv>
         <Row gutter={16}>
           <Col span={24}>
-            <Card title="내 타임라인" bordered={false} extra={<Link to="/createtimeline"><Button size="large">생성하기</Button></Link>}>
+            <Card title="내 타임라인" bordered={false} extra={<Button size="large" onClick={onMoveToCreate}>생성하기</Button>}>
               <SomeTimeline list={list} />
             </Card>
           </Col>

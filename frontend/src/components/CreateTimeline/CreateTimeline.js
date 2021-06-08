@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Form, Input, Select, Button, Divider } from "antd"
+import { Form, Input, Select, Button, Divider, Tag } from "antd"
 import { useHistory } from "react-router-dom"
 import Axios from "axios"
 import { PlusCircleOutlined } from "@ant-design/icons"
@@ -21,6 +21,9 @@ const CreateTimelineDiv = styled.div`
       justify-content: center;
       .ant-form-item-label {
         text-align: center;
+      }
+      .ant-tag {
+        margin-top: 20px;
       }
     }
     label {
@@ -67,13 +70,13 @@ const CreateTimeline = () => {
     formData.append("file", files[0])
 
     let variables = [{
-      "author": user.userData.email,
-      "category": category,
-      "complete": complete,
-      "open": open,
-      "title": title,
-      "likeCount": 0,
-      "viewCount": 0
+      author: user.userData.email,
+      category: category,
+      complete: complete,
+      open: open,
+      title: title,
+      likeCount: 0,
+      viewCount: 0
     }]
 
     formData.append("dto", new Blob([JSON.stringify(variables)], {type: "application/json"}))
@@ -107,7 +110,6 @@ const CreateTimeline = () => {
     if(valid) {
       Axios.post("/timeline/master/save", formData)
         .then(res => {
-          console.log(res);
           // master에서 id값 return하면 받아서 detail 저장
           if(res.data.id) {
             countList.forEach((item, i) => {
@@ -224,7 +226,6 @@ const CreateTimeline = () => {
 
   const onDrop = (files) => {
     setFiles(files)
-    console.log(files);
   }
 
   return (
@@ -274,7 +275,10 @@ const CreateTimeline = () => {
           <Form.Item
             label="이미지"
           >
-            <UploadImage onDrop={onDrop} />
+            <UploadImage onDrop={onDrop} files={files} />
+            {files[0] &&
+              <Tag color="black">{files[0].path}</Tag>
+            }
           </Form.Item>
         </div>
         <Divider />

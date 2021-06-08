@@ -3,12 +3,14 @@ import { auth } from "../_actions/user_actions"
 import { useSelector, useDispatch } from "react-redux"
 import { useCookies } from "react-cookie"
 import Axios from "axios"
+import { useHistory } from "react-router-dom"
 
 export default function authHoc(SpecificComponent, option, adminRoute = null) {
     function AuthenticationCheck(props) {
 
       const [cookies, setCookie, removeCookie] = useCookies([])
       let user = useSelector(state => state.user)
+      const history = useHistory()
       const dispatch = useDispatch()
 
       const removeCookies = () => {
