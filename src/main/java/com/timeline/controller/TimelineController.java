@@ -64,7 +64,7 @@ public class TimelineController {
 
     /* 타임라인 마스터 저장 */
     @PostMapping(path = "/master/save",consumes = {"multipart/form-data"})
-    public ResponseEntity<TimelineMasterListResponseDto> saveMaster(@RequestPart(value="dto")  List<TimelineMasterSaveRequestDto> timelineMasterSaveRequestDto, @RequestPart(value="file") MultipartFile file) throws IOException {
+    public ResponseEntity<TimelineMasterListResponseDto> saveMaster(@RequestPart(value="dto")  TimelineMasterSaveRequestDto timelineMasterSaveRequestDto, @RequestPart(value="file") MultipartFile file) throws IOException {
         log.info("[/master/save]");
 
         /* 수정시 명심 !
@@ -72,10 +72,10 @@ public class TimelineController {
         MultipartFile의 파일 : 업로드될, 수정될 파일
          */
 
-        String imgPath = s3Service.upload(timelineMasterSaveRequestDto.get(0).getFilePath(), file);
-        timelineMasterSaveRequestDto.get(0).setFilePath(imgPath);
+        String imgPath = s3Service.upload(timelineMasterSaveRequestDto.getFilePath(), file);
+        timelineMasterSaveRequestDto.setFilePath(imgPath);
 
-        return ResponseEntity.ok(timelineService.saveMaster(timelineMasterSaveRequestDto.get(0)));
+        return ResponseEntity.ok(timelineService.saveMaster(timelineMasterSaveRequestDto));
     }
 
     /* 타임라인 마스터 수정 */
@@ -86,6 +86,12 @@ public class TimelineController {
         timelineMasterUpdateRequestDto.get(0).setFilePath(imgPath);
 
         return ResponseEntity.ok(timelineService.updateMaster(id, timelineMasterUpdateRequestDto.get(0), file));
+    }
+
+    /* 내 타임라인 디테일 조회 */
+    @GetMapping("/detail/{masterId}")
+    public ResponseEntity<List<TimelineDetail>> getMytimelieDetail(@PathVariable Long masterId) {
+        return timelineService.getMytimelieDetail(masterId);
     }
 
     /* 타임라인 디테일 저장 */
@@ -101,6 +107,10 @@ public class TimelineController {
         return ResponseEntity.ok(timelineService.updateDetail(masterId, timelineDetailList));
     }
 
-
+    /* 타임라인 삭제 */
+    @DeleteMapping("/{masterId}")
+    public void delete(@PathVariable Long masterId) {
+        timelineService.delete(masterId);
+    }
 
 }

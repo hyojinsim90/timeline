@@ -1,9 +1,11 @@
 package com.timeline.service;
 
+import com.google.common.collect.Lists;
 import com.timeline.controller.dto.member.MemberListResponseDto;
 import com.timeline.controller.dto.member.MemberUpdateRequestDto;
 import com.timeline.controller.dto.timeline.*;
 import com.timeline.entity.Member;
+import com.timeline.entity.RefreshToken;
 import com.timeline.entity.TimelineDetail;
 import com.timeline.entity.TimelineMaster;
 import com.timeline.repository.TimelineDetailRepository;
@@ -51,6 +53,7 @@ public class TimelineService {
     /* 내 타임라인 마스터 조회 */
     @Transactional(readOnly = true)
     public List<TimelineMasterListResponseDto> getMytimelieMaster(String author) {
+        log.info("[ 내 timeline_master 조회 ]");
 
         return timelineMasterRepository.findByAuthor(author).stream()
                 .map(TimelineMasterListResponseDto::new)
@@ -103,6 +106,13 @@ public class TimelineService {
 
         return new TimelineMasterListResponseDto(master);
 
+    }
+
+    /* 내 타임라인 디테일 조회 */
+    public ResponseEntity<List<TimelineDetail>> getMytimelieDetail(Long masterId) {
+        log.info("[ 내 timeline_detail 조회 ]");
+
+        return ResponseEntity.ok(timelineDetailRepository.findByMasterId(masterId));
     }
 
     /* 타임라인 디테일 저장 */
@@ -176,4 +186,18 @@ public class TimelineService {
         return ResponseEntity.ok(timelineDetails);
     }
 
+    /* 타임라인 삭제 */
+    public void delete(Long masterId) {
+
+        TimelineMaster timelineMaster = timelineMasterRepository.findById(masterId).orElseThrow(() -> new IllegalArgumentException("timeline_master 정보가 없습니다. masterId =" + masterId));
+        List<TimelineDetail> timelineDetail = timelineDetailRepository.findByMasterId(masterId);
+
+        timelineMasterRepository.delete(timelineMaster);
+
+        for (int i = 0; i < timelineDetail.size(); i++) {
+            timelineDetailRepository.delete(timelineDetail.get(i));
+        }
+
+
+    }
 }
