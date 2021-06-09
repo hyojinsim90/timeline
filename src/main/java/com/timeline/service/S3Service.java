@@ -66,7 +66,7 @@ public class S3Service {
 
         if(file.getSize()<10){
 
-            String absolutePath = new File("").getAbsolutePath() + "\\";
+            String absolutePath = new File("").getAbsolutePath();
             File orifile = new File(absolutePath + "/timeline/src/main/resources/image/timeline.jpg");
 
             // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
