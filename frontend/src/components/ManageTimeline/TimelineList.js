@@ -4,6 +4,7 @@ import styled from "styled-components"
 import Axios from "axios"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import { DeleteOutlined } from "@ant-design/icons"
 
 const TimelineListDiv = styled.div`
   padding: 3rem 2rem;
@@ -102,6 +103,16 @@ const TimelineList = (props) => {
         </div>
       )
     },
+    {
+      title: '삭제',
+      dataIndex: 'id',
+      key: 'id',
+      render: (id) => (
+        <div>
+          <DeleteOutlined onClick={() => onDeleteTimeline(id)} />
+        </div>
+      )
+    },
  ]
 
   useEffect(() => {
@@ -114,6 +125,15 @@ const TimelineList = (props) => {
         })
     }
   }, [props.user])
+
+  const onDeleteTimeline = (id) => {
+    Axios.delete(`/timeline/${id}`)
+      .then(res => {
+        if(res.status === 200) {
+          alert("삭제되었습니다")
+        }
+      })
+  }
 
   return (
     <TimelineListDiv>
