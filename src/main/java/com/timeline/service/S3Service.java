@@ -62,6 +62,7 @@ public class S3Service {
         // S3에 직접 접근하는 것이 아닌, CloudFront을 통해 캐싱된 이미지를 가져올 것
 
         log.info("[file - getSize]" + file.getSize());
+        
 
         if(file.getSize()<10){
 
