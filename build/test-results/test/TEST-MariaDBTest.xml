@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MariaDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-06-03T03:01:49" hostname="DESKTOP-UK9VMDU" time="0.362">
+<testsuite name="MariaDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-06-08T19:16:09" hostname="DESKTOP-UK9VMDU" time="0.066">
   <properties/>
-  <testcase name="test()" classname="MariaDBTest" time="0.362"/>
-  <system-out><![CDATA[org.mariadb.jdbc.MariaDbConnection@5a2fc10f
+  <testcase name="test()" classname="MariaDBTest" time="0.066"/>
+  <system-out><![CDATA[absolutePath : C:\Users\tlagy\Desktop\개발 공부\프로젝트\timeline\
+file.getAbsolutePath : C:\Users\tlagy\Desktop\개발 공부\프로젝트\timeline\src\main\resources\image\timeline.jpg
+file.getName : timeline.jpg
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,1 +1,3 @@
--org.mariadb.jdbc.MariaDbConnection@5a2fc10f
+LabsolutePath : C:\Users\tlagy\Desktop\개발 공부\프로젝트\timeline\
+yfile.getAbsolutePath : C:\Users\tlagy\Desktop\개발 공부\프로젝트\timeline\src\main\resources\image\timeline.jpg
+file.getName : timeline.jpg
