@@ -18,8 +18,8 @@ com/timeline/oauth/social/KakaoOauth.java
  com.timeline.oauth.social.KakaoOauth
 com/timeline/repository/TimelineMasterRepository.java
  com.timeline.repository.TimelineMasterRepository
-com/timeline/oauth/SocialLoginType.java
- com.timeline.oauth.SocialLoginType
+com/timeline/controller/OauthController.java
+ com.timeline.controller.OauthController
 com/timeline/controller/dto/member/MemberListResponseDto.java
  com.timeline.controller.dto.member.MemberListResponseDto
 com/timeline/entity/TimelineDetail.java
@@ -57,9 +57,8 @@ com/timeline/util/SecurityUtil.java
  com.timeline.util.SecurityUtil
 com/timeline/controller/dto/auth/TokenRequestDto.java
  com.timeline.controller.dto.auth.TokenRequestDto
-com/timeline/entity/Member.java
- com.timeline.entity.Member
- com.timeline.entity.Member$MemberBuilder
+com/timeline/controller/TimelineController.java
+ com.timeline.controller.TimelineController
 com/timeline/controller/dto/timeline/TimelineDetailUpdateRequestDto.java
  com.timeline.controller.dto.timeline.TimelineDetailUpdateRequestDto
 com/timeline/service/AuthService.java
@@ -87,8 +86,8 @@ com/timeline/entity/BaseTimeEntity.java
  com.timeline.entity.BaseTimeEntity
 com/timeline/service/S3Service.java
  com.timeline.service.S3Service
-com/timeline/controller/TimelineController.java
- com.timeline.controller.TimelineController
+com/timeline/service/OauthService.java
+ com.timeline.service.OauthService
 com/timeline/jwt/JwtAccessDeniedHandler.java
  com.timeline.jwt.JwtAccessDeniedHandler
 com/timeline/jwt/TokenProvider.java
@@ -113,7 +112,8 @@ com/timeline/controller/dto/member/MemberResponseDto.java
  com.timeline.controller.dto.member.MemberResponseDto
 com/timeline/service/TimelineService.java
  com.timeline.service.TimelineService
-com/timeline/service/OauthService.java
- com.timeline.service.OauthService
-com/timeline/controller/OauthController.java
- com.timeline.controller.OauthController
+com/timeline/oauth/SocialLoginType.java
+ com.timeline.oauth.SocialLoginType
+com/timeline/entity/Member.java
+ com.timeline.entity.Member
+ com.timeline.entity.Member$MemberBuilder
