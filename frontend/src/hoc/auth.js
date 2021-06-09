@@ -18,6 +18,7 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
         removeCookie("tl_re")
         removeCookie("tl_exp")
         removeCookie("tl_token")
+        window.location.realod()
         history.push("/login")
       }
 
@@ -45,6 +46,7 @@ export default function authHoc(SpecificComponent, option, adminRoute = null) {
                 setCookie("tl_exp", res.data.accessTokenExpiresIn)
                 setCookie("tl_re", res.data.refreshToken)
                 history.push("/mypage")
+                window.location.realod()
               })
               .catch(err => {
                 removeCookies()

@@ -225,7 +225,12 @@ const CreateTimeline = () => {
   }
 
   const onDrop = (files) => {
-    setFiles(files)
+    // 파일 크기 200MB 이하로 제한
+    if(files[0].size > 200000000) {
+      alert("파일 크기가 너무 큽니다 200MB 이하 파일만 업로드 가능합니다")
+    } else {
+      setFiles(files)
+    }
   }
 
   return (
