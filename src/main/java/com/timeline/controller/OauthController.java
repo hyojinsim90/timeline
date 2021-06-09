@@ -2,6 +2,7 @@ package com.timeline.controller;
 
 import com.timeline.oauth.SocialLoginType;
 import com.timeline.service.OauthService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("/login/oauth2")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OauthController {
 
     private final OauthService oauthService;

@@ -1,21 +1,14 @@
 package com.timeline.service;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.timeline.oauth.SocialLoginType;
 import com.timeline.oauth.social.SocialOauth;
-import com.timeline.repository.MemberRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,11 +20,11 @@ import java.util.List;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OauthService {
+
     private final List<SocialOauth> socialOauthList;
     private final HttpServletResponse response;
-    private final MemberRepository memberRepository;
 
 
     /**
