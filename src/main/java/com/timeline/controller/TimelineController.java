@@ -64,7 +64,7 @@ public class TimelineController {
 
     /* 타임라인 마스터 저장 */
     @PostMapping(path = "/master/save",consumes = {"multipart/form-data"})
-    public ResponseEntity<TimelineMasterListResponseDto> saveMaster(@RequestPart(value="dto") List<TimelineMasterSaveRequestDto> timelineMasterSaveRequestDto, @RequestPart(value="file") MultipartFile file) throws IOException {
+    public ResponseEntity<TimelineMasterListResponseDto> saveMaster(@RequestPart(value="dto") List<TimelineMasterSaveRequestDto> timelineMasterSaveRequestDto, @RequestPart(value="file",required = false) MultipartFile file) throws IOException {
         log.info("[/master/save]");
 
         /* 수정시 명심 !
@@ -80,7 +80,7 @@ public class TimelineController {
 
     /* 타임라인 마스터 수정 */
     @PutMapping(path = "/master/{id}",consumes = {"multipart/form-data"})
-    public ResponseEntity<TimelineMasterListResponseDto> updateMaster(@PathVariable Long id, @RequestPart(value="dto") List<TimelineMasterUpdateRequestDto> timelineMasterUpdateRequestDto, @RequestPart MultipartFile file) throws IOException {
+    public ResponseEntity<TimelineMasterListResponseDto> updateMaster(@PathVariable Long id, @RequestPart(value="dto") List<TimelineMasterUpdateRequestDto> timelineMasterUpdateRequestDto, @RequestPart(value="file",required = false) MultipartFile file) throws IOException {
 
         String imgPath = s3Service.upload(timelineMasterUpdateRequestDto.get(0).getFilePath(), file);
         timelineMasterUpdateRequestDto.get(0).setFilePath(imgPath);

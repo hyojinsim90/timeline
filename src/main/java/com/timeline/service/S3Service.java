@@ -61,7 +61,7 @@ public class S3Service {
     public String upload(String currentFilePath, MultipartFile file) throws IOException {
         // S3에 직접 접근하는 것이 아닌, CloudFront을 통해 캐싱된 이미지를 가져올 것
 
-        log.info("[file - getSize]" + file.getSize());
+        log.info("[file - getSize] : " + file.getSize());
 
 
         if(file.getSize()<10){
@@ -86,15 +86,8 @@ public class S3Service {
             SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
             String fileName = date.format(new Date()) + "-" + file.getOriginalFilename();
 
-            // key가 존재하면 기존 파일은 삭제
-            if ("".equals(currentFilePath) == false && currentFilePath != null) {
-                boolean isExistObject = s3Client.doesObjectExist(bucket, currentFilePath);
-
-                if (isExistObject == true) {
-                    s3Client.deleteObject(bucket, currentFilePath);
-                    log.info("기존파일 존재. 삭제 완료.");
-                }
-            }
+            // 기존파일 삭제
+            delete(currentFilePath);
 
             // 파일 업로드
             s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
@@ -104,5 +97,18 @@ public class S3Service {
         }
 
 
+    }
+
+
+    public void delete(String currentFilePath) {
+        // key가 존재하면 기존 파일은 삭제
+        if ("".equals(currentFilePath) == false && currentFilePath != null) {
+            boolean isExistObject = s3Client.doesObjectExist(bucket, currentFilePath);
+
+            if (isExistObject == true) {
+                s3Client.deleteObject(bucket, currentFilePath);
+                log.info("기존파일 삭제 완료.");
+            }
+        }
     }
 }

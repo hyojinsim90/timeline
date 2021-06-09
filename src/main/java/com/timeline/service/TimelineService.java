@@ -37,7 +37,7 @@ public class TimelineService {
 
     private final TimelineMasterRepository timelineMasterRepository;
     private final TimelineDetailRepository timelineDetailRepository;
-    private S3Service s3Service;
+    private final S3Service s3Service;
 
 
     /* 전체 타임라인 마스터 조회 */
@@ -109,6 +109,7 @@ public class TimelineService {
     }
 
     /* 내 타임라인 디테일 조회 */
+    @Transactional(readOnly = true)
     public ResponseEntity<List<TimelineDetail>> getMytimelieDetail(Long masterId) {
         log.info("[ 내 timeline_detail 조회 ]");
 
@@ -187,14 +188,17 @@ public class TimelineService {
     }
 
     /* 타임라인 삭제 */
+    @Transactional
     public void delete(Long masterId) {
 
         TimelineMaster timelineMaster = timelineMasterRepository.findById(masterId).orElseThrow(() -> new IllegalArgumentException("timeline_master 정보가 없습니다. masterId =" + masterId));
         List<TimelineDetail> timelineDetail = timelineDetailRepository.findByMasterId(masterId);
 
+        s3Service.delete(timelineMaster.getFilePath());
         timelineMasterRepository.delete(timelineMaster);
 
         for (int i = 0; i < timelineDetail.size(); i++) {
+
             timelineDetailRepository.delete(timelineDetail.get(i));
         }
 

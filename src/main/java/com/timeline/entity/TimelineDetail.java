@@ -1,6 +1,7 @@
 package com.timeline.entity;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
  * @date : 2021-05-22 오전 2:32
  * @brief : timeline detail entity
  **/
+@Getter
 @NoArgsConstructor
 @Table(name = "timeline_detail")
 @Entity
