@@ -62,12 +62,12 @@ public class S3Service {
         // S3에 직접 접근하는 것이 아닌, CloudFront을 통해 캐싱된 이미지를 가져올 것
 
         log.info("[file - getSize]" + file.getSize());
-        
+
 
         if(file.getSize()<10){
 
             String absolutePath = new File("").getAbsolutePath() + "\\";
-            File orifile = new File(absolutePath + "\\timeline\\src\\main\\resources\\image\\timeline.jpg");
+            File orifile = new File(absolutePath + "/timeline/src/main/resources/image/timeline.jpg");
 
             // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
             SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
