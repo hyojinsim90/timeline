@@ -57,6 +57,9 @@ dependencies {
     // 파일 처리 관련
     implementation 'commons-io:commons-io:2.6'
 
+    // unknown enum constant When.MAYBE 해결
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
 
 }
 

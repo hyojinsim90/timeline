@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
@@ -58,16 +60,20 @@ public class S3Service {
                 .build();
     }
 
-    public String upload(String currentFilePath, MultipartFile file) throws IOException {
+    // 초기 저장용 업로드
+    public String upload(String currentFilePath,@Nullable MultipartFile file) throws IOException {
         // S3에 직접 접근하는 것이 아닌, CloudFront을 통해 캐싱된 이미지를 가져올 것
 
-        log.info("[file - getSize] : " + file.getSize());
+//        log.info("[file - isEmpty] : " + file.isEmpty());
+//        log.info("[file - getBytes] : " + file.getBytes());
+//        log.info("[file - getSize] : " + file.getSize());
 
-
-        if(file.getSize()<10){
-
+        if(file == null) {
             String absolutePath = new File("").getAbsolutePath();
+            // 서버용
             File orifile = new File(absolutePath + "/timeline/src/main/resources/image/timeline.jpg");
+            // 로컬테스트용
+//            File orifile = new File(absolutePath + "\\src\\main\\resources\\image\\timeline.jpg");
 
             // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
             SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
@@ -80,7 +86,6 @@ public class S3Service {
                     .withCannedAcl(CannedAccessControlList.PublicRead));
 
             return fileName;
-
         } else {
             // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
             SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
@@ -96,8 +101,31 @@ public class S3Service {
             return fileName; // 파일명만 db에 저장되므로 s3객체의 key가 됨. 불러올때는 cloudFront도메인명+key가 되야함
         }
 
-
     }
+
+    // 수정용 업로드
+    public String updateUpload(String currentFilePath,@Nullable MultipartFile file) throws IOException {
+
+        if(file == null) {
+            return currentFilePath;
+        } else {
+            // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
+            SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
+            String fileName = date.format(new Date()) + "-" + file.getOriginalFilename();
+
+            // 기존파일 삭제
+            delete(currentFilePath);
+
+            // 파일 업로드
+            s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+
+            return fileName;
+        }
+    }
+
+
+
 
 
     public void delete(String currentFilePath) {
@@ -111,4 +139,6 @@ public class S3Service {
             }
         }
     }
+
+
 }

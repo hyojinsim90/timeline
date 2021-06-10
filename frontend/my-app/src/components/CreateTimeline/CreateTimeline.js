@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Form, Input, Select, Button, Divider } from "antd"
+import { Form, Input, Select, Button, Divider, Tag } from "antd"
 import { useHistory } from "react-router-dom"
 import Axios from "axios"
 import { PlusCircleOutlined } from "@ant-design/icons"
@@ -21,6 +21,9 @@ const CreateTimelineDiv = styled.div`
       justify-content: center;
       .ant-form-item-label {
         text-align: center;
+      }
+      .ant-tag {
+        margin-top: 20px;
       }
     }
     label {
@@ -67,13 +70,13 @@ const CreateTimeline = () => {
     formData.append("file", files[0])
 
     let variables = [{
-      "author": user.userData.email,
-      "category": category,
-      "complete": complete,
-      "open": open,
-      "title": title,
-      "likeCount": 0,
-      "viewCount": 0
+      author: user.userData.email,
+      category: category,
+      complete: complete,
+      open: open,
+      title: title,
+      likeCount: 0,
+      viewCount: 0
     }]
 
     formData.append("dto", new Blob([JSON.stringify(variables)], {type: "application/json"}))
@@ -107,19 +110,14 @@ const CreateTimeline = () => {
     if(valid) {
       Axios.post("/timeline/master/save", formData)
         .then(res => {
-          console.log(res);
           // master에서 id값 return하면 받아서 detail 저장
           if(res.data.id) {
-            countList.forEach((item, i) => {
-              let year = detailDate[i]._d.getFullYear().toString()
-              let month = (detailDate[i]._d.getMonth() + 1) < 10 ? "0" + (detailDate[i]._d.getMonth() + 1) : (detailDate[i]._d.getMonth() + 1).toString()
-              let date = (detailDate[i]._d.getDate()) < 10 ? "0" + (detailDate[i]._d.getDate()) : detailDate[i]._d.getDate()
-
+            countList.forEach((item, i) => {            
               detailList.push({
                 "content": detailContent[i],
                 "id": res.data.id.toString() + i.toString(),
                 "masterId": res.data.id,
-                "scheduleDate": year + month + date,
+                "scheduleDate": detailDateString[i].replaceAll('-', ''),
                 "title": detailTitle[i]
               })
             })
@@ -223,8 +221,12 @@ const CreateTimeline = () => {
   }
 
   const onDrop = (files) => {
-    setFiles(files)
-    console.log(files);
+    // 파일 크기 200MB 이하로 제한
+    if(files[0].size > 200000000) {
+      alert("파일 크기가 너무 큽니다 200MB 이하 파일만 업로드 가능합니다")
+    } else {
+      setFiles(files)
+    }
   }
 
   return (
@@ -275,6 +277,9 @@ const CreateTimeline = () => {
             label="이미지"
           >
             <UploadImage onDrop={onDrop} />
+            {files[0] &&
+              <Tag color="black">{files[0].path}</Tag>
+            }
           </Form.Item>
         </div>
         <Divider />

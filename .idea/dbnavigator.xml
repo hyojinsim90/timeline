@@ -24,7 +24,11 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="67a6be8a-b4b4-432b-916a-7abe0d930ddc">
+        <schema name="mysql" object-types="view, table" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="67a6be8a-b4b4-432b-916a-7abe0d930ddc">
@@ -100,7 +104,12 @@ commit;
 --update timeline_master set view_count=8, like_count=4 where id=8;
 --update timeline_master set view_count=9, like_count=3 where id=9;
 --update timeline_master set view_count=10, like_count=2 where id=10;
---update timeline_master set view_count=11, like_count=1 where id=11;]]></console>
+--update timeline_master set view_count=11, like_count=1 where id=11;
+
+--alter table timeline_detail change schedule_date schedule_date varchar(200);
+
+-- 컬럼 정보 조회
+--show columns from timeline_detail;]]></console>
     </connection>
     <connection id="0b985d6b-adb0-4232-9a2f-42b49e2fc776">
       <console name="localhost" type="STANDARD" schema="timeline" session="Main"><![CDATA[select

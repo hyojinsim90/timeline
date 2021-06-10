@@ -82,7 +82,8 @@ public class TimelineController {
     @PutMapping(path = "/master/{id}",consumes = {"multipart/form-data"})
     public ResponseEntity<TimelineMasterListResponseDto> updateMaster(@PathVariable Long id, @RequestPart(value="dto") List<TimelineMasterUpdateRequestDto> timelineMasterUpdateRequestDto, @RequestPart(value="file",required = false) MultipartFile file) throws IOException {
 
-        String imgPath = s3Service.upload(timelineMasterUpdateRequestDto.get(0).getFilePath(), file);
+//        String imgPath = s3Service.upload(timelineMasterUpdateRequestDto.get(0).getFilePath(), file);
+        String imgPath = s3Service.updateUpload(timelineMasterUpdateRequestDto.get(0).getFilePath(), file);
         timelineMasterUpdateRequestDto.get(0).setFilePath(imgPath);
 
         return ResponseEntity.ok(timelineService.updateMaster(id, timelineMasterUpdateRequestDto.get(0), file));
@@ -107,10 +108,17 @@ public class TimelineController {
         return ResponseEntity.ok(timelineService.updateDetail(masterId, timelineDetailList));
     }
 
-    /* 타임라인 삭제 */
+    /* 타임라인 디테일 삭제 */
+    @DeleteMapping("detail/{masterId}")
+    public void deleteDetail(@PathVariable Long masterId) {
+        timelineService.deleteDetail(masterId);
+    }
+
+    /* 타임라인 전체 삭제 */
     @DeleteMapping("/{masterId}")
     public void delete(@PathVariable Long masterId) {
         timelineService.delete(masterId);
     }
+
 
 }

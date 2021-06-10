@@ -122,24 +122,24 @@ public class TimelineService {
         log.info("[ timeline_detail 저장 ]");
 
         //  변수선언 : 날짜변환, detail entity, detail담을 리스트
-        LocalDate scheduleDate = null;
-        String beforeDate = "";
-        String afterDate = "";
+//        LocalDate scheduleDate = null;
+//        String beforeDate = "";
+//        String afterDate = "";
         TimelineDetail timelineDetail = null;
         List<TimelineDetail> timelineDetails = new ArrayList<>();
 
         // 넘어온 리스트를 꺼내 날짜변환후 다시 저장
         for (int i = 0; i < timelineDetailList.size(); i++) {
             // 날짜 변환
-            beforeDate = timelineDetailList.get(i).getScheduleDate().toString();
-            afterDate = beforeDate.substring(0, 4)+"-"+beforeDate.substring(4, 6)+"-"+beforeDate.substring(6, 8);
-            scheduleDate = LocalDate.parse(afterDate, DateTimeFormatter.ISO_DATE);
+//            beforeDate = timelineDetailList.get(i).getScheduleDate().toString();
+//            afterDate = beforeDate.substring(0, 4)+"-"+beforeDate.substring(4, 6)+"-"+beforeDate.substring(6, 8);
+//            scheduleDate = LocalDate.parse(afterDate, DateTimeFormatter.ISO_DATE);
 //            log.info("[ beforeDate ]" + beforeDate);
 //            log.info("[ afterDate ]" + afterDate);
-            log.info("[ scheduleDate ]" + scheduleDate);
+//            log.info("[ scheduleDate ]" + scheduleDate);
 
             // timeline_detail 생성
-            timelineDetail = timelineDetailList.get(i).toTimelineDetail(scheduleDate);
+            timelineDetail = timelineDetailList.get(i).toTimelineDetail();
 
             // detail 리스트에 객체 저장
             timelineDetails.add(timelineDetail);
@@ -157,17 +157,9 @@ public class TimelineService {
 
         //  변수선언 : 날짜변환, detail entity, detail담을 리스트
         List<TimelineDetail> timelineDetails = new ArrayList<>();
-        LocalDate scheduleDate = null;
-        String beforeDate = "";
-        String afterDate = "";
 
         // 넘어온 리스트를 꺼내 날짜변환후 다시 저장
         for (int i = 0; i < timelineDetailList.size(); i++) {
-            // 날짜 변환
-            beforeDate = timelineDetailList.get(i).getScheduleDate().toString();
-            afterDate = beforeDate.substring(0, 4)+"-"+beforeDate.substring(4, 6)+"-"+beforeDate.substring(6, 8);
-            scheduleDate = LocalDate.parse(afterDate, DateTimeFormatter.ISO_DATE);
-            log.info("[ scheduleDate ]" + scheduleDate);
 
             // 타임라인 마스터아이디, 디테일 아이디로 timeline_detail entity가져오기
             TimelineDetail timelineDetail = timelineDetailRepository.findDetail(masterId, timelineDetailList.get(i).getId());
@@ -176,7 +168,7 @@ public class TimelineService {
             }
 
             // timeline_detail 저장
-            timelineDetail.update(scheduleDate, timelineDetailList.get(i).getTitle(), timelineDetailList.get(i).getContent());
+            timelineDetail.update(timelineDetailList.get(i).getScheduleDate(), timelineDetailList.get(i).getTitle(), timelineDetailList.get(i).getContent());
 
             // detail 리스트에 객체 저장
             timelineDetails.add(timelineDetail);
@@ -187,7 +179,21 @@ public class TimelineService {
         return ResponseEntity.ok(timelineDetails);
     }
 
-    /* 타임라인 삭제 */
+    /* 타임라인 디테일 삭제 */
+    @Transactional
+    public void deleteDetail(Long masterId) {
+        List<TimelineDetail> timelineDetail = timelineDetailRepository.findByMasterId(masterId);
+
+        log.info("timelineDetail.isEmpty() : " + timelineDetail.isEmpty());
+
+        if(!timelineDetail.isEmpty()){
+            for (int i = 0; i < timelineDetail.size(); i++) {
+                timelineDetailRepository.delete(timelineDetail.get(i));
+            }
+        }
+    }
+
+    /* 타임라인 전체 삭제 */
     @Transactional
     public void delete(Long masterId) {
 
@@ -204,4 +210,5 @@ public class TimelineService {
 
 
     }
+
 }

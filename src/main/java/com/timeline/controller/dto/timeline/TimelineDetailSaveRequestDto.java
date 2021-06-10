@@ -26,7 +26,7 @@ public class TimelineDetailSaveRequestDto {
     private String title; // 간단한 일정소개
     private String content; // 일정내용
 
-    public TimelineDetail toTimelineDetail(LocalDate scheduleDate) {
+    public TimelineDetail toTimelineDetail() {
         return TimelineDetail.builder()
                 .masterId(masterId)
                 .id(id)
