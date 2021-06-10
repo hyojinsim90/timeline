@@ -71,7 +71,7 @@ const ModifyTimeline = (props) => {
       setComplete(props.timeline[0].complete)
       setOpen(props.timeline[0].open)
       if(props.timeline[0].filePath !== "") {
-        const path = props.timeline[0].filePath.split("-")[0]
+        const path = props.timeline[0].filePath.split("-")[1]
         setFilepath(path)
       }
     }

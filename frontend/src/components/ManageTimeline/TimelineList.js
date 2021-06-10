@@ -22,11 +22,17 @@ const TimelineListDiv = styled.div`
         height: 100px;
       }
     }
+    .ant-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 `
 
 const TimelineList = (props) => {
   const [list, setList] = useState([])
+  const [checkDelete, setCheckDelete] = useState(false)
 
   const columns = [
     {
@@ -109,7 +115,7 @@ const TimelineList = (props) => {
       key: 'id',
       render: (id) => (
         <div>
-          <DeleteOutlined onClick={() => onDeleteTimeline(id)} />
+          <DeleteOutlined onClick={(e) => onDeleteTimeline(e, id)} />
         </div>
       )
     },
@@ -124,13 +130,17 @@ const TimelineList = (props) => {
           }
         })
     }
-  }, [props.user])
+  }, [props.user, checkDelete])
 
-  const onDeleteTimeline = (id) => {
+  const onDeleteTimeline = (e, id) => {
+    // onRow click event 실행 막기
+    e.stopPropagation()
+
     Axios.delete(`/timeline/${id}`)
       .then(res => {
         if(res.status === 200) {
           alert("삭제되었습니다")
+          setCheckDelete(!checkDelete)
         }
       })
   }
