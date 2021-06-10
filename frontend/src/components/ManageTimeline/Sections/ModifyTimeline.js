@@ -65,7 +65,9 @@ const ModifyTimeline = (props) => {
   const history = useHistory()
 
   useEffect(() => {
-    if(props.timeline[0] !== undefined) {
+    const countArr = [...countList]
+
+    if(props.timeline[0] !== undefined && props.detail !== undefined) {
       setTitle(props.timeline[0].title)
       setCategory(props.timeline[0].category)
       setComplete(props.timeline[0].complete)
@@ -74,23 +76,33 @@ const ModifyTimeline = (props) => {
         const path = props.timeline[0].filePath.split("-")[1]
         setFilepath(path)
       }
-    }
-  }, [props.timeline])
 
-  const onCreateTimeline = (e) => {
+      props.detail.forEach((item, i) => {
+        countArr[i] = i
+        detailTitle[i] = item.title
+        // date(moment) column 추가되면 코드 수정
+        detailContent[i] = item.content
+      })
+
+      setCountList(countArr)
+      setDetailTitle(detailTitle)
+      setDetailContent(detailContent)
+
+      console.log(props.detail);
+    }
+  }, [props.timeline, props.detail])
+
+  const onModifyTimeline = (e) => {
 
     let formData = new FormData()
 
     formData.append("file", files[0])
 
     let variables = [{
-      author: user.userData.email,
       category: category,
       complete: complete,
       open: open,
       title: title,
-      likeCount: 0,
-      viewCount: 0
     }]
 
     formData.append("dto", new Blob([JSON.stringify(variables)], {type: "application/json"}))
@@ -122,30 +134,25 @@ const ModifyTimeline = (props) => {
     })
 
     if(valid) {
-      Axios.post("/timeline/master/save", formData)
+      // timeline master 수정
+      Axios.put(`/timeline/master/${props.timelineId}`, formData)
         .then(res => {
-          // master에서 id값 return하면 받아서 detail 저장
-          if(res.data.id) {
-            countList.forEach((item, i) => {
-              let year = detailDate[i]._d.getFullYear().toString()
-              let month = (detailDate[i]._d.getMonth() + 1) < 10 ? "0" + (detailDate[i]._d.getMonth() + 1) : (detailDate[i]._d.getMonth() + 1).toString()
-              let date = (detailDate[i]._d.getDate()) < 10 ? "0" + (detailDate[i]._d.getDate()) : detailDate[i]._d.getDate()
-
-              detailList.push({
-                "content": detailContent[i],
-                "id": res.data.id.toString() + i.toString(),
-                "masterId": res.data.id,
-                "scheduleDate": year + month + date,
-                "title": detailTitle[i]
-              })
-            })
-
-            Axios.post("/timeline/detail/save", detailList)
-              .then(response => {
-                if(response.status === 200) {
-                  history.push("/mytimeline")
-                }
-              })
+          if(res.data) {
+            // timeline detail 전체 삭제 후 새로 save
+            // Axios.delete(`/timeline/detail/${props.timelineId}`)
+            //  .then(response => {
+            //    if(response.status === 200) {
+            //      countList.forEach((item, i) => {
+            //        detailList.push({
+            //          "content": detailContent[i],
+            //          "id": res.data.id.toString() + i.toString(),
+            //          "masterId": res.data.id,
+            //          "scheduleDate": detailDateString[i].replaceAll('-', ''),
+            //          "title": detailTitle[i]
+            //        })
+            //      })
+            //    }
+            //  })
           }
         })
     }
@@ -246,7 +253,7 @@ const ModifyTimeline = (props) => {
     <ModifyTimelineDiv>
       <h1>타임라인 수정하기</h1>
       <br />
-      <Form onSubmit={onCreateTimeline}>
+      <Form onSubmit={onModifyTimeline}>
         <div>
           <Form.Item
             label="타임라인 제목"
@@ -309,7 +316,7 @@ const ModifyTimeline = (props) => {
             <TimelineView countList={countList} detailTitle={detailTitle} detailDateString={detailDateString} detailContent={detailContent}/>
           </div>
         </ModifyDetailDiv>
-        <Button size="large" onClick={onCreateTimeline}>수정하기</Button>
+        <Button size="large" onClick={onModifyTimeline}>수정하기</Button>
       </Form>
     </ModifyTimelineDiv>
   )

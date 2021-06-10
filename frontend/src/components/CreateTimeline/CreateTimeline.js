@@ -112,16 +112,12 @@ const CreateTimeline = () => {
         .then(res => {
           // master에서 id값 return하면 받아서 detail 저장
           if(res.data.id) {
-            countList.forEach((item, i) => {
-              let year = detailDate[i]._d.getFullYear().toString()
-              let month = (detailDate[i]._d.getMonth() + 1) < 10 ? "0" + (detailDate[i]._d.getMonth() + 1) : (detailDate[i]._d.getMonth() + 1).toString()
-              let date = (detailDate[i]._d.getDate()) < 10 ? "0" + (detailDate[i]._d.getDate()) : detailDate[i]._d.getDate()
-
+            countList.forEach((item, i) => {            
               detailList.push({
                 "content": detailContent[i],
                 "id": res.data.id.toString() + i.toString(),
                 "masterId": res.data.id,
-                "scheduleDate": year + month + date,
+                "scheduleDate": detailDateString[i].replaceAll('-', ''),
                 "title": detailTitle[i]
               })
             })

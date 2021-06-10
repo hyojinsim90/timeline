@@ -10,6 +10,7 @@ const TimelineItemDiv = styled.div`
 
 const TimelineItem = (props) => {
   const [timeline, setTimeline] = useState([])
+  const [detail, setDetail] = useState([])
 
   const params = useParams()
 
@@ -20,6 +21,13 @@ const TimelineItem = (props) => {
           if(res.data) {
             const list = res.data.filter(item => item.id.toString() === params.timelineId)
             setTimeline(list)
+
+            Axios.get(`/timeline/detail/${list[0].id}`)
+              .then(response => {
+                if(response.data) {
+                  setDetail(response.data)
+                }
+              })
           }
         })
     }
@@ -27,7 +35,7 @@ const TimelineItem = (props) => {
 
   return (
     <TimelineItemDiv>
-      <ModifyTimeline timeline={timeline} />
+      <ModifyTimeline timeline={timeline} detail={detail} timelineId={params.timelineId} />
     </TimelineItemDiv>
   )
 }
