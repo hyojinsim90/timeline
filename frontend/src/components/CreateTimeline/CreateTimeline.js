@@ -67,7 +67,12 @@ const CreateTimeline = () => {
 
     let formData = new FormData()
 
-    formData.append("file", files[0])
+    // 파일 없을 시
+    if(files.length === 0) {
+      formData.append("file", "")
+    } else {
+      formData.append("file", files[0])
+    }
 
     let variables = [{
       author: user.userData.email,
@@ -112,7 +117,7 @@ const CreateTimeline = () => {
         .then(res => {
           // master에서 id값 return하면 받아서 detail 저장
           if(res.data.id) {
-            countList.forEach((item, i) => {            
+            countList.forEach((item, i) => {
               detailList.push({
                 "content": detailContent[i],
                 "id": res.data.id.toString() + i.toString(),
