@@ -2,6 +2,7 @@ import React from "react"
 import { Input, DatePicker, Divider, Button } from "antd"
 import styled from "styled-components"
 import { CloseSquareOutlined } from "@ant-design/icons"
+import moment from "moment"
 
 const DetailDiv = styled.div`
   div:first-child .ant-divider {
@@ -64,7 +65,7 @@ const TimelineDetail = (props) => {
           <div>
             <label>날짜</label>
             <DatePicker
-              value={props.detailDate[i]}
+              value={props.detailDateString[i] ? moment(props.detailDateString[i]) : ""}
               onChange={(date, dateString) => props.onChangeDate(date, dateString, i)}
             />
           </div>

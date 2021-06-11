@@ -78,17 +78,16 @@ const ModifyTimeline = (props) => {
       }
 
       props.detail.forEach((item, i) => {
+        const date = item.scheduleDate.slice(0, 4) + "-" + item.scheduleDate.slice(4, 6) + "-" + item.scheduleDate.slice(6, 8)
         countArr[i] = i
         detailTitle[i] = item.title
-        // date(moment) column 추가되면 코드 수정
+        detailDateString[i] = date
         detailContent[i] = item.content
       })
 
       setCountList(countArr)
       setDetailTitle(detailTitle)
       setDetailContent(detailContent)
-
-      console.log(props.detail);
     }
   }, [props.timeline, props.detail])
 
@@ -307,7 +306,7 @@ const ModifyTimeline = (props) => {
         <ModifyDetailDiv>
           <div>
             <TimelineDetail countList={countList} onDeleteDetail={onDeleteDetail} onChangeDetailTitle={onChangeDetailTitle} detailTitle={detailTitle}
-              onChangeDate={onChangeDate} detailDate={detailDate} onchangeDetailContent={onchangeDetailContent} detailContent={detailContent} />
+              onChangeDate={onChangeDate} detailDate={detailDate} onchangeDetailContent={onchangeDetailContent} detailContent={detailContent} detailDateString={detailDateString} />
             <Button onClick={onAddDetailDiv}>
               <PlusCircleOutlined />추가
             </Button>

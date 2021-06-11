@@ -291,7 +291,7 @@ const CreateTimeline = () => {
         <CreateDetailDiv>
           <div>
             <TimelineDetail countList={countList} onDeleteDetail={onDeleteDetail} onChangeDetailTitle={onChangeDetailTitle} detailTitle={detailTitle}
-              onChangeDate={onChangeDate} detailDate={detailDate} onchangeDetailContent={onchangeDetailContent} detailContent={detailContent} />
+              onChangeDate={onChangeDate} detailDate={detailDate} onchangeDetailContent={onchangeDetailContent} detailContent={detailContent} detailDateString={detailDateString} />
             <Button onClick={onAddDetailDiv}>
               <PlusCircleOutlined />추가
             </Button>
