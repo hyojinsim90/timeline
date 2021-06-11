@@ -124,10 +124,7 @@ public class S3Service {
         }
     }
 
-
-
-
-
+    /* 기존 파일 삭제 */
     public void delete(String currentFilePath) {
         // key가 존재하면 기존 파일은 삭제
         if ("".equals(currentFilePath) == false && currentFilePath != null) {

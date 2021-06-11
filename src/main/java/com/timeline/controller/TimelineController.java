@@ -108,6 +108,10 @@ public class TimelineController {
         return ResponseEntity.ok(timelineService.updateDetail(masterId, timelineDetailList));
     }
 
+    /* 타임라인 마스터 이미지 삭제 */
+    @DeleteMapping("master/{filePath}")
+    public void deleteFilePath(@PathVariable String filePath) { s3Service.delete(filePath); }
+
     /* 타임라인 디테일 삭제 */
     @DeleteMapping("detail/{masterId}")
     public void deleteDetail(@PathVariable Long masterId) {
