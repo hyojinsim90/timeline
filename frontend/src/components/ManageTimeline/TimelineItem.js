@@ -35,7 +35,7 @@ const TimelineItem = (props) => {
 
   return (
     <TimelineItemDiv>
-      <ModifyTimeline timeline={timeline} detail={detail} timelineId={params.timelineId} />
+      <ModifyTimeline timeline={timeline} detail={detail} timelineId={params.timelineId} history={props.history} />
     </TimelineItemDiv>
   )
 }

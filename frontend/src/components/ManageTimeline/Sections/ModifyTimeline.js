@@ -72,7 +72,8 @@ const ModifyTimeline = (props) => {
       setCategory(props.timeline[0].category)
       setComplete(props.timeline[0].complete)
       setOpen(props.timeline[0].open)
-      if(props.timeline[0].filePath !== "") {
+
+      if(props.timeline[0].filePath !== null) {
         const path = props.timeline[0].filePath.split("-")[1]
         setFilepath(path)
       }
@@ -87,6 +88,7 @@ const ModifyTimeline = (props) => {
 
       setCountList(countArr)
       setDetailTitle(detailTitle)
+      setDetailDate(detailDateString)
       setDetailContent(detailContent)
     }
   }, [props.timeline, props.detail])
@@ -94,15 +96,27 @@ const ModifyTimeline = (props) => {
   const onModifyTimeline = (e) => {
 
     let formData = new FormData()
+    let variables
 
-    formData.append("file", files[0])
-
-    let variables = [{
-      category: category,
-      complete: complete,
-      open: open,
-      title: title,
-    }]
+    if(files.length === 0) {
+      formData.append("file", "")
+      variables = [{
+        category: category,
+        complete: complete,
+        open: open,
+        title: title,
+        filePath: props.timeline[0].filePath,
+        imgFullPath: props.timeline[0].imgFullPath
+      }]
+    } else {
+      formData.append("file", files[0])
+      variables = [{
+        category: category,
+        complete: complete,
+        open: open,
+        title: title,
+      }]
+    }
 
     formData.append("dto", new Blob([JSON.stringify(variables)], {type: "application/json"}))
 
@@ -138,20 +152,27 @@ const ModifyTimeline = (props) => {
         .then(res => {
           if(res.data) {
             // timeline detail 전체 삭제 후 새로 save
-            // Axios.delete(`/timeline/detail/${props.timelineId}`)
-            //  .then(response => {
-            //    if(response.status === 200) {
-            //      countList.forEach((item, i) => {
-            //        detailList.push({
-            //          "content": detailContent[i],
-            //          "id": res.data.id.toString() + i.toString(),
-            //          "masterId": res.data.id,
-            //          "scheduleDate": detailDateString[i].replaceAll('-', ''),
-            //          "title": detailTitle[i]
-            //        })
-            //      })
-            //    }
-            //  })
+            Axios.delete(`/timeline/detail/${props.timelineId}`)
+             .then(response => {
+               if(response.status === 200) {
+                 countList.forEach((item, i) => {
+                   detailList.push({
+                     "content": detailContent[i],
+                     "id": res.data.id.toString() + i.toString(),
+                     "masterId": res.data.id,
+                     "scheduleDate": detailDateString[i].replaceAll('-', ''),
+                     "title": detailTitle[i]
+                   })
+                 })
+
+                 Axios.post("/timeline/detail/save", detailList)
+                   .then(response => {
+                     if(response.status === 200) {
+                       props.history.push("/mytimeline")
+                     }
+                   })
+               }
+             })
           }
         })
     }
