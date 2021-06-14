@@ -1,13 +1,13 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Form, Input, Select, Button, Divider, Tag } from "antd"
+import { Form, Button, Divider } from "antd"
 import { useHistory } from "react-router-dom"
 import Axios from "axios"
 import { PlusCircleOutlined } from "@ant-design/icons"
 import TimelineDetail from "./Sections/TimelineDetail"
 import { useSelector } from "react-redux"
+import TimelineMaster from "./Sections/TimelineMaster"
 import TimelineView from "./Sections/TimelineView"
-import UploadImage from "./Sections/UploadImage"
 
 const CreateTimelineDiv = styled.div`
   padding: 3rem 0;
@@ -45,8 +45,6 @@ const CreateDetailDiv = styled.div`
     width: 100%;
   }
 `
-
-const { Option } = Select
 
 const CreateTimeline = () => {
   const [title, setTitle] = useState("")
@@ -239,54 +237,7 @@ const CreateTimeline = () => {
       <h1>타임라인 생성하기</h1>
       <br />
       <Form onSubmit={onCreateTimeline}>
-        <div>
-          <Form.Item
-            label="타임라인 제목"
-            name="title"
-          >
-            <Input
-              type="text"
-              onChange={onChangeTitle}
-              value={title}
-              required
-            />
-          </Form.Item>
-          <Form.Item
-            label="분야"
-          >
-            <Select defaultValue="생활" onChange={onSelectCategory}>
-              <Option value="생활">생활</Option>
-              <Option value="여행">여행</Option>
-              <Option value="문화">문화</Option>
-              <Option value="경제">경제</Option>
-              <Option value="기타">기타</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="진행 여부"
-          >
-            <Select defaultValue="false" onChange={onSelectComplete}>
-              <Option value="false">진행중</Option>
-              <Option value="true">진행완료</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="공개 여부"
-          >
-            <Select defaultValue="false" onChange={onSelectOpen}>
-              <Option value="false">비공개</Option>
-              <Option value="true">공개</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="이미지"
-          >
-            <UploadImage onDrop={onDrop} />
-            {files[0] &&
-              <Tag color="black">{files[0].path}</Tag>
-            }
-          </Form.Item>
-        </div>
+        <TimelineMaster title={title} files={files} onChangeTitle={onChangeTitle} onSelectCategory={onSelectCategory} onSelectComplete={onSelectComplete} onSelectOpen={onSelectOpen} onDrop={onDrop} />
         <Divider />
         <CreateDetailDiv>
           <div>

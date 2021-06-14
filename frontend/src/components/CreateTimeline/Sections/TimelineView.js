@@ -1,12 +1,18 @@
 import React from "react"
 import { Timeline, TimelineItem }  from 'vertical-timeline-component-for-react'
 import styled from "styled-components"
+import { Input } from "antd"
 
 const TimelineViewDiv = styled.div`
   .body-container p {
     word-break: break-all;
+  .ant-input {
+    background: #efefef;
+  }
   }
 `
+
+const { TextArea } = Input
 
 const TimelineView = (props) => {
   return (
@@ -18,16 +24,17 @@ const TimelineView = (props) => {
             dateText={props.detailDateString[i]}
             style={{ color: '#e86971', height: '495px', }}
             bodyContainerStyle={{
-              background: '#ddd',
+              background: '#efefef',
               padding: '20px',
               borderRadius: '8px',
-              boxShadow: '0.5rem 0.5rem 2rem 0 rgba(0, 0, 0, 0.2)',
             }}
           >
             <h3>{props.detailTitle[i]}</h3>
-            <p>
-              {props.detailContent[i]}
-            </p>
+            <TextArea
+              autoSize={true}
+              bordered={false}
+              value={props.detailContent[i]}
+            />
           </TimelineItem>
         ))}
       </Timeline>
