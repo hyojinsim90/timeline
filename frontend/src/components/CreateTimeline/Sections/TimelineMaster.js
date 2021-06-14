@@ -1,6 +1,7 @@
 import React from "react"
 import { Form, Input, Select, Button, Divider, Tag } from "antd"
 import UploadImage from "./UploadImage"
+import { CloseOutlined } from "@ant-design/icons"
 
 const { Option } = Select
 
@@ -50,7 +51,10 @@ const TimelineMaster = (props) => {
       >
         <UploadImage onDrop={props.onDrop} />
         {props.files[0] &&
-          <Tag color="black">{props.files[0].path}</Tag>
+          <div>
+            <Tag color="black">{props.files[0].path}</Tag>
+            <CloseOutlined onClick={props.onDeleteFile} />
+          </div>
         }
       </Form.Item>
     </div>

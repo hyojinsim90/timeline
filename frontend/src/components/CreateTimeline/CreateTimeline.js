@@ -22,8 +22,15 @@ const CreateTimelineDiv = styled.div`
       .ant-form-item-label {
         text-align: center;
       }
-      .ant-tag {
-        margin-top: 20px;
+    }
+    .ant-form-item:last-child {
+      .ant-form-item-control-input-content {
+        div:nth-child(2) {
+          margin-top: 20px;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+        }
       }
     }
     label {
@@ -232,12 +239,18 @@ const CreateTimeline = () => {
     }
   }
 
+  const onDeleteFile = () => {
+    // 업로드한 파일 정보 삭제
+    setFiles([])
+  }
+
   return (
     <CreateTimelineDiv>
       <h1>타임라인 생성하기</h1>
       <br />
       <Form onSubmit={onCreateTimeline}>
-        <TimelineMaster title={title} files={files} onChangeTitle={onChangeTitle} onSelectCategory={onSelectCategory} onSelectComplete={onSelectComplete} onSelectOpen={onSelectOpen} onDrop={onDrop} />
+        <TimelineMaster title={title} files={files} onChangeTitle={onChangeTitle} onSelectCategory={onSelectCategory} onSelectComplete={onSelectComplete} onSelectOpen={onSelectOpen}
+          onDrop={onDrop} onDeleteFile={onDeleteFile} />
         <Divider />
         <CreateDetailDiv>
           <div>

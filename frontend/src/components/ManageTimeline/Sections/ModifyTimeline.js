@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { Form, Input, Select, Button, Divider, Tag } from "antd"
 import { useHistory } from "react-router-dom"
 import Axios from "axios"
-import { PlusCircleOutlined } from "@ant-design/icons"
+import { PlusCircleOutlined, CloseOutlined } from "@ant-design/icons"
 import TimelineDetail from "../../CreateTimeline/Sections/TimelineDetail"
 import { useSelector } from "react-redux"
 import TimelineView from "../../CreateTimeline/Sections/TimelineView"
@@ -22,8 +22,15 @@ const ModifyTimelineDiv = styled.div`
       .ant-form-item-label {
         text-align: center;
       }
-      .ant-tag {
-        margin-top: 20px;
+    }
+    .ant-form-item:last-child {
+      .ant-form-item-control-input-content {
+        div:nth-child(2) {
+          margin-top: 20px;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+        }
       }
     }
     label {
@@ -60,6 +67,7 @@ const ModifyTimeline = (props) => {
   const [open, setOpen] = useState(false)
   const [files, setFiles] = useState([])
   const [filepath, setFilepath] = useState("")
+  const [deleteStatus, setDeleteStatus] = useState(false)
 
   const user = useSelector(state => state.user)
   const history = useHistory()
@@ -96,26 +104,40 @@ const ModifyTimeline = (props) => {
   const onModifyTimeline = (e) => {
 
     let formData = new FormData()
-    let variables
-
+    let variables = [{
+      category: category,
+      complete: complete,
+      open: open,
+      title: title,
+    }]
+    console.log(deleteStatus);
+    // 파일 업로드 안 했을 때 기본 이미지 혹은 기존 이미지 그대로 유지
     if(files.length === 0) {
       formData.append("file", "")
-      variables = [{
-        category: category,
-        complete: complete,
-        open: open,
-        title: title,
-        filePath: props.timeline[0].filePath,
-        imgFullPath: props.timeline[0].imgFullPath
-      }]
+      // 기존에 업로드한 파일 삭제하고 재업로드 안 했을 경우 filepath ""로 보냄
+      if(deleteStatus) {
+        variables = [{
+          category: category,
+          complete: complete,
+          open: open,
+          title: title,
+          filePath: "",
+          imgFullPath: ""
+        }]
+      // 기존에 업로드한 파일 삭제한 적 없고 재업로드 안 했을 경우에도 기존/기본 파일 유지
+      } else {
+        variables = [{
+          category: category,
+          complete: complete,
+          open: open,
+          title: title,
+          filePath: props.timeline[0].filePath,
+          imgFullPath: props.timeline[0].imgFullPath
+        }]
+      }
+    // 파일 업로드했을 때 새로운 이미지로 교체
     } else {
       formData.append("file", files[0])
-      variables = [{
-        category: category,
-        complete: complete,
-        open: open,
-        title: title,
-      }]
     }
 
     formData.append("dto", new Blob([JSON.stringify(variables)], {type: "application/json"}))
@@ -269,6 +291,16 @@ const ModifyTimeline = (props) => {
     setFiles(files)
   }
 
+  const onDeleteFile = () => {
+    Axios.delete(`/timeline/master/${props.timeline[0].filePath}`)
+      .then(res => {
+        if(res.status === 200) {
+          setFilepath("")
+          setDeleteStatus(true)
+        }
+      })
+  }
+
   return (
     <ModifyTimelineDiv>
       <h1>타임라인 수정하기</h1>
@@ -316,10 +348,16 @@ const ModifyTimeline = (props) => {
           >
             <UploadImage onDrop={onDrop} />
             {files[0] ?
-              <Tag color="black">{files[0].path}</Tag>
+              <div>
+                <Tag color="black">{files[0].path}</Tag>
+                <CloseOutlined onClick={onDeleteFile} />
+              </div>
               :
               filepath &&
-              <Tag color="black">{filepath}</Tag>
+              <div>
+                <Tag color="black">{filepath}</Tag>
+                <CloseOutlined onClick={onDeleteFile} />
+              </div>
             }
           </Form.Item>
         </div>
