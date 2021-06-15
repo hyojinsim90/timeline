@@ -65,7 +65,9 @@ public class S3Service {
 //        log.info("[file - getSize] : " + file.getSize());
 
         if(file == null) {
+            log.info("[file == null]");
             String absolutePath = new File("").getAbsolutePath();
+            log.info("absolutePath :  " + absolutePath);
             // 서버용
             File orifile = new File(absolutePath + "/timeline/src/main/resources/image/timeline.jpg");
             // 로컬테스트용
