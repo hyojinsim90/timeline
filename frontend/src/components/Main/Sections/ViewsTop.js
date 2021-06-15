@@ -7,6 +7,7 @@ import "swiper/components/pagination/pagination.min.css"
 import "swiper/components/navigation/navigation.min.css"
 import SwiperCore, { Pagination,Navigation } from "swiper/core"
 import { EyeOutlined, LikeOutlined } from "@ant-design/icons"
+import { Link } from "react-router-dom"
 
 const ViewsTopDiv = styled.div`
   margin: 0px 40px;
@@ -95,40 +96,42 @@ const ViewsTop = (props) => {
       <div className="swiper-button-next swiper-button-black"></div>
       {props.viewsList && props.viewsList.map((item, i) => (
         <SwiperSlide key={i}>
-          <Card
-            style={{ width: '100%' }}
-            cover={
-              <img
-                alt="img"
-                src={props.viewsList[i].imgFullPath}
+          <Link to={`/${item.id}`}>
+            <Card
+              style={{ width: '100%' }}
+              cover={
+                <img
+                  alt="img"
+                  src={props.viewsList[i].imgFullPath}
+                />
+              }
+            >
+              <Tag color="black">{props.viewsList[i].category}</Tag>
+              <Meta
+                title={props.viewsList[i].title}
               />
-            }
-          >
-            <Tag color="black">{props.viewsList[i].category}</Tag>
-            <Meta
-              title={props.viewsList[i].title}
-            />
 
-            <div>
               <div>
-                <EyeOutlined />
-                <span>{props.viewsList[i].viewCount}</span>
+                <div>
+                  <EyeOutlined />
+                  <span>{props.viewsList[i].viewCount}</span>
+                </div>
+                <div>
+                  <LikeOutlined />
+                  <span>{props.viewsList[i].likeCount}</span>
+                </div>
               </div>
-              <div>
-                <LikeOutlined />
-                <span>{props.viewsList[i].likeCount}</span>
-              </div>
-            </div>
-            {props.viewsList[i].complete ?
-              <Tag color="mediumpurple">
-                <span>진행완료</span>
-              </Tag>
-              :
-              <Tag color="skyblue">
-                <span>진행중</span>
-              </Tag>
-            }
-          </Card>
+              {props.viewsList[i].complete ?
+                <Tag color="mediumpurple">
+                  <span>진행완료</span>
+                </Tag>
+                :
+                <Tag color="skyblue">
+                  <span>진행중</span>
+                </Tag>
+              }
+            </Card>
+          </Link>
         </SwiperSlide>
       ))}
       </Swiper>

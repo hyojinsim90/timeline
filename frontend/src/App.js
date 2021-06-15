@@ -12,6 +12,7 @@ import TimelineList from "./components/ManageTimeline/TimelineList"
 import TimelineItem from "./components/ManageTimeline/TimelineItem"
 import MyInfo from "./components/MyPage/MyInfo"
 import Main from "./components/Main/Main"
+import Detail from "./components/Detail/Detail"
 import Auth from "./hoc/auth"
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <div className="App">
         <Switch>
           <Route exact path="/" component={Main}></Route>
+          <Route exact path="/:timelineId" component={Detail}></Route>
           <Route exact path="/login" component={Auth(LoginPage, true)}></Route>
           <Route exact path="/signup" component={SignupPage}></Route>
           <Route exact path="/findpw" component={FindPwPage}></Route>
