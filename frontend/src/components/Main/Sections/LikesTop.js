@@ -8,7 +8,7 @@ import "swiper/components/navigation/navigation.min.css"
 import SwiperCore, { Pagination,Navigation } from "swiper/core"
 import { EyeOutlined, LikeOutlined } from "@ant-design/icons"
 
-const ViewsTopDiv = styled.div`
+const LikesTopDiv = styled.div`
   margin: 0px 40px;
   h2 {
     text-align: left;
@@ -80,11 +80,10 @@ SwiperCore.use([Pagination,Navigation])
 
 const { Meta } = Card
 
-const ViewsTop = (props) => {
-  const [swiperRef, setSwiperRef] = useState("")
+const LikesTop = (props) => {
   return (
-    <ViewsTopDiv>
-    <h2>오늘의 추천 TOP 10</h2>
+    <LikesTopDiv>
+    <h2>추천 타임라인 TOP 10</h2>
       <Swiper
         slidesPerView={5}
         centeredSlides={false}
@@ -93,33 +92,33 @@ const ViewsTop = (props) => {
       >
       <div className="swiper-button-prev swiper-button-black"></div>
       <div className="swiper-button-next swiper-button-black"></div>
-      {props.viewsList && props.viewsList.map((item, i) => (
+      {props.likesList && props.likesList.map((item, i) => (
         <SwiperSlide key={i}>
           <Card
             style={{ width: '100%' }}
             cover={
               <img
                 alt="img"
-                src={props.viewsList[i].imgFullPath}
+                src={props.likesList[i].imgFullPath}
               />
             }
           >
-            <Tag color="black">{props.viewsList[i].category}</Tag>
+            <Tag color="black">{props.likesList[i].category}</Tag>
             <Meta
-              title={props.viewsList[i].title}
+              title={props.likesList[i].title}
             />
 
             <div>
               <div>
                 <EyeOutlined />
-                <span>{props.viewsList[i].viewCount}</span>
+                <span>{props.likesList[i].viewCount}</span>
               </div>
               <div>
                 <LikeOutlined />
-                <span>{props.viewsList[i].likeCount}</span>
+                <span>{props.likesList[i].likeCount}</span>
               </div>
             </div>
-            {props.viewsList[i].complete ?
+            {props.likesList[i].complete ?
               <Tag color="mediumpurple">
                 <span>진행완료</span>
               </Tag>
@@ -132,8 +131,8 @@ const ViewsTop = (props) => {
         </SwiperSlide>
       ))}
       </Swiper>
-    </ViewsTopDiv>
+    </LikesTopDiv>
   )
 }
 
-export default ViewsTop
+export default LikesTop
