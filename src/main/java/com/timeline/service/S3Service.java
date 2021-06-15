@@ -6,15 +6,11 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
-import com.amazonaws.util.IOUtils;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
@@ -106,9 +102,31 @@ public class S3Service {
     // 수정용 업로드
     public String updateUpload(String currentFilePath,@Nullable MultipartFile file) throws IOException {
 
-        if(file == null) {
+        if(file == null && "".equals(currentFilePath)){
+            // 바꿀 파일도 없고 기존파일도 없는경우
+            String absolutePath = new File("").getAbsolutePath();
+            // 서버용
+            File orifile = new File(absolutePath + "/timeline/src/main/resources/image/timeline.jpg");
+            // 로컬테스트용
+//            File orifile = new File(absolutePath + "\\src\\main\\resources\\image\\timeline.jpg");
+
+            // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
+            SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
+            String fileName = date.format(new Date()) + "-" + orifile.getName();
+
+            FileInputStream input = new FileInputStream(orifile);
+
+            // 파일 업로드
+            s3Client.putObject(new PutObjectRequest(bucket, fileName, input, null)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+
+            return fileName;
+        } else if (file == null && !"".equals(currentFilePath)) {
+            // 바꿀 파일도 없고 기존 파일만 있는 경우
             return currentFilePath;
-        } else {
+        } else if (file != null && !"".equals(currentFilePath)) {
+            // 바꿀 파일이 있고 기존 파일도 있는 경우
+
             // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
             SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
             String fileName = date.format(new Date()) + "-" + file.getOriginalFilename();
@@ -121,20 +139,41 @@ public class S3Service {
                     .withCannedAcl(CannedAccessControlList.PublicRead));
 
             return fileName;
+        } else {
+            // 바꿀 파일이 있고 기존 파일이 없는 경우
+
+            // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
+            SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
+            String fileName = date.format(new Date()) + "-" + file.getOriginalFilename();
+
+            // 파일 업로드
+            s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+
+            return fileName;
         }
+
     }
 
     /* 기존 파일 삭제 */
-    public void delete(String currentFilePath) {
+    public boolean delete(String currentFilePath) {
         // key가 존재하면 기존 파일은 삭제
-        if ("".equals(currentFilePath) == false && currentFilePath != null) {
-            boolean isExistObject = s3Client.doesObjectExist(bucket, currentFilePath);
 
-            if (isExistObject == true) {
-                s3Client.deleteObject(bucket, currentFilePath);
-                log.info("기존파일 삭제 완료.");
+            if ("".equals(currentFilePath) == false && currentFilePath != null) {
+                boolean isExistObject = s3Client.doesObjectExist(bucket, currentFilePath);
+
+                if (isExistObject == true) {
+
+                    s3Client.deleteObject(bucket, currentFilePath);
+                    log.info("기존파일 삭제 완료.");
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } else {
+                return false;
             }
-        }
     }
 
 

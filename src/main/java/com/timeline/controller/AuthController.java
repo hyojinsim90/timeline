@@ -77,6 +77,14 @@ public class AuthController {
         return authService.findAllNickname();
     }
 
+    /* 한명 닉네임 가져옴  */
+    @GetMapping("/nicknames/{email}")
+    public MemberNicknameResponseDto findAll(@PathVariable String email) {
+
+        log.info("[controller - /auth/nicknames/{email}]");
+        return authService.findNickname(email);
+    }
+
 
 
 }

@@ -232,4 +232,14 @@ public class AuthService {
                 .collect(Collectors.toList());
     }
 
+    /* 한명 닉네임 가져옴 */
+    @Transactional(readOnly = true)
+    public MemberNicknameResponseDto findNickname(String email) {
+        log.info("[service- findNickname]");
+
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다. email =" + email));
+
+        return new MemberNicknameResponseDto(member);
+    }
+
 }

@@ -110,7 +110,7 @@ public class TimelineController {
 
     /* 타임라인 마스터 이미지 삭제 */
     @DeleteMapping("master/{filePath}")
-    public void deleteFilePath(@PathVariable String filePath) { s3Service.delete(filePath); }
+    public boolean deleteFilePath(@PathVariable String filePath) { return s3Service.delete(filePath); }
 
     /* 타임라인 디테일 삭제 */
     @DeleteMapping("detail/{masterId}")
