@@ -4,6 +4,11 @@ import styled from "styled-components"
 import { Input } from "antd"
 
 const MiddleDetailDiv = styled.div`
+  width: 90%;
+  .entry {
+    color: #e86971;
+    height: 495px;
+  }
   .body-container p {
     word-break: break-all;
     .ant-input {
@@ -21,12 +26,13 @@ const MiddleDetail = (props) => {
         {props.countList && props.countList.map((item, i) => (
           <TimelineItem
             key={i}
+            id={props.id[i]}
             dateText={props.detailDateString !== undefined ? props.detailDateString[i] : ""}
-            style={{ color: '#e86971', height: '495px', }}
             bodyContainerStyle={{
               background: '#efefef',
               padding: '20px',
               borderRadius: '8px',
+              marginBottom: "100px",
             }}
           >
             <h3>{props.title[i]}</h3>
