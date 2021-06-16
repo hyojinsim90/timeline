@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TimelineCommentRepository extends JpaRepository<TimelineComment, Long> {
 
-    @Query("SELECT m FROM TimelineComment m WHERE m.masterId = :masterId AND m.memberId = :nickname")
+    @Query("SELECT m FROM TimelineComment m WHERE m.masterId = :masterId AND m.nickname = :nickname")
     TimelineComment findExistOne(@Param("masterId") Long masterId, @Param("memberId") String nickname);
 
 }
