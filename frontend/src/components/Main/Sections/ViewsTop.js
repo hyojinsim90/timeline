@@ -96,7 +96,7 @@ const ViewsTop = (props) => {
       <div className="swiper-button-next swiper-button-black"></div>
       {props.viewsList && props.viewsList.map((item, i) => (
         <SwiperSlide key={i}>
-          <Link to={`/${item.id}`}>
+          <Link to={`/timeline/${item.id}`}>
             <Card
               style={{ width: '100%' }}
               cover={

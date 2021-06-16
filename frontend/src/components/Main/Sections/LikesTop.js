@@ -95,7 +95,7 @@ const LikesTop = (props) => {
       <div className="swiper-button-next swiper-button-black"></div>
       {props.likesList && props.likesList.map((item, i) => (
         <SwiperSlide key={i}>
-          <Link to={`/${item.id}`}>
+          <Link to={`/timeline/${item.id}`}>
             <Card
               style={{ width: '100%' }}
               cover={
