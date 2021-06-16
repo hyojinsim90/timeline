@@ -16,5 +16,6 @@ import java.io.Serializable;
 public class TimelineCommentPK implements Serializable {
 
     private Long masterId; // timeline_master_id
-    private String id; // member_nickname
+    private String nickname; // member_nickname
+
 }
