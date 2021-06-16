@@ -64,6 +64,12 @@ const LoginPage = () => {
     setPassword(e.target.value)
   }
 
+  const onCheckEnter = (e) => {
+    if(e.key === "Enter") {
+      onLogin()
+    }
+  }
+
   const onLogin = () => {
 
     var variables = {
@@ -89,7 +95,7 @@ const LoginPage = () => {
     <LoginDiv>
       <h1>로그인</h1>
       <br />
-      <Form>
+      <Form onKeyPress={onCheckEnter}>
         <Form.Item
           label="이메일 주소:"
           name="email"

@@ -82,6 +82,12 @@ const SignupPage = () => {
       })
   }
 
+  const onCheckEnter = (e) => {
+    if(e.key === "Enter") {
+      onSignup()
+    }
+  }
+
   const onSignup = () => {
     const variables = {
       "email": email,
@@ -114,7 +120,7 @@ const SignupPage = () => {
     <SignupDiv>
       <h1>회원가입</h1>
       <br />
-      <Form onSubmit={onSignup}>
+      <Form onKeyPress={onCheckEnter}>
         <Form.Item
           label="이메일 주소:"
           name="email"
