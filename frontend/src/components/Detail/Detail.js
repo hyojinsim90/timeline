@@ -13,9 +13,18 @@ const DetailDiv = styled.div`
 const Detail = (props) => {
   const [masterData, setMasterData] = useState([])
   const [nickname, setNickname] = useState("")
+  const [countList, setCountList] = useState([])
+  const [detailDateString, setDetailDateString] = useState([])
+  const [title, setTitle] = useState([])
+  const [content, setContent] = useState([])
   const param = useParams()
 
   useEffect(() => {
+    let detailDatestringArr = [...detailDateString]
+    let titleArr = [...title]
+    let contentArr = [...content]
+
+    // timeline master 가져오기
     Axios.get(`/timeline/master/list`)
       .then(res => {
         if(res.data) {
@@ -27,11 +36,31 @@ const Detail = (props) => {
             })
         }
       })
+
+    // timeline detail 가져오기
+    Axios.get(`/timeline/detail/${param.timelineId}`)
+      .then(res => {
+        if(res.data) {
+          setCountList(Object.keys(res.data))
+          setDetailDateString(res.data.scheduleDate)
+          res.data.forEach((item, i) => {
+            detailDatestringArr[i] = item.createdDate.substring(0, 10)
+            titleArr[i] = item.title
+            contentArr[i] = item.content
+
+            setDetailDateString(detailDatestringArr)
+            setTitle(titleArr)
+            setContent(contentArr)
+          })
+
+        }
+      })
   }, [param])
 
   return (
     <DetailDiv>
       <TopMaster masterData={masterData} nickname={nickname} />
+      <MiddleDetail countList={countList} detailDateString={detailDateString} title={title} content={content} />
     </DetailDiv>
   )
 }

@@ -1,14 +1,14 @@
 import React from "react"
-import { Timeline, TimelineItem }  from 'vertical-timeline-component-for-react'
+import { Timeline, TimelineItem }  from "vertical-timeline-component-for-react"
 import styled from "styled-components"
 import { Input } from "antd"
 
 const TimelineViewDiv = styled.div`
   .body-container p {
     word-break: break-all;
-  .ant-input {
-    background: #efefef;
-  }
+    .ant-input {
+      background: #efefef;
+    }
   }
 `
 
