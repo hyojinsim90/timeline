@@ -152,7 +152,7 @@ public class TimelineService {
 
     /* 타임라인 디테일 수정 */
     @Transactional
-    public Object updateDetail(Long masterId, List<TimelineDetailUpdateRequestDto> timelineDetailList) {
+    public ResponseEntity updateDetail(Long masterId, List<TimelineDetailUpdateRequestDto> timelineDetailList) {
         log.info("[ timeline_detail 수정 ]");
 
         //  변수선언 : 날짜변환, detail entity, detail담을 리스트

@@ -73,6 +73,8 @@ public class TimelineMaster extends BaseTimeEntity{
         this.isComplete = isComplete;
     }
 
-
+    public void updateLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
 
 }

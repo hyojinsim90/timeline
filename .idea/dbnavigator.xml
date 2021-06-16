@@ -105,7 +105,27 @@ commit;
 --alter table timeline_detail change schedule_date schedule_date varchar(200);
 
 -- 컬럼 정보 조회
---show columns from timeline_detail;]]></console>
+--show columns from timeline_detail;
+
+--create table timeline_comment 
+--(
+--timeline_master_id bigint, 
+--member_nickname varchar(255), 
+--star bigint,
+--content varchar(255),
+--created_date datetime(6), 
+--modified_date datetime(6), 
+--primary key (timeline_master_id, member_nickname)
+--) engine=InnoDB;
+--
+--create table timeline_like
+--(
+--timeline_master_id bigint, 
+--member_id bigint, 
+--created_date datetime(6), 
+--modified_date datetime(6), 
+--primary key (timeline_master_id, member_id)
+--) engine=InnoDB;]]></console>
     </connection>
     <connection id="0b985d6b-adb0-4232-9a2f-42b49e2fc776">
       <console name="localhost" type="STANDARD" schema="timeline" session="Main"><![CDATA[select
