@@ -158,10 +158,16 @@ const CreateTimeline = () => {
     let detailDateArr = [...detailDate]
     let detailDatestringArr = [...detailDateString]
 
-    detailDateArr[i] = date
-    detailDatestringArr[i] = dateString
-    setDetailDate(detailDateArr)
-    setDetailDateString(detailDatestringArr)
+    // 날짜 선택 중복 금지
+    if(detailDatestringArr.includes(dateString)) {
+      alert("이미 선택한 날짜입니다")
+      return false
+    } else {
+      detailDateArr[i] = date
+      detailDatestringArr[i] = dateString
+      setDetailDate(detailDateArr)
+      setDetailDateString(detailDatestringArr)
+    }
   }
 
   const onchangeDetailContent = (e, i) => {

@@ -10,10 +10,6 @@ const SideScrollDiv = styled.div`
 `
 
 const SideScroll = (props) => {
-  const handleSetActive = (id) => {
-    console.log(id);
-  }
-
   return (
     <SideScrollDiv>
       {props.countList && props.countList.map((item, i) => (
