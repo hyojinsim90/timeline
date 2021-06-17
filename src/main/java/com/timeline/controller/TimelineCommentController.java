@@ -28,13 +28,13 @@ public class TimelineCommentController {
     private final TimelineCommentService timelineCommentService;
 
     /* 한 타임라인 게시물의 댓글들 조회 */
-    @GetMapping("/comment/list/{masterId}")
+    @GetMapping("/comment/list/masterId/{masterId}")
     public List<TimelineCommentResponseDto> findCommentByMasterId(@PathVariable Long masterId) {
         return timelineCommentService.findCommentByMasterId(masterId);
     }
 
     /* 회원 한명의 댓글들 조회 */
-    @GetMapping("/comment/list/{nickname}")
+    @GetMapping("/comment/list/nickname/{nickname}")
     public List<TimelineCommentResponseDto> findCommentByNickname(@PathVariable String nickname) {
         return timelineCommentService.findCommentByNickname(nickname);
     }
