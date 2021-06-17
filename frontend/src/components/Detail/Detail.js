@@ -72,6 +72,7 @@ const Detail = (props) => {
         <MiddleDetail countList={countList} detailDateString={detailDateString} title={title} content={content} id={id} />
         <SideScroll countList={countList} id={id} />
       </MiddleDiv>
+      <BottomComment />
     </DetailDiv>
   )
 }
