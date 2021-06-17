@@ -125,7 +125,15 @@ commit;
 --created_date datetime(6), 
 --modified_date datetime(6), 
 --primary key (timeline_master_id, member_id)
---) engine=InnoDB;]]></console>
+--) engine=InnoDB;
+
+select * from timeline_comment;
+
+select * from timeline_like;
+
+select * from timeline_master;
+
+select * from member;]]></console>
     </connection>
     <connection id="0b985d6b-adb0-4232-9a2f-42b49e2fc776">
       <console name="localhost" type="STANDARD" schema="timeline" session="Main"><![CDATA[select

@@ -32,6 +32,8 @@ public class TimelineLikeService {
 
         // 중복인지 확인
         TimelineLike timelineLike = timelineLikeRepository.findExistOne(timelineLikeRequestDto.getMasterId(), timelineLikeRequestDto.getMasterId());
+        log.info("[ timelineLike ]" + timelineLike);
+        log.info("[ timelineLike.getMemberId() ]" + timelineLike.getMemberId());
 
         if(timelineLike == null ){
             log.info("- 추천된 적 없는 timeline ");

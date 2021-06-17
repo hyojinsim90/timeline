@@ -1,5 +1,7 @@
 package com.timeline.service;
 
+import com.timeline.controller.dto.timeline.TimelineMasterListResponseDto;
+import com.timeline.controller.dto.timeline.comment.TimelineCommentCheckRequestDto;
 import com.timeline.controller.dto.timeline.comment.TimelineCommentRequestDto;
 import com.timeline.controller.dto.timeline.comment.TimelineCommentResponseDto;
 import com.timeline.entity.TimelineComment;
@@ -10,6 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Time;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : Hyojin Sim
@@ -24,6 +30,49 @@ public class TimelineCommentService {
 
     private final TimelineCommentRepository timelineCommentRepository;
 
+
+    /* 한 타임라인 게시물의 댓글들 조회 */
+    @Transactional(readOnly = true)
+    public List<TimelineCommentResponseDto> findCommentByMasterId(Long masterId) {
+        log.info("[ 한 timeline의 댓글들 조회 ]");
+
+        return timelineCommentRepository.findByMasterId(masterId).stream()
+                .map(TimelineCommentResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 회원 한명의 댓글들 조회 */
+    @Transactional(readOnly = true)
+    public List<TimelineCommentResponseDto> findCommentByNickname(String nickname) {
+        log.info("[ 회원 한명의 댓글들 조회 ]");
+
+        return timelineCommentRepository.findByNickname(nickname).stream()
+                .map(TimelineCommentResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 한 게시물에 이미 작성한 회원인지 조회 */
+    @Transactional(readOnly = true)
+    public boolean checkComment(TimelineCommentCheckRequestDto timelineCommentCheckRequestDto) {
+        log.info("[ 한 게시물에 이미 작성한 회원인지 조회  ]");
+
+       TimelineComment timelineComment = timelineCommentRepository.findExistOne(timelineCommentCheckRequestDto.getMasterId(), timelineCommentCheckRequestDto.getNickname());
+       if(timelineComment != null){
+           return true;
+       } else {
+           return false;
+       }
+    }
+
+    /* 댓글 전체 조회 */
+    @Transactional(readOnly = true)
+    public List<TimelineCommentResponseDto> findAllComments() {
+        log.info("[ timeline_comment 전체 조회 ]");
+
+        return timelineCommentRepository.findAll().stream()
+                .map(TimelineCommentResponseDto::new)
+                .collect(Collectors.toList());
+    }
 
     /* 타임라인 댓글 저장 */
     @Transactional
@@ -64,6 +113,5 @@ public class TimelineCommentService {
         
 
     }
-
 
 }

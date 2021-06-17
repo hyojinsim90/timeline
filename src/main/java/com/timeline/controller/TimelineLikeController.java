@@ -28,6 +28,15 @@ public class TimelineLikeController {
         return timelineLikeService.changeLike(timelineLikeRequestDto);
     }
 
+    /* 타임라인 추천 취소할 시 */
+
+    /* 한 회원이 추천한 타임라인 조회 */
+
+    /* 한 타임라인 게시물에 추천한 회원 조회 */
+
+    /* 전체 추천 테이블 조회 */
+
+    /* 100개 넘어간 타임라인 게시물 조회 */
 
 
 

@@ -20,6 +20,7 @@ public interface TimelineDetailRepository extends JpaRepository<TimelineDetail, 
     @Query("SELECT m FROM TimelineDetail m WHERE m.masterId = :masterId AND m.id = :id")
     TimelineDetail findDetail(@Param("masterId") Long masterId, @Param("id") Long id);
 
+    @Query("SELECT m FROM TimelineDetail m WHERE m.masterId = :masterId ORDER BY createdDate")
     List<TimelineDetail> findByMasterId(Long masterId);
 
 }

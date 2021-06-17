@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author : Hyojin Sim
  * @version : 1.0.0
@@ -18,5 +21,9 @@ public interface TimelineCommentRepository extends JpaRepository<TimelineComment
 
     @Query("SELECT m FROM TimelineComment m WHERE m.masterId = :masterId AND m.nickname = :nickname")
     TimelineComment findExistOne(@Param("masterId") Long masterId, @Param("nickname") String nickname);
+
+    List<TimelineComment> findByMasterId(Long masterId);
+
+    List<TimelineComment> findByNickname(String nickname);
 
 }
