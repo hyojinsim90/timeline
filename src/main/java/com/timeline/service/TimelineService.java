@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.timeline.controller.dto.member.MemberListResponseDto;
 import com.timeline.controller.dto.member.MemberUpdateRequestDto;
 import com.timeline.controller.dto.timeline.*;
+import com.timeline.controller.dto.timeline.like.TimelineLikeResponseDto;
 import com.timeline.entity.Member;
 import com.timeline.entity.RefreshToken;
 import com.timeline.entity.TimelineDetail;
@@ -211,4 +212,13 @@ public class TimelineService {
 
     }
 
+    /* 100개 넘어간 타임라인 게시물 조회 */
+    @Transactional(readOnly = true)
+    public List<TimelineMasterResponseDto> findBestLikes() {
+        log.info("[ 100개 넘어간 추천 타임라인 조회 ]");
+
+        return timelineMasterRepository.findBestLikes().stream()
+                .map(TimelineMasterResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

@@ -4,6 +4,7 @@ import com.timeline.controller.dto.member.MemberListResponseDto;
 import com.timeline.controller.dto.member.MemberResponseDto;
 import com.timeline.controller.dto.member.MemberUpdateRequestDto;
 import com.timeline.controller.dto.timeline.*;
+import com.timeline.controller.dto.timeline.like.TimelineLikeResponseDto;
 import com.timeline.entity.TimelineDetail;
 import com.timeline.service.S3Service;
 import com.timeline.service.TimelineService;
@@ -122,6 +123,12 @@ public class TimelineController {
     @DeleteMapping("/{masterId}")
     public void delete(@PathVariable Long masterId) {
         timelineService.delete(masterId);
+    }
+
+    /* 100개 넘어간 타임라인 게시물 조회 */
+    @GetMapping("/like/list/best")
+    public List<TimelineMasterResponseDto> findBestLikes(){
+        return timelineService.findBestLikes();
     }
 
 

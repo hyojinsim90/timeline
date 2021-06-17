@@ -2,10 +2,13 @@ package com.timeline.controller;
 
 import com.timeline.controller.dto.timeline.TimelineMasterLikeCountResponseDto;
 import com.timeline.controller.dto.timeline.like.TimelineLikeRequestDto;
+import com.timeline.controller.dto.timeline.like.TimelineLikeResponseDto;
 import com.timeline.service.TimelineLikeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author : Hyojin Sim
@@ -23,21 +26,47 @@ public class TimelineLikeController {
     private final TimelineLikeService timelineLikeService;
 
     /* 타임라인 추천할 시 */
-    @PostMapping("/like")
+    @PostMapping("/like/change")
     public TimelineMasterLikeCountResponseDto changeLike(@RequestBody TimelineLikeRequestDto timelineLikeRequestDto){
         return timelineLikeService.changeLike(timelineLikeRequestDto);
     }
 
-    /* 타임라인 추천 취소할 시 */
+    /* 타임라인 추천할 시 */
+    @PostMapping("/like")
+    public TimelineMasterLikeCountResponseDto addLike(@RequestBody TimelineLikeRequestDto timelineLikeRequestDto){
+        return timelineLikeService.addLike(timelineLikeRequestDto);
+    }
 
-    /* 한 회원이 추천한 타임라인 조회 */
+    /* 타임라인 추천 취소할 시 */
+    @DeleteMapping("/like")
+    public TimelineMasterLikeCountResponseDto deleteLike(@RequestBody TimelineLikeRequestDto timelineLikeRequestDto){
+        return timelineLikeService.deleteLike(timelineLikeRequestDto);
+    }
+
+    /* 이미 추천한 타임라인인지 확인 */
+    @GetMapping("/like/check")
+    public boolean checkLike(@RequestBody TimelineLikeRequestDto timelineLikeRequestDto){
+        return timelineLikeService.checkLike(timelineLikeRequestDto);
+    }
+
 
     /* 한 타임라인 게시물에 추천한 회원 조회 */
+    @GetMapping("/like/list/{masterId}")
+    public List<TimelineLikeResponseDto> findLikeByMasterId(@PathVariable Long masterId){
+        return timelineLikeService.findLikeByMasterId(masterId);
+    }
+
+    /* 한 회원이 추천한 타임라인 조회 */
+    @GetMapping("/like/list/{memberId}")
+    public List<TimelineLikeResponseDto> findLikeByMemberId(@PathVariable Long memberId){
+        return timelineLikeService.findLikeByMemberId(memberId);
+    }
 
     /* 전체 추천 테이블 조회 */
-
-    /* 100개 넘어간 타임라인 게시물 조회 */
-
+    @GetMapping("/like/list")
+    public List<TimelineLikeResponseDto> findLikes(){
+        return timelineLikeService.findLikes();
+    }
 
 
 }

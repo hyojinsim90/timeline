@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -25,5 +26,7 @@ public interface TimelineMasterRepository extends JpaRepository<TimelineMaster, 
 
     List<TimelineMaster> findTop10ByOrderByLikeCountDesc();
 
+    @Query("SELECT m FROM TimelineMaster m WHERE m.likeCount > 100")
+    List<Long> findBestLikes();
 }
 
