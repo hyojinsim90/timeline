@@ -87,9 +87,6 @@ public class TimelineLikeService {
         } else {
             // 중복이면 (이미 추천했으면) 추천 취소 처리
             log.info("- 이미 추천된 timeline -> 취소 처리 ");
-            TimelineLike timelineLike = timelineLikeRepository.findExistOne(timelineLikeRequestDto.getMasterId(), timelineLikeRequestDto.getMasterId());
-
-            log.info("[ timelineLike.getMemberId() ]" + timelineLike.getMemberId());
 
             // timeline_like 테이블에서 삭제
             timelineLikeRepository.delete(timelineLikeRequestDto.toTimelineLike());

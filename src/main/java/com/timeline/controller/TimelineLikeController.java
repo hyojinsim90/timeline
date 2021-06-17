@@ -51,13 +51,13 @@ public class TimelineLikeController {
 
 
     /* 한 타임라인 게시물에 추천한 회원 조회 */
-    @GetMapping("/like/list/{masterId}")
+    @GetMapping("/like/list/masterId/{masterId}")
     public List<TimelineLikeResponseDto> findLikeByMasterId(@PathVariable Long masterId){
         return timelineLikeService.findLikeByMasterId(masterId);
     }
 
     /* 한 회원이 추천한 타임라인 조회 */
-    @GetMapping("/like/list/{memberId}")
+    @GetMapping("/like/list/memberId/{memberId}")
     public List<TimelineLikeResponseDto> findLikeByMemberId(@PathVariable Long memberId){
         return timelineLikeService.findLikeByMemberId(memberId);
     }
