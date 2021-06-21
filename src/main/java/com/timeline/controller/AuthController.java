@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -87,7 +86,7 @@ public class AuthController {
 
     /* 한명 멤버아이디 가져옴  */
     @GetMapping("/getId/{email}")
-    public MemberIdResponseDto getId(@PathVariable String email) {
+    public Long getId(@PathVariable String email) {
 
         log.info("[controller - /auth/getId/{email}]");
         return authService.getId(email);
