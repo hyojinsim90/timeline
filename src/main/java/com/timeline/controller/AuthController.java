@@ -79,10 +79,18 @@ public class AuthController {
 
     /* 한명 닉네임 가져옴  */
     @GetMapping("/nicknames/{email}")
-    public MemberNicknameResponseDto findAll(@PathVariable String email) {
+    public MemberNicknameResponseDto findNickname(@PathVariable String email) {
 
         log.info("[controller - /auth/nicknames/{email}]");
         return authService.findNickname(email);
+    }
+
+    /* 한명 멤버아이디 가져옴  */
+    @GetMapping("/getId/{email}")
+    public MemberIdResponseDto getId(@PathVariable String email) {
+
+        log.info("[controller - /auth/getId/{email}]");
+        return authService.getId(email);
     }
 
 

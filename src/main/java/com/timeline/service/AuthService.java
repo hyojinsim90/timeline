@@ -242,4 +242,12 @@ public class AuthService {
         return new MemberNicknameResponseDto(member);
     }
 
+    /* 한명 멤버 아이디 가져옴  */
+    public MemberIdResponseDto getId(String email) {
+        log.info("[service- getId]");
+
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다. email =" + email));
+
+        return new MemberIdResponseDto(member);
+    }
 }

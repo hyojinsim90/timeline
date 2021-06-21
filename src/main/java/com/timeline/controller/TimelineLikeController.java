@@ -25,7 +25,7 @@ public class TimelineLikeController {
 
     private final TimelineLikeService timelineLikeService;
 
-    /* 타임라인 추천할 시 */
+    /* 타임라인 추천 혹은 취소할 시 */
     @PostMapping("/like/change")
     public TimelineMasterLikeCountResponseDto changeLike(@RequestBody TimelineLikeRequestDto timelineLikeRequestDto){
         return timelineLikeService.changeLike(timelineLikeRequestDto);

@@ -133,7 +133,9 @@ select * from timeline_like;
 
 select * from timeline_master;
 
-select * from member;]]></console>
+select * from member;
+
+show columns from timeline_like;]]></console>
     </connection>
     <connection id="0b985d6b-adb0-4232-9a2f-42b49e2fc776">
       <console name="localhost" type="STANDARD" schema="timeline" session="Main"><![CDATA[select
