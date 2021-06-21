@@ -110,7 +110,7 @@ const ModifyTimeline = (props) => {
       open: open,
       title: title,
     }]
-    console.log(deleteStatus);
+
     // 파일 업로드 안 했을 때 기본 이미지 혹은 기존 이미지 그대로 유지
     if(files.length === 0) {
       formData.append("file", "")
