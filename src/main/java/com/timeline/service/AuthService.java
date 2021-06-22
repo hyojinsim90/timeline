@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -143,9 +144,12 @@ public class AuthService {
 
         if("general".equals(member.getGubun())){
             // refresh token에서 먼저 삭제
-            RefreshToken refreshToken = refreshTokenRepository.findByKey(member.getId().toString())
-                    .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다"));
-            refreshTokenRepository.delete(refreshToken);
+            Optional<RefreshToken> refreshToken = refreshTokenRepository.findByKey(member.getId().toString());
+
+            if(refreshToken != null){
+                refreshTokenRepository.delete(refreshToken);
+            }
+
             return ResponseEntity.status(HttpStatus.OK).body("Refresh Token Deleted Successfully ! ");
         }
         return null;

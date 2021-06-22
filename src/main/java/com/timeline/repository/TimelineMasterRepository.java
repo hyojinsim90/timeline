@@ -1,9 +1,11 @@
 package com.timeline.repository;
 
+import com.timeline.entity.TimelineComment;
 import com.timeline.entity.TimelineMaster;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,5 +30,11 @@ public interface TimelineMasterRepository extends JpaRepository<TimelineMaster, 
 
     @Query("SELECT m FROM TimelineMaster m WHERE m.likeCount > 100")
     List<Long> findBestLikes();
+
+    @Query("SELECT m FROM TimelineMaster m WHERE m.category = :category")
+    List<TimelineMaster> findByCategory(@Param("category") String category);
+
+    @Query("SELECT m FROM TimelineMaster m WHERE m.category = :category and m.title like ':keyword'")
+    List<TimelineMaster> searchByKeyword(@Param("category") String category, @Param("keyword") String keyword);
 }
 

@@ -33,13 +33,6 @@ public class TimelineComment extends BaseTimeEntity {
     @Column(name = "content")
     private String content; // 내용
 
-    @Builder
-    public TimelineComment(Long masterId, String nickname, Long star, String content) {
-        this.masterId = masterId;
-        this.nickname = nickname;
-        this.star = star;
-        this.content = content;
-    }
 
     public void update(Long masterId, String nickname, Long star, String content) {
         this.masterId = masterId;

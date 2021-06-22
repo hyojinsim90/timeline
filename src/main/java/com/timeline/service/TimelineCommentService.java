@@ -36,7 +36,7 @@ public class TimelineCommentService {
     public List<TimelineCommentResponseDto> findCommentByMasterId(Long masterId) {
         log.info("[ 한 timeline의 댓글들 조회 ]");
 
-        return timelineCommentRepository.findByMasterId(masterId).stream()
+        return timelineCommentRepository.findByMasterIdOrderByCreatedDateAsc(masterId).stream()
                 .map(TimelineCommentResponseDto::new)
                 .collect(Collectors.toList());
     }
@@ -46,7 +46,7 @@ public class TimelineCommentService {
     public List<TimelineCommentResponseDto> findCommentByNickname(String nickname) {
         log.info("[ 회원 한명의 댓글들 조회 ]");
 
-        return timelineCommentRepository.findByNickname(nickname).stream()
+        return timelineCommentRepository.findByNicknameOrderByCreatedDateAsc(nickname).stream()
                 .map(TimelineCommentResponseDto::new)
                 .collect(Collectors.toList());
     }
@@ -68,8 +68,7 @@ public class TimelineCommentService {
     @Transactional(readOnly = true)
     public List<TimelineCommentResponseDto> findAllComments() {
         log.info("[ timeline_comment 전체 조회 ]");
-
-        return timelineCommentRepository.findAll().stream()
+        return timelineCommentRepository.findAllByOrderByCreatedDateAsc().stream()
                 .map(TimelineCommentResponseDto::new)
                 .collect(Collectors.toList());
     }

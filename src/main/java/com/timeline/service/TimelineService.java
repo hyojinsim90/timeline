@@ -1,12 +1,6 @@
 package com.timeline.service;
 
-import com.google.common.collect.Lists;
-import com.timeline.controller.dto.member.MemberListResponseDto;
-import com.timeline.controller.dto.member.MemberUpdateRequestDto;
 import com.timeline.controller.dto.timeline.*;
-import com.timeline.controller.dto.timeline.like.TimelineLikeResponseDto;
-import com.timeline.entity.Member;
-import com.timeline.entity.RefreshToken;
 import com.timeline.entity.TimelineDetail;
 import com.timeline.entity.TimelineMaster;
 import com.timeline.repository.TimelineDetailRepository;
@@ -19,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -79,6 +71,25 @@ public class TimelineService {
         return timelineMasterRepository.findTop10ByOrderByLikeCountDesc().stream()
                 .map(TimelineMasterListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    /* 타임라인 분야별 조회 */
+    public List<TimelineMasterListResponseDto> findMasterCategory(String category) {
+        log.info("[ timeline_master 분야별 조회 ]");
+
+        return timelineMasterRepository.findByCategory(category).stream()
+                .map(TimelineMasterListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 타임라인 검색 조회 */
+    public List<TimelineMasterListResponseDto> search(String category, String keyword) {
+        log.info("[ timeline search ]");
+
+        return timelineMasterRepository.searchByKeyword(category,'%'+keyword+'%').stream()
+                .map(TimelineMasterListResponseDto::new)
+                .collect(Collectors.toList());
+
     }
 
     /* 타임라인 마스터 저장 */
@@ -221,4 +232,6 @@ public class TimelineService {
                 .map(TimelineMasterResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+
 }

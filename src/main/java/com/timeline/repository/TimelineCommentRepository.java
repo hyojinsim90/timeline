@@ -22,8 +22,9 @@ public interface TimelineCommentRepository extends JpaRepository<TimelineComment
     @Query("SELECT m FROM TimelineComment m WHERE m.masterId = :masterId AND m.nickname = :nickname")
     TimelineComment findExistOne(@Param("masterId") Long masterId, @Param("nickname") String nickname);
 
-    List<TimelineComment> findByMasterId(Long masterId);
+    List<TimelineComment> findByMasterIdOrderByCreatedDateAsc(Long masterId);
 
-    List<TimelineComment> findByNickname(String nickname);
+    List<TimelineComment> findByNicknameOrderByCreatedDateAsc(String nickname);
 
+    List<TimelineComment>  findAllByOrderByCreatedDateAsc();
 }

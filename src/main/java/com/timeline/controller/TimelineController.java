@@ -1,10 +1,6 @@
 package com.timeline.controller;
 
-import com.timeline.controller.dto.member.MemberListResponseDto;
-import com.timeline.controller.dto.member.MemberResponseDto;
-import com.timeline.controller.dto.member.MemberUpdateRequestDto;
 import com.timeline.controller.dto.timeline.*;
-import com.timeline.controller.dto.timeline.like.TimelineLikeResponseDto;
 import com.timeline.entity.TimelineDetail;
 import com.timeline.service.S3Service;
 import com.timeline.service.TimelineService;
@@ -15,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -62,6 +57,19 @@ public class TimelineController {
     public List<TimelineMasterListResponseDto> findMasterLike() {
         return timelineService.findMasterLike();
     }
+
+    /* 타임라인 분야별 조회 */
+    @GetMapping("/category/{category}")
+    public List<TimelineMasterListResponseDto> findMasterCategory(@PathVariable String category) {
+        return timelineService.findMasterCategory(category);
+    }
+
+    /* 타임라인 검색 조회 */
+    @GetMapping("/search")
+    public List<TimelineMasterListResponseDto> search(@RequestParam(value="category") String category, @RequestParam(value="keyword") String keyword) {
+        return timelineService.search(category, keyword);
+    }
+
 
     /* 타임라인 마스터 저장 */
     @PostMapping(path = "/master/save",consumes = {"multipart/form-data"})
