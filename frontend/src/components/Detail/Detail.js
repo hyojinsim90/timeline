@@ -27,6 +27,7 @@ const Detail = (props) => {
   const [content, setContent] = useState([])
   const [id, setId] = useState([])
   const [loginStatus, setLoginStatus] = useState(false)
+  const [comment, setComment] = useState([])
 
   const param = useParams()
   const [cookies, setCookie, removeCookie] = useCookies([])
@@ -36,6 +37,7 @@ const Detail = (props) => {
     let titleArr = [...title]
     let contentArr = [...content]
     let idArr = [...id]
+    let refineDate = []
 
     // timeline master 가져오기
     Axios.get(`/timeline/master/list`)
@@ -43,7 +45,6 @@ const Detail = (props) => {
         if(res.data) {
           const data = res.data.filter(item => item.id.toString() === param.timelineId)
           setMasterData(data[0])
-          console.log(data[0]);
           Axios.get(`/auth/nicknames/${data[0].author}`)
             .then(res => {
               setNickname(res.data.nickname)
@@ -58,11 +59,17 @@ const Detail = (props) => {
           setCountList(Object.keys(res.data))
           setDetailDateString(res.data.scheduleDate)
           res.data.forEach((item, i) => {
-            detailDatestringArr[i] = item.createdDate.substring(0, 10)
+            refineDate[i] = item.scheduleDate
             titleArr[i] = item.title
             contentArr[i] = item.content
             idArr[i] = item.id.toString()
           })
+
+          // scheduleDate에 - 문자열 붙이기
+          refineDate.forEach((item, i) => {
+            detailDatestringArr[i] = item.substring(0, 4) + "-" + item.substring(4, 6) + "-" + item.substring(6, 8)
+          })
+
           setDetailDateString(detailDatestringArr)
           setTitle(titleArr)
           setContent(contentArr)
@@ -70,11 +77,17 @@ const Detail = (props) => {
         }
       })
 
+      Axios.get("/timeline/comment/list")
+        .then(res => {
+          const data = res.data.filter(item => item.masterId.toString() === param.timelineId)
+          setComment(data)
+        })
+
       // 로그인했을 시 상태값 true
-      if(cookies.tl_e && cookies.tl_token && cookies.tl_re && cookies.tl_exp) {
+      if(props.user.userData !== undefined) {
         setLoginStatus(true)
       }
-  }, [param])
+  }, [param, comment])
 
   return (
     <DetailDiv>
@@ -87,7 +100,7 @@ const Detail = (props) => {
       { loginStatus &&
         <LikeToggle cookies={cookies} param={param} />
       }
-      <BottomComment />
+      <BottomComment param={param} comment={comment} user={props.user.userData} />
     </DetailDiv>
   )
 }

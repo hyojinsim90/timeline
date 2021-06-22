@@ -22,7 +22,7 @@ function App() {
       <div className="App">
         <Switch>
           <Route exact path="/" component={Main}></Route>
-          <Route exact path="/timeline/:timelineId" component={Detail}></Route>
+          <Route exact path="/timeline/:timelineId" component={Auth(Detail, false)}></Route>
           <Route exact path="/login" component={LoginPage}></Route>
           <Route exact path="/signup" component={SignupPage}></Route>
           <Route exact path="/findpw" component={FindPwPage}></Route>

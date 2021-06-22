@@ -6,7 +6,7 @@ const SideScrollDiv = styled.div`
   width: 10%;
   position: fixed;
   right: 5rem;
-  margin-top: 20px;
+  margin-top: 10px;
 `
 
 const SideScroll = (props) => {
