@@ -7,7 +7,6 @@ import LikeToggle from "./Sections/LikeToggle"
 import styled from "styled-components"
 import { useParams } from "react-router-dom"
 import Axios from "axios"
-import { useCookies } from "react-cookie"
 
 const DetailDiv = styled.div`
   margin: 3rem 5rem;
@@ -28,9 +27,10 @@ const Detail = (props) => {
   const [id, setId] = useState([])
   const [loginStatus, setLoginStatus] = useState(false)
   const [comment, setComment] = useState([])
+  const [toggle, setToggle] = useState(false)
+  const [likeCount, setLikeCount] = useState(0)
 
   const param = useParams()
-  const [cookies, setCookie, removeCookie] = useCookies([])
 
   useEffect(() => {
     let detailDatestringArr = [...detailDateString]
@@ -89,6 +89,64 @@ const Detail = (props) => {
       }
   }, [param, comment])
 
+  useEffect(() => {
+    if(props.user.userData !== undefined) {
+      // 렌더링 되자 마자 likeCount 가져오기
+      Axios.get("/timeline/like/list")
+        .then(res => {
+          const data = res.data.filter(item => item.masterId.toString() === param.timelineId)
+          setLikeCount(data.length)
+          Axios.get(`/auth/getId/${props.user.userData.email}`)
+            .then(userRes => {
+              if(userRes.data) {
+                const checkMyLikes = data.filter(item => item.memberId === userRes.data)
+                // 현재 유저가 like 추천한 글인지 체크 후 아이콘(empty, full) 세팅
+                if(checkMyLikes.length !== 0) {
+                  setToggle(true)
+                }
+              }
+            })
+        })
+    }
+  }, [props.user])
+
+  const onToggleLike = () => {
+    // 로그인한 상태이고 email 값 있을 때
+    if(props.user.userData.email) {
+      Axios.get(`/auth/getId/${props.user.userData.email}`)
+        .then(res => {
+          if(res.data) {
+            const variables = {
+              masterId: parseInt(param.timelineId),
+              memberId: res.data
+            }
+
+            // 추천한 상태에서 추천 취소할 때 Icon full->empty
+            if(toggle) {
+              Axios.post("/timeline/like/change", variables)
+                .then(res => {
+                  if(res.data) {
+                    setLikeCount(res.data.likeCount)
+                    setToggle(false)
+                  }
+                })
+              // Axios.post("/timeline/like/change", variables)
+            // 추천 안 한 상태에서 추천할 때 Icon emtpy->full
+            } else {
+              Axios.post("/timeline/like/change", variables)
+                .then(res => {
+                  if(res.data) {
+                    setLikeCount(res.data.likeCount)
+                    setToggle(true)
+                  }
+                })
+            }
+
+          }
+        })
+    }
+  }
+
   return (
     <DetailDiv>
       <TopMaster masterData={masterData} nickname={nickname} />
@@ -98,7 +156,7 @@ const Detail = (props) => {
       </MiddleDiv>
       { /* 로그인 시에만 추천 버튼 노출 */ }
       { loginStatus &&
-        <LikeToggle cookies={cookies} param={param} />
+        <LikeToggle toggle={toggle} onToggleLike={onToggleLike} likeCount={likeCount} />
       }
       <BottomComment param={param} comment={comment} user={props.user.userData} />
     </DetailDiv>

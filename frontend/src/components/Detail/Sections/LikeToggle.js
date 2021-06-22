@@ -21,35 +21,20 @@ const LikeToggleDiv = styled.div`
   }
 `
 const LikeToggle = (props) => {
-  const [toggle, setToggle] = useState(false)
-
-  const onToggleLike = () => {
-    // 로그인한 상태이고 email 값 있을 때
-    if(props.cookies.tl_e) {
-
-      const variables = {
-        masterId: props.param.timelineId,
-        // memberId:
-      }
-
-      // 추천한 상태에서 추천 취소할 때 Icon full->empty
-      if(toggle) {
-        setToggle(false)
-        // Axios.post("/timeline/like/change", variables)
-      // 추천 안 한 상태에서 추천할 때 Icon emtpy->full
-      } else {
-        setToggle(true)
-      }
-    }
-  }
 
   return (
     <LikeToggleDiv>
-      <Button onClick={onToggleLike}>
-        { toggle ?
-          <LikeFilled />
+      <Button onClick={props.onToggleLike}>
+        { props.toggle ?
+          <div>
+            <LikeFilled />
+            <span>{props.likeCount}</span>
+          </div>
           :
-          <LikeOutlined />
+          <div>
+            <LikeOutlined />
+            <span>{props.likeCount}</span>
+          </div>
         }
       </Button>
     </LikeToggleDiv>

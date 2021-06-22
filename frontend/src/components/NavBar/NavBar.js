@@ -21,8 +21,8 @@ const NavBar = (props) => {
 
   const onLogout = () => {
     if(auth && cookies.tl_e) {
-      // Axios.get(`/auth/logout/${cookies.tl_e}`)
-      //   .then(res => {
+      Axios.get(`/auth/logout/${cookies.tl_e}`)
+        .then(res => {
           removeCookie("tl_e")
           removeCookie("tl_re")
           removeCookie("tl_exp")
@@ -30,7 +30,16 @@ const NavBar = (props) => {
           setAuth(false)
           window.location.reload()
           history.push("/login")
-        // })
+        })
+        .catch(err => {
+          removeCookie("tl_e")
+          removeCookie("tl_re")
+          removeCookie("tl_exp")
+          removeCookie("tl_token")
+          setAuth(false)
+          window.location.reload()
+          history.push("/")
+        })
     }
   }
 
