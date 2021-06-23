@@ -29,6 +29,8 @@ const Detail = (props) => {
   const [comment, setComment] = useState([])
   const [toggle, setToggle] = useState(false)
   const [likeCount, setLikeCount] = useState(0)
+  const [star, setStar] = useState("")
+  const [commentContent, setCommentContent] = useState("")
 
   const param = useParams()
 
@@ -77,6 +79,32 @@ const Detail = (props) => {
         }
       })
 
+      if(props.user.userData !== undefined) {
+        setLoginStatus(true)
+        // 렌더링 되자 마자 likeCount 가져오기
+        Axios.get("/timeline/like/list")
+          .then(res => {
+            const data = res.data.filter(item => item.masterId.toString() === param.timelineId)
+            setLikeCount(data.length)
+            Axios.get(`/auth/getId/${props.user.userData.email}`)
+              .then(userRes => {
+                if(userRes.data) {
+                  const checkMyLikes = data.filter(item => item.memberId === userRes.data)
+                  // 현재 유저가 like 추천한 글인지 체크 후 아이콘(empty, full) 세팅
+                  if(checkMyLikes.length !== 0) {
+                    setToggle(true)
+                  }
+                }
+              })
+          })
+      }
+
+      Axios.get("/timeline/comment/list")
+        .then(res => {
+          const data = res.data.filter(item => item.masterId.toString() === param.timelineId)
+          setComment(data)
+        })
+
       Axios.get("/timeline/comment/list")
         .then(res => {
           const data = res.data.filter(item => item.masterId.toString() === param.timelineId)
@@ -87,28 +115,16 @@ const Detail = (props) => {
       if(props.user.userData !== undefined) {
         setLoginStatus(true)
       }
-  }, [param, comment])
+  }, [])
 
-  useEffect(() => {
-    if(props.user.userData !== undefined) {
-      // 렌더링 되자 마자 likeCount 가져오기
-      Axios.get("/timeline/like/list")
-        .then(res => {
-          const data = res.data.filter(item => item.masterId.toString() === param.timelineId)
-          setLikeCount(data.length)
-          Axios.get(`/auth/getId/${props.user.userData.email}`)
-            .then(userRes => {
-              if(userRes.data) {
-                const checkMyLikes = data.filter(item => item.memberId === userRes.data)
-                // 현재 유저가 like 추천한 글인지 체크 후 아이콘(empty, full) 세팅
-                if(checkMyLikes.length !== 0) {
-                  setToggle(true)
-                }
-              }
-            })
-        })
-    }
-  }, [props.user])
+
+  const onChangeStar = (value) => {
+    setStar(value)
+  }
+
+  const onChangeCommentContent = (e) => {
+    setCommentContent(e.target.value)
+  }
 
   const onToggleLike = () => {
     // 로그인한 상태이고 email 값 있을 때
@@ -147,6 +163,56 @@ const Detail = (props) => {
     }
   }
 
+  const onSaveComment = () => {
+    if(props.user.userData === undefined) {
+      alert("로그인 후 작성 가능합니다")
+    } else {
+      const variables = {
+        content: commentContent,
+        masterId: parseInt(param.timelineId),
+        nickname: props.user !== undefined ? props.user.userData.nickname : "",
+        star: star
+      }
+      console.log(variables);
+      // 댓글 내용 유효성 체크
+      if(!content || !param.timelineId || !star) {
+        alert("내용을 입력해 주세요")
+        return false
+      }
+
+      Axios.post("/timeline/comment", variables)
+        .then(res => {
+          if(res.status === 200) {
+            alert("댓글 작성을 완료했습니다")
+            // 댓글 저장하고 나서 다시 댓글 불러오기
+            Axios.get("/timeline/comment/list")
+              .then(res => {
+                const data = res.data.filter(item => item.masterId.toString() === param.timelineId)
+                setComment(data)
+              })
+          }
+        })
+    }
+  }
+
+  const onDelete = (content, id, nickname, star) => {
+    let variables = {
+      content: content,
+      masterId: id,
+      nickname: nickname,
+      star: star
+    }
+    //
+    // Axios.delete("/timeline/comment", variables)
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+  }
+
+  const onModify = () => {
+    
+  }
+
   return (
     <DetailDiv>
       <TopMaster masterData={masterData} nickname={nickname} />
@@ -158,7 +224,8 @@ const Detail = (props) => {
       { loginStatus &&
         <LikeToggle toggle={toggle} onToggleLike={onToggleLike} likeCount={likeCount} />
       }
-      <BottomComment param={param} comment={comment} user={props.user.userData} />
+      <BottomComment comment={comment} user={props.user.userData} onSaveComment={onSaveComment}
+        onChangeCommentContent={onChangeCommentContent} onChangeStar={onChangeStar} onDelete={onDelete} onModify={onModify} />
     </DetailDiv>
   )
 }

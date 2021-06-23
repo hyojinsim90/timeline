@@ -20,6 +20,17 @@ const BottomCommentDiv = styled.div`
       }
     }
   }
+  .ant-comment {
+    button {
+      border: none;
+    }
+    button:hover, button:focus, button:active, button::after {
+      outline: none;
+      border: none;
+      box-shadow: none !important;
+      color: black;
+    }
+  }
   .ant-comment-content-author {
     display: flex;
     align-items: center;
@@ -40,52 +51,20 @@ const BottomCommentDiv = styled.div`
 const { TextArea } = Input
 
 const BottomComment = (props) => {
-  const [content, setContent] = useState("")
-  const [star, setStar] = useState("")
   const [data, setData] = useState([])
-
-  const onChangeStar = (value) => {
-    setStar(value)
-  }
-
-  const onChangeContent = (e) => {
-    setContent(e.target.value)
-  }
-
-  const onSaveComment = () => {
-    const variables = {
-      content: content,
-      masterId: parseInt(props.param.timelineId),
-      nickname: props.user.nickname,
-      star: star
-    }
-
-    // 댓글 내용 유효성 체크
-    if(!content || !props.param.timelineId || !star) {
-      alert("내용을 입력해 주세요")
-      return false
-    }
-
-    Axios.post("/timeline/comment", variables)
-      .then(res => {
-        if(res.status === 200) {
-          alert("댓글 작성을 완료했습니다")
-        }
-      })
-  }
 
   return (
     <BottomCommentDiv>
       <Space>
         <h3>댓글 ({props.comment.length})</h3>
-        <Rate onChange={onChangeStar} />
+        <Rate onChange={props.onChangeStar} />
       </Space>
       <div>
         <TextArea
           autoSize={{ minRows: 4, maxRows: 4 }}
-          onChange={onChangeContent}
+          onChange={props.onChangeCommentContent}
         />
-        <Button onClick={onSaveComment}>저장</Button>
+        <Button onClick={props.onSaveComment}>저장</Button>
       </div>
       <Divider />
       <List
@@ -96,7 +75,11 @@ const BottomComment = (props) => {
         {props.comment && props.comment.map((item, i) => (
           <li key={i}>
             <Comment
-              actions={props.user !== undefined && props.user.nickname === item.nickname ? [<span key="comment-list-reply-to-0">수정</span>, <span key="comment-list-reply-to-0">삭제</span>] : ""}
+              actions={props.user !== undefined && props.user.nickname === item.nickname
+                ?
+                [<Button onClick={props.onModify}><span>수정</span></Button>, <Button onClick={() => props.onDelete(item.content, item.masterId, item.nickname, item.star)}><span>삭제</span></Button>]
+                : ""
+              }
               author={item.nickname}
               content={(<p>{item.content}</p>)}
               datetime={(
