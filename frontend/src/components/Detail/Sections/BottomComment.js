@@ -57,15 +57,23 @@ const BottomComment = (props) => {
     <BottomCommentDiv>
       <Space>
         <h3>댓글 ({props.comment.length})</h3>
-        <Rate onChange={props.onChangeStar} />
+        { props.hideInput ?
+          <></>
+          :
+          <Rate onChange={props.onChangeStar} />
+        }
       </Space>
-      <div>
-        <TextArea
-          autoSize={{ minRows: 4, maxRows: 4 }}
-          onChange={props.onChangeCommentContent}
-        />
-        <Button onClick={props.onSaveComment}>저장</Button>
-      </div>
+      { props.hideInput ?
+        <></>
+        :
+        <div>
+          <TextArea
+            autoSize={{ minRows: 4, maxRows: 4 }}
+            onChange={props.onChangeCommentContent}
+          />
+          <Button onClick={props.onSaveComment}>저장</Button>
+        </div>
+      }
       <Divider />
       <List
         className="comment-list"
@@ -77,15 +85,24 @@ const BottomComment = (props) => {
             <Comment
               actions={props.user !== undefined && props.user.nickname === item.nickname
                 ?
-                [<Button onClick={props.onModify}><span>수정</span></Button>, <Button onClick={() => props.onDelete(item.content, item.masterId, item.nickname, item.star)}><span>삭제</span></Button>]
+                [<Button onClick={() => props.onModify(i)}><span>수정</span></Button>, <Button onClick={() => props.onDelete(item.content, item.masterId, item.nickname, item.star)}><span>삭제</span></Button>]
                 : ""
               }
               author={item.nickname}
-              content={(<p>{item.content}</p>)}
+              content={(
+              props.modifyStatus && i === props.modifyIndex ?
+                <TextArea
+                  autoSize={{ minRows: 4, maxRows: 4 }}
+                  onChange={props.onChangeCommentContent}
+                  value={props.modifyStatus && i === props.modifyIndex ? props.commentContent : item.content}
+                />
+                :
+                <p>{item.content}</p>
+              )}
               datetime={(
               <div>
                 <span>{moment().format('YYYY-MM-DD')}</span>
-                <Rate value={item.star} disabled />
+                <Rate value={props.modifyStatus && i === props.modifyIndex ? props.star : item.star} disabled={props.modifyStatus && i === props.modifyIndex ? false : true} onChange={props.onChangeStar}/>
               </div>
               )}
             />
