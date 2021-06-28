@@ -58,7 +58,9 @@ const MobileNavBar = (props) => {
           onClick={onMenuClick}
         >
           <Menu.Item key="timeline">
-            타임라인
+            <Link to="/search/timeline">
+              타임라인
+            </Link>
           </Menu.Item>
           <Menu.Item key="class">
             클래스

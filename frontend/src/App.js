@@ -10,6 +10,7 @@ import MyTimeline from "./components/MyPage/MyTimeline"
 import CreateTimeline from "./components/CreateTimeline/CreateTimeline"
 import TimelineList from "./components/ManageTimeline/TimelineList"
 import TimelineItem from "./components/ManageTimeline/TimelineItem"
+import TimelineSearch from "./components/TimelineSearch/TimelineSearch"
 import MyInfo from "./components/MyPage/MyInfo"
 import Main from "./components/Main/Main"
 import Detail from "./components/Detail/Detail"
@@ -32,6 +33,7 @@ function App() {
           <Route exact path="/createtimeline" component={Auth(CreateTimeline, true)}></Route>
           <Route exact path="/timelinelist" component={Auth(TimelineList, true)}></Route>
           <Route exact path="/timelinelist/:timelineId" component={Auth(TimelineItem, true)}></Route>
+          <Route exact path="/search/timeline" component={Auth(TimelineSearch, false)}></Route>
         </Switch>
       </div>
     </Suspense>

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Card, Tag } from "antd"
 import styled from "styled-components"
 import { Swiper, SwiperSlide } from "swiper/react"
-import "swiper/swiper.min.css";
+import "swiper/swiper.min.css"
 import "swiper/components/pagination/pagination.min.css"
 import "swiper/components/navigation/navigation.min.css"
 import SwiperCore, { Pagination,Navigation } from "swiper/core"
