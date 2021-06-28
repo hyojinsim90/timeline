@@ -5,7 +5,9 @@ import styled from "styled-components"
 import Axios from "axios"
 
 const BottomCommentDiv = styled.div`
-  margin-top: 150px;
+  z-index: 10;
+  position: relative;
+  background: white;
   .ant-space {
     display: flex;
     margin-bottom: 18px;
@@ -85,7 +87,7 @@ const BottomComment = (props) => {
             <Comment
               actions={props.user !== undefined && props.user.nickname === item.nickname
                 ?
-                [<Button onClick={() => props.onModify(i)}><span>수정</span></Button>, <Button onClick={() => props.onDelete(item.content, item.masterId, item.nickname, item.star)}><span>삭제</span></Button>]
+                [<Button onClick={() => props.onModify(i, item.star, item.content)}><span>수정</span></Button>, <Button onClick={() => props.onDelete(item.content, item.masterId, item.nickname, item.star)}><span>삭제</span></Button>]
                 : ""
               }
               author={item.nickname}

@@ -5,7 +5,10 @@ import styled from "styled-components"
 import Axios from "axios"
 
 const LikeToggleDiv = styled.div`
-  margin-top: 4rem;
+  height: 185px;
+  z-index: 10;
+  position: relative;
+  background: white;
   button {
     border: none;
     color: #40a9ff;

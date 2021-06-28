@@ -111,6 +111,7 @@ const Detail = (props) => {
             })
         })
 
+      // 댓글 작성했는지 안 했는지 상태값 넣어서 comment input 영역 숨기거나 보여주기
       const check = comment.filter(item => item.nickname === props.user.userData.nickname)
       if(check.length !== 0) {
         setHideInput(true)
@@ -212,10 +213,12 @@ const Detail = (props) => {
     //   })
   }
 
-  const onModify = (i) => {
+  const onModify = (i, stars, contents) => {
     // 수정 버튼 클릭하면 comment 영역 변경
     setModifyStatus(true)
     setModifyIndex(i)
+    setStar(stars)
+    setCommentContent(contents)
   }
 
   return (
