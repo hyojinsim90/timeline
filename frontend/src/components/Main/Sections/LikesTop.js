@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/swiper.min.css"
 import "swiper/components/pagination/pagination.min.css"
 import "swiper/components/navigation/navigation.min.css"
-import SwiperCore, { Pagination,Navigation } from "swiper/core"
+import SwiperCore, { Pagination, Navigation } from "swiper/core"
 import { EyeOutlined, LikeOutlined } from "@ant-design/icons"
 import { Link } from "react-router-dom"
 

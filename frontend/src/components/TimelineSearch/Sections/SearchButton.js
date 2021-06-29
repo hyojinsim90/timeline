@@ -4,15 +4,20 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/swiper.min.css"
 import "swiper/components/pagination/pagination.min.css"
 import "swiper/components/navigation/navigation.min.css"
-import SwiperCore, { Pagination,Navigation } from "swiper/core"
+import SwiperCore, { Navigation } from "swiper/core"
 import { CheckOutlined } from "@ant-design/icons"
 
 const SearchButtonDiv = styled.div`
   padding: 3rem 0;
   width: 100%;
   .swiper-button-next, .swiper-button-prev {
-    top: 50%;
-    position: absolute;
+    color: black;
+  }
+  .swiper-button-next {
+    padding-left: 30px;
+  }
+  .swiper-button-prev {
+    padding-right: 30px;
   }
   .swiper-button-next:after, .swiper-button-prev:after {
     font-size: 17px;
@@ -66,11 +71,8 @@ const SearchButton = () => {
     <SearchButtonDiv>
       <Swiper
         slidesPerView={8}
-        centeredSlides={false}
-        navigation={{nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev'}}
+        navigation={true}
       >
-        <div className="swiper-button-prev swiper-button-black"></div>
-        <div className="swiper-button-next swiper-button-black"></div>
         <SwiperSlide>
           <div className={checkStatus[0]} onClick={onTest}>
             <CheckOutlined />
