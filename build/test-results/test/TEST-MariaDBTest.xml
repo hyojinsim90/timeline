@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MariaDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-07-03T04:19:19" hostname="DESKTOP-UK9VMDU" time="6.238">
+<testsuite name="MariaDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-07-03T06:23:25" hostname="DESKTOP-UK9VMDU" time="8.178">
   <properties/>
-  <testcase name="test()" classname="MariaDBTest" time="6.238"/>
-  <system-out><![CDATA[com.mysql.cj.jdbc.ConnectionImpl@3012da98
+  <testcase name="test()" classname="MariaDBTest" time="8.178"/>
+  <system-out><![CDATA[com.mysql.cj.jdbc.ConnectionImpl@7ee2ea30
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
