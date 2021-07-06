@@ -2,11 +2,14 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Locale;
 
 public class MariaDBTest {
 
    @Test
     public void test() throws Exception {
+
+      System.out.println(System.getProperty("os.name").toLowerCase(Locale.ROOT));
 //       Class.forName("org.mariadb.jdbc.Driver"); // 마리아DB
 //        Class.forName("com.mysql.jdbc.Driver");
        Class.forName("com.mysql.cj.jdbc.Driver"); // heroku mysql
