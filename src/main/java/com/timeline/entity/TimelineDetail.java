@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 @IdClass(TimelineDetailPK.class)
 public class TimelineDetail  extends BaseTimeEntity {
 
-
     @Id
     @Column(name = "master_id")
     private Long masterId; // timeline_master_id

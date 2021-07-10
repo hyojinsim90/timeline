@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://tiltest3.herokuapp.com/",
+  "proxy": "https://localhost:8080/",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@babel/core": "^7.13.0",
