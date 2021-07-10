@@ -12,8 +12,8 @@ com/timeline/controller/dto/auth/TokenDto.java
 com/timeline/controller/dto/timeline/TimelineMasterUpdateRequestDto.java
  com.timeline.controller.dto.timeline.TimelineMasterUpdateRequestDto
  com.timeline.controller.dto.timeline.TimelineMasterUpdateRequestDto$TimelineMasterUpdateRequestDtoBuilder
-com/timeline/repository/TimelineDetailRepository.java
- com.timeline.repository.TimelineDetailRepository
+com/timeline/oauth/SocialLoginType.java
+ com.timeline.oauth.SocialLoginType
 com/timeline/oauth/social/SocialOauth.java
  com.timeline.oauth.social.SocialOauth
 com/timeline/oauth/SocialLoginTypeConverter.java
@@ -37,9 +37,8 @@ com/timeline/entity/TimelineLikePK.java
 com/timeline/controller/dto/FindPwMailDto.java
  com.timeline.controller.dto.FindPwMailDto
  com.timeline.controller.dto.FindPwMailDto$FindPwMailDtoBuilder
-com/timeline/entity/TimelineDetail.java
- com.timeline.entity.TimelineDetail
- com.timeline.entity.TimelineDetail$TimelineDetailBuilder
+com/timeline/controller/dto/member/MemberResponseDto.java
+ com.timeline.controller.dto.member.MemberResponseDto
 com/timeline/entity/TimelineComment.java
  com.timeline.entity.TimelineComment
  com.timeline.entity.TimelineComment$TimelineCommentBuilder
@@ -84,8 +83,8 @@ com/timeline/controller/dto/timeline/TimelineMasterLikeCountResponseDto.java
  com.timeline.controller.dto.timeline.TimelineMasterLikeCountResponseDto
 com/timeline/service/TimelineCommentService.java
  com.timeline.service.TimelineCommentService
-com/timeline/controller/TimelineController.java
- com.timeline.controller.TimelineController
+com/timeline/oauth/social/NaverOauth.java
+ com.timeline.oauth.social.NaverOauth
 com/timeline/service/AuthService.java
  com.timeline.service.AuthService
 com/timeline/controller/dto/timeline/TimelineDetailUpdateRequestDto.java
@@ -96,8 +95,9 @@ com/timeline/controller/dto/member/MemberRequestDto.java
  com.timeline.controller.dto.member.MemberRequestDto
 com/timeline/controller/dto/timeline/TimelineMasterSaveRequestDto.java
  com.timeline.controller.dto.timeline.TimelineMasterSaveRequestDto
-com/timeline/controller/dto/timeline/TimelineDetailSaveRequestDto.java
- com.timeline.controller.dto.timeline.TimelineDetailSaveRequestDto
+com/timeline/entity/Member.java
+ com.timeline.entity.Member
+ com.timeline.entity.Member$MemberBuilder
 com/timeline/controller/TimelineCommentController.java
  com.timeline.controller.TimelineCommentController
 com/timeline/oauth/social/FacebookOauth.java
@@ -140,14 +140,34 @@ com/timeline/repository/RefreshTokenRepository.java
  com.timeline.repository.RefreshTokenRepository
 com/timeline/controller/dto/member/MemberEmailRequestDto.java
  com.timeline.controller.dto.member.MemberEmailRequestDto
-com/timeline/oauth/social/NaverOauth.java
- com.timeline.oauth.social.NaverOauth
-com/timeline/controller/dto/member/MemberResponseDto.java
- com.timeline.controller.dto.member.MemberResponseDto
+com/timeline/entity/ClassLikePk.java
+ com.timeline.entity.ClassLikePk
+com/timeline/controller/dto/timeline/TimelineDetailSaveRequestDto.java
+ com.timeline.controller.dto.timeline.TimelineDetailSaveRequestDto
+com/timeline/repository/ClassLikeRepository.java
+ com.timeline.repository.ClassLikeRepository
+com/timeline/repository/ClassMasterRepository.java
+ com.timeline.repository.ClassMasterRepository
+com/timeline/entity/ClassDetailPk.java
+ com.timeline.entity.ClassDetailPk
+com/timeline/repository/ClassApplyRepository.java
+ com.timeline.repository.ClassApplyRepository
+com/timeline/entity/ClassDetail.java
+ com.timeline.entity.ClassDetail
+com/timeline/repository/TimelineDetailRepository.java
+ com.timeline.repository.TimelineDetailRepository
+com/timeline/repository/ClassDetailRepository.java
+ com.timeline.repository.ClassDetailRepository
+com/timeline/entity/ClassApply.java
+ com.timeline.entity.ClassApply
+com/timeline/entity/ClassLike.java
+ com.timeline.entity.ClassLike
+com/timeline/entity/ClassMaster.java
+ com.timeline.entity.ClassMaster
+com/timeline/entity/TimelineDetail.java
+ com.timeline.entity.TimelineDetail
+ com.timeline.entity.TimelineDetail$TimelineDetailBuilder
 com/timeline/service/TimelineService.java
  com.timeline.service.TimelineService
-com/timeline/oauth/SocialLoginType.java
- com.timeline.oauth.SocialLoginType
-com/timeline/entity/Member.java
- com.timeline.entity.Member
- com.timeline.entity.Member$MemberBuilder
+com/timeline/controller/TimelineController.java
+ com.timeline.controller.TimelineController
