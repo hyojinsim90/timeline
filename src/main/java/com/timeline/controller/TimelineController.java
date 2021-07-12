@@ -1,8 +1,10 @@
 package com.timeline.controller;
 
 import com.timeline.controller.dto.timeline.*;
-import com.timeline.entity.TimelineDetail;
+import com.timeline.entity.timeline.TimelineDetail;
+import com.timeline.repository.TimelinePictureRepository;
 import com.timeline.service.TimelineService;
+import com.timeline.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +30,7 @@ import java.util.List;
 public class TimelineController {
 
     private final TimelineService timelineService;
-//    private final S3Service s3Service;
-
+    private final FileHandler fileHandler;
 
     /* 전체 타임라인 마스터 조회 */
     @GetMapping("/master/list")
@@ -72,29 +73,23 @@ public class TimelineController {
 
     /* 타임라인 마스터 저장 */
     @PostMapping(path = "/master/save",consumes = {"multipart/form-data"})
-    public ResponseEntity<TimelineMasterListResponseDto> saveMaster(@RequestPart(value="dto") List<TimelineMasterSaveRequestDto> timelineMasterSaveRequestDto, @RequestPart(value="file",required = false) MultipartFile file) throws IOException {
+    public ResponseEntity<TimelineMasterListResponseDto> saveMaster(
+            @RequestPart(value="dto") TimelineMasterSaveRequestDto timelineMasterSaveRequestDto,
+            @RequestPart(value="file",required = false) MultipartFile file) throws Exception
+    {
         log.info("[/master/save]");
 
-        /* 수정시 명심 !
-        timelineMasterSaveRequestDto의 filePath : 기존 파일
-        MultipartFile의 파일 : 업로드될, 수정될 파일
-         */
-
-//        String imgPath = s3Service.upload(timelineMasterSaveRequestDto.get(0).getFilePath(), file);
-//        timelineMasterSaveRequestDto.get(0).setFilePath(imgPath);
-
-        return ResponseEntity.ok(timelineService.saveMaster(timelineMasterSaveRequestDto.get(0)));
+        return ResponseEntity.ok(timelineService.saveMaster(timelineMasterSaveRequestDto, file));
     }
 
     /* 타임라인 마스터 수정 */
     @PutMapping(path = "/master/{id}",consumes = {"multipart/form-data"})
-    public ResponseEntity<TimelineMasterListResponseDto> updateMaster(@PathVariable Long id, @RequestPart(value="dto") List<TimelineMasterUpdateRequestDto> timelineMasterUpdateRequestDto, @RequestPart(value="file",required = false) MultipartFile file) throws IOException {
-
-//        String imgPath = s3Service.upload(timelineMasterUpdateRequestDto.get(0).getFilePath(), file);
-//        String imgPath = s3Service.updateUpload(timelineMasterUpdateRequestDto.get(0).getFilePath(), file);
-//        timelineMasterUpdateRequestDto.get(0).setFilePath(imgPath);
-
-        return ResponseEntity.ok(timelineService.updateMaster(id, timelineMasterUpdateRequestDto.get(0), file));
+    public ResponseEntity<TimelineMasterListResponseDto> updateMaster(
+            @PathVariable Long id,
+            @RequestPart(value="dto") TimelineMasterUpdateRequestDto timelineMasterUpdateRequestDto,
+            @RequestPart(value="file",required = false) MultipartFile file) throws Exception
+    {
+        return ResponseEntity.ok(timelineService.updateMaster(id, timelineMasterUpdateRequestDto, file));
     }
 
     /* 내 타임라인 디테일 조회 */
@@ -117,8 +112,8 @@ public class TimelineController {
     }
 
     /* 타임라인 마스터 이미지 삭제 */
-//    @DeleteMapping("master/{filePath}")
-//    public boolean deleteFilePath(@PathVariable String filePath) { return s3Service.delete(filePath); }
+    @DeleteMapping("master/image/{masterId}")
+    public boolean deleteFilePath(@PathVariable Long masterId) throws Exception { return fileHandler.deleteFileOne(masterId); }
 
     /* 타임라인 디테일 삭제 */
     @DeleteMapping("detail/{masterId}")
@@ -128,7 +123,7 @@ public class TimelineController {
 
     /* 타임라인 전체 삭제 */
     @DeleteMapping("/{masterId}")
-    public void delete(@PathVariable Long masterId) {
+    public void delete(@PathVariable Long masterId) throws Exception {
         timelineService.delete(masterId);
     }
 

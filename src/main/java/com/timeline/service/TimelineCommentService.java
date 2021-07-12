@@ -1,12 +1,9 @@
 package com.timeline.service;
 
-import com.timeline.controller.dto.timeline.TimelineMasterListResponseDto;
 import com.timeline.controller.dto.timeline.comment.TimelineCommentCheckRequestDto;
 import com.timeline.controller.dto.timeline.comment.TimelineCommentRequestDto;
 import com.timeline.controller.dto.timeline.comment.TimelineCommentResponseDto;
-import com.timeline.entity.TimelineComment;
-import com.timeline.entity.TimelineDetail;
-import com.timeline.entity.TimelineMaster;
+import com.timeline.entity.timeline.TimelineComment;
 import com.timeline.repository.TimelineCommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Time;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,10 +1,13 @@
 package com.timeline.service;
 
 import com.timeline.controller.dto.timeline.*;
-import com.timeline.entity.TimelineDetail;
-import com.timeline.entity.TimelineMaster;
+import com.timeline.entity.timeline.TimelineDetail;
+import com.timeline.entity.timeline.TimelineMaster;
+import com.timeline.entity.timeline.TimelinePicture;
 import com.timeline.repository.TimelineDetailRepository;
 import com.timeline.repository.TimelineMasterRepository;
+import com.timeline.repository.TimelinePictureRepository;
+import com.timeline.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,8 @@ public class TimelineService {
 
     private final TimelineMasterRepository timelineMasterRepository;
     private final TimelineDetailRepository timelineDetailRepository;
+    private final TimelinePictureRepository timelinePictureRepository;
+    private final FileHandler fileHandler;
 //    private final S3Service s3Service;
 
 
@@ -94,25 +100,43 @@ public class TimelineService {
 
     /* 타임라인 마스터 저장 */
     @Transactional
-    public TimelineMasterListResponseDto saveMaster(TimelineMasterSaveRequestDto timelineMasterSaveRequestDto) throws IOException {
+    public TimelineMasterListResponseDto saveMaster(
+            TimelineMasterSaveRequestDto timelineMasterSaveRequestDto,
+            MultipartFile file) throws Exception
+    {
         log.info("[ timeline_master 저장 ]");
 
+        // 1. 타임라인 마스터 build
         TimelineMaster timelineMaster = timelineMasterSaveRequestDto.toTimelineMaster();
 
-//        timelineMasterRepository.save(timelineMaster);
+        // 3. 파일을 저장하고 그 TimelinePicture 에 대한 list 를 가지고 있는다
+        TimelinePicture timelinePicture = fileHandler.parseFileInfoOne(timelineMaster.getId(), file);
 
+        // 4. TimelinePicture 저장
+        timelinePictureRepository.save(timelinePicture);
+
+        // 5. timelineMaster 저장된 정보를 리턴함
         return new TimelineMasterListResponseDto(timelineMasterRepository.save(timelineMaster));
 
     }
 
     /* 타임라인 마스터 수정 */
     @Transactional
-    public TimelineMasterListResponseDto updateMaster(Long id, TimelineMasterUpdateRequestDto masterUpdateDto, MultipartFile file) throws IOException {
+    public TimelineMasterListResponseDto updateMaster(Long id, TimelineMasterUpdateRequestDto masterUpdateDto, MultipartFile file) throws Exception {
         log.info("[ timeline_master 수정 ]");
 
-        TimelineMaster master = timelineMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + id));
+        // 파일 삭제 처리 : 파일 삭제 + TimelinePicture 삭제
+        fileHandler.deleteFileOne(id);
 
-        master.update(masterUpdateDto.getTitle(), masterUpdateDto.getFilePath(), masterUpdateDto.getCategory(), masterUpdateDto.isOpen(), masterUpdateDto.isComplete());
+        // 새로 전달된 파일을 저장하고 그 TimelinePicture 에 대한 list 를 가지고 있는다
+        TimelineMaster master = timelineMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + id));
+        TimelinePicture timelinePicture = fileHandler.parseFileInfoOne(master.getId(), file);
+
+        // TimelinePicture 저장
+        timelinePictureRepository.save(timelinePicture);
+
+        // timelineMaster 업데이트
+        master.update(masterUpdateDto.getTitle(), masterUpdateDto.getCategory(), masterUpdateDto.isOpen(), masterUpdateDto.isComplete());
 
         log.info("[ master ] " + master );
 
@@ -207,19 +231,25 @@ public class TimelineService {
 
     /* 타임라인 전체 삭제 */
     @Transactional
-    public void delete(Long masterId) {
+    public void delete(Long masterId) throws Exception {
 
         TimelineMaster timelineMaster = timelineMasterRepository.findById(masterId).orElseThrow(() -> new IllegalArgumentException("timeline_master 정보가 없습니다. masterId =" + masterId));
         List<TimelineDetail> timelineDetail = timelineDetailRepository.findByMasterId(masterId);
 
-//        s3Service.delete(timelineMaster.getFilePath());
-        timelineMasterRepository.delete(timelineMaster);
+        // 파일 삭제 처리 : 파일 삭제 + TimelinePicture 삭제
+        Boolean deleteCk = fileHandler.deleteFileOne(masterId);
+        if(deleteCk){
+            // 마스터 삭제
+            timelineMasterRepository.delete(timelineMaster);
 
-        for (int i = 0; i < timelineDetail.size(); i++) {
+            for (int i = 0; i < timelineDetail.size(); i++) {
 
-            timelineDetailRepository.delete(timelineDetail.get(i));
+                // 디테일 삭제
+                timelineDetailRepository.delete(timelineDetail.get(i));
+            }
+        } else {
+            throw new Exception("파일이 삭제되지 않았습니다");
         }
-
 
     }
 

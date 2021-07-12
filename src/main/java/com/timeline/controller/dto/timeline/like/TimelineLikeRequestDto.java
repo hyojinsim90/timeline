@@ -1,11 +1,8 @@
 package com.timeline.controller.dto.timeline.like;
 
-import com.timeline.entity.TimelineLike;
+import com.timeline.entity.timeline.TimelineLike;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
 
 /**
  * @author : Hyojin Sim

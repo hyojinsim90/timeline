@@ -1,10 +1,7 @@
 package com.timeline.controller.dto.member;
 
-import com.timeline.entity.Authority;
-import com.timeline.entity.Member;
 import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @AllArgsConstructor

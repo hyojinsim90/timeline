@@ -1,11 +1,9 @@
 package com.timeline.service;
 
 import com.timeline.controller.dto.timeline.TimelineMasterLikeCountResponseDto;
-import com.timeline.controller.dto.timeline.comment.TimelineCommentResponseDto;
 import com.timeline.controller.dto.timeline.like.TimelineLikeRequestDto;
 import com.timeline.controller.dto.timeline.like.TimelineLikeResponseDto;
-import com.timeline.entity.TimelineLike;
-import com.timeline.entity.TimelineMaster;
+import com.timeline.entity.timeline.TimelineMaster;
 import com.timeline.repository.TimelineLikeRepository;
 import com.timeline.repository.TimelineMasterRepository;
 import lombok.RequiredArgsConstructor;

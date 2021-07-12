@@ -1,15 +1,12 @@
 package com.timeline.repository;
 
 
-import com.timeline.controller.dto.timeline.like.TimelineLikeResponseDto;
-import com.timeline.entity.TimelineDetail;
-import com.timeline.entity.TimelineLike;
+import com.timeline.entity.timeline.TimelineLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

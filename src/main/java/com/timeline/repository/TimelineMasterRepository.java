@@ -1,14 +1,10 @@
 package com.timeline.repository;
 
-import com.timeline.entity.TimelineComment;
-import com.timeline.entity.TimelineMaster;
-import org.springframework.data.domain.Sort;
+import com.timeline.entity.timeline.TimelineMaster;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 

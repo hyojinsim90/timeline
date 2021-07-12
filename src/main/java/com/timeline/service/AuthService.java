@@ -4,8 +4,8 @@ import com.timeline.controller.dto.FindPwMailDto;
 import com.timeline.controller.dto.auth.TokenDto;
 import com.timeline.controller.dto.auth.TokenRequestDto;
 import com.timeline.controller.dto.member.*;
-import com.timeline.entity.Member;
-import com.timeline.entity.RefreshToken;
+import com.timeline.entity.member.Member;
+import com.timeline.entity.member.RefreshToken;
 import com.timeline.jwt.TokenProvider;
 import com.timeline.repository.MemberRepository;
 import com.timeline.repository.RefreshTokenRepository;
@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**

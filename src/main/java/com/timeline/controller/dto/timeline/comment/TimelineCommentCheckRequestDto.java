@@ -1,6 +1,5 @@
 package com.timeline.controller.dto.timeline.comment;
 
-import com.timeline.entity.TimelineComment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

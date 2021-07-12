@@ -1,11 +1,8 @@
 package com.timeline.controller.dto.timeline.comment;
 
-import com.timeline.entity.TimelineComment;
+import com.timeline.entity.timeline.TimelineComment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
 
 /**
  * @author : Hyojin Sim

@@ -1,6 +1,6 @@
 package com.timeline.repository;
 
-import com.timeline.entity.Member;
+import com.timeline.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

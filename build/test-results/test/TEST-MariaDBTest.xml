@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MariaDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-07-10T08:44:25" hostname="DESKTOP-UK9VMDU" time="4.148">
+<testsuite name="MariaDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-07-12T07:56:49" hostname="DESKTOP-UK9VMDU" time="5.481">
   <properties/>
-  <testcase name="test()" classname="MariaDBTest" time="4.148"/>
+  <testcase name="test()" classname="MariaDBTest" time="5.481"/>
   <system-out><![CDATA[windows 10
 com.mysql.cj.jdbc.ConnectionImpl@3012da98
 ]]></system-out>

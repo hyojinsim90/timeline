@@ -1,7 +1,7 @@
 package com.timeline.controller.dto.member;
 
-import com.timeline.entity.Authority;
-import com.timeline.entity.Member;
+import com.timeline.entity.member.Authority;
+import com.timeline.entity.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.timeline.controller.dto.timeline.comment;
 
-import com.timeline.entity.TimelineComment;
+import com.timeline.entity.timeline.TimelineComment;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

@@ -1,6 +1,6 @@
 package com.timeline.controller.dto.timeline.like;
 
-import com.timeline.entity.TimelineLike;
+import com.timeline.entity.timeline.TimelineLike;
 import lombok.Getter;
 
 /**

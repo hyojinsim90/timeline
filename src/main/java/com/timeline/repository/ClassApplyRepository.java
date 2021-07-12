@@ -1,7 +1,6 @@
 package com.timeline.repository;
 
-import com.timeline.entity.ClassApply;
-import lombok.Data;
+import com.timeline.entity.classes.ClassApply;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

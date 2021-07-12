@@ -1,6 +1,6 @@
 package com.timeline.repository;
 
-import com.timeline.entity.ClassDetail;
+import com.timeline.entity.classes.ClassDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

@@ -1,6 +1,6 @@
 package com.timeline.service;
 
-import com.timeline.entity.Member;
+import com.timeline.entity.member.Member;
 import com.timeline.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
