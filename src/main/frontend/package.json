@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://3.34.73.59:8080",
+  "proxy": "http://ec2-3-34-73-59.ap-northeast-2.compute.amazonaws.com:8080",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@babel/core": "7.12.3",
