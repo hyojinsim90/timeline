@@ -193,7 +193,7 @@ public class FileHandler {
         boolean checkDelete = false;
 
         // master_id로 TimelinePicture리턴
-        TimelinePicture picture = timelinePictureRepository.findAllByTimelineIdx(id);
+        TimelinePicture picture = timelinePictureRepository.findByTimelineMasterId(id);
 
         // 실제 저장된 위치 삭제
         File storedfile = new File(picture.getStoredFilePath());

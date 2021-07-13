@@ -12,8 +12,7 @@ import java.util.List;
  * @brief : 사진을 읽을 때 필요한 repository
  **/
 public interface TimelinePictureRepository extends JpaRepository<TimelinePicture, Long> {
-    //TimelinePicture save(TimelinePicture timelinePicture);
 
-    TimelinePicture findAllByTimelineIdx(Long timelineIdx);
+    TimelinePicture findByTimelineMasterId(Long timelineMasterId);
 
 }
