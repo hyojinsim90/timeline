@@ -69,7 +69,7 @@ def webappDir = "$projectDir/src/main/frontend"
 sourceSets {
     main {
         resources {
-            srcDirs = ["$webappDir/build", "$projectDir/src/main/resources"]
+            srcDirs = ["$webappDir/build","$projectDir/src/main/resources"]
         }
     }
 }
@@ -88,7 +88,13 @@ task buildReact(type: Exec) {
     } else {
         commandLine "npm", "run-script", "build"
     }
+    //dependsOn "copyReport"
 }
+
+//task copyReport(type: Copy) {
+//    from file("$webappDir/build")
+//    into file("$projectDir/src/main/resources")
+//}
 
 task installReact(type: Exec) {
     workingDir "$webappDir"
