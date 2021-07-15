@@ -1,6 +1,7 @@
 package com.timeline.entity.timeline;
 
 import com.sun.istack.NotNull;
+import com.timeline.entity.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import javax.persistence.*;
 @Table(name = "timeline_picture")
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimelinePicture {
+public class TimelinePicture extends BaseTimeEntity {
 
     @Id
     @Column(name = "id")
