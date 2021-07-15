@@ -168,13 +168,13 @@ com/timeline/entity/timeline/TimelineLikePK.java
  com.timeline.entity.timeline.TimelineLikePK
 com/timeline/oauth/social/NaverOauth.java
  com.timeline.oauth.social.NaverOauth
-com/timeline/util/FileHandler.java
- com.timeline.util.FileHandler
+com/timeline/config/SecurityConfig.java
+ com.timeline.config.SecurityConfig
 com/timeline/repository/TimelinePictureRepository.java
  com.timeline.repository.TimelinePictureRepository
+com/timeline/util/FileHandler.java
+ com.timeline.util.FileHandler
 com/timeline/service/TimelineService.java
  com.timeline.service.TimelineService
 com/timeline/controller/TimelineController.java
  com.timeline.controller.TimelineController
-com/timeline/config/SecurityConfig.java
- com.timeline.config.SecurityConfig

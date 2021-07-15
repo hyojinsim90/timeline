@@ -73,7 +73,7 @@ public class FileHandler {
         }
 
         // 파일이 빈 것이 들어오면 기존 이미지로 저장
-        if (multipartFile.isEmpty()) {
+        if (multipartFile == null || multipartFile.isEmpty()) {
 
             // 서버용
             File uploadfile = new File(timelinePath);
