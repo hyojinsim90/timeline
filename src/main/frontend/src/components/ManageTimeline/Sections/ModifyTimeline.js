@@ -116,24 +116,24 @@ const ModifyTimeline = (props) => {
       formData.append("file", "")
       // 기존에 업로드한 파일 삭제하고 재업로드 안 했을 경우 filepath ""로 보냄
       if(deleteStatus) {
-        variables = [{
+        variables = {
           category: category,
           complete: complete,
           open: open,
           title: title,
           filePath: "",
           imgFullPath: ""
-        }]
+        }
       // 기존에 업로드한 파일 삭제한 적 없고 재업로드 안 했을 경우에도 기존/기본 파일 유지
       } else {
-        variables = [{
+        variables = {
           category: category,
           complete: complete,
           open: open,
           title: title,
           filePath: props.timeline[0].filePath,
           imgFullPath: props.timeline[0].imgFullPath
-        }]
+        }
       }
     // 파일 업로드했을 때 새로운 이미지로 교체
     } else {
