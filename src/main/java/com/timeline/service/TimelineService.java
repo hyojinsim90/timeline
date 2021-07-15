@@ -107,7 +107,9 @@ public class TimelineService {
         log.info("[ timeline_master 저장 ]");
 
         // 1. 타임라인 마스터 build
-        TimelineMaster timelineMaster = timelineMasterSaveRequestDto.toTimelineMaster();
+        TimelineMaster timelineMaster = timelineMasterRepository.save(timelineMasterSaveRequestDto.toTimelineMaster());
+
+        log.info("master_id : " + timelineMaster.getId());
 
         // 3. 파일을 저장하고 그 TimelinePicture 에 대한 list 를 가지고 있는다
         TimelinePicture timelinePicture = fileHandler.parseFileInfoOne(timelineMaster.getId(), file);
@@ -126,21 +128,25 @@ public class TimelineService {
         log.info("[ timeline_master 수정 ]");
 
         // 파일 삭제 처리 : 파일 삭제 + TimelinePicture 삭제
-        fileHandler.deleteFileOne(id);
+        boolean deleteOk = fileHandler.deleteFileOne(id);
 
-        // 새로 전달된 파일을 저장하고 그 TimelinePicture 에 대한 list 를 가지고 있는다
-        TimelineMaster master = timelineMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + id));
-        TimelinePicture timelinePicture = fileHandler.parseFileInfoOne(master.getId(), file);
+        if(deleteOk){
+            // 새로 전달된 파일을 저장하고 그 TimelinePicture 에 대한 list 를 가지고 있는다
+            TimelineMaster master = timelineMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + id));
+            TimelinePicture timelinePicture = fileHandler.parseFileInfoOne(master.getId(), file);
 
-        // TimelinePicture 저장
-        timelinePictureRepository.save(timelinePicture);
+            // TimelinePicture 저장
+            timelinePictureRepository.save(timelinePicture);
 
-        // timelineMaster 업데이트
-        master.update(masterUpdateDto.getTitle(), masterUpdateDto.getCategory(), masterUpdateDto.isOpen(), masterUpdateDto.isComplete());
+            // timelineMaster 업데이트
+            master.update(masterUpdateDto.getTitle(), masterUpdateDto.getCategory(), masterUpdateDto.isOpen(), masterUpdateDto.isComplete());
 
-        log.info("[ master ] " + master );
+            return new TimelineMasterListResponseDto(master);
+        }else {
+            return null;
+        }
 
-        return new TimelineMasterListResponseDto(master);
+
 
     }
 

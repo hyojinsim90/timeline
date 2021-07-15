@@ -104,12 +104,12 @@ const ModifyTimeline = (props) => {
   const onModifyTimeline = (e) => {
 
     let formData = new FormData()
-    let variables = [{
+    let variables = {
       category: category,
       complete: complete,
       open: open,
       title: title,
-    }]
+    }
 
     // 파일 업로드 안 했을 때 기본 이미지 혹은 기존 이미지 그대로 유지
     if(files.length === 0) {

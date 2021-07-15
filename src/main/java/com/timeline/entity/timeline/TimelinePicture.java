@@ -17,6 +17,7 @@ import javax.persistence.*;
 @Entity
 @Builder
 @Getter
+@Table(name = "timeline_picture")
 @AllArgsConstructor
 @NoArgsConstructor
 public class TimelinePicture {

@@ -79,7 +79,7 @@ const CreateTimeline = () => {
       formData.append("file", files[0])
     }
 
-    let variables = [{
+    let variables = {
       author: user.userData.email,
       category: category,
       complete: complete,
@@ -87,7 +87,7 @@ const CreateTimeline = () => {
       title: title,
       likeCount: 0,
       viewCount: 0
-    }]
+    }
 
     formData.append("dto", new Blob([JSON.stringify(variables)], {type: "application/json"}))
 

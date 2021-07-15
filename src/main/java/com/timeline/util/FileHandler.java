@@ -4,11 +4,16 @@ import com.timeline.entity.timeline.TimelinePicture;
 import com.timeline.repository.TimelinePictureRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,17 +44,28 @@ public class FileHandler {
         // 프로젝트 폴더에 저장하기 위해 절대경로를 설정 (Window 의 Tomcat 은 Temp 파일을 이용한다)
         String absolutePath = new File("").getAbsolutePath();
         log.info("absolutePath :  " + absolutePath);
+        // absolutePath :  C:\dev\springboot\workplace\tiltest3\build\libs
 
+        String goMainPath = new File("../resources/main").getCanonicalPath();
+        log.info("goMainPath :  " + goMainPath);
+        // -> goMainPath :  C:\dev\springboot\workplace\tiltest3\build\resources\main
+
+        String timelinePath = new File("../resources/main/image/timeline.jpg").getCanonicalPath();
+        log.info("timelinePath = " + timelinePath);
+        // -> timelinePath = C:\dev\springboot\workplace\tiltest3\build\resources\main\image\timeline.jpg
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
         String current_date = simpleDateFormat.format(new Date());
 
         // 경로를 지정하고 그곳에다가 저장할 심산이다
         // 서버용
-        String path = absolutePath + "/tiltest3/src/main/resources/image/" + current_date;
-        // /tiltest3/src/main/resources/image/20210712
+        String path = goMainPath + "/image/" + current_date;
+        log.info("path :  " + path);
+        // -> path :  C:\dev\springboot\workplace\tiltest3\build\resources\main/image/20210714
 
         File file = new File(path);
+        log.info("file :  " + file.getAbsolutePath());
+        // -> file :  C:\dev\springboot\workplace\tiltest3\build\resources\main\image\20210714
         // 저장할 위치의 디렉토리가 존지하지 않을 경우
         if (!file.exists()) {
             // mkdir() 함수와 다른 점은 상위 디렉토리가 존재하지 않을 때 그것까지 생성
@@ -60,7 +76,9 @@ public class FileHandler {
         if (multipartFile.isEmpty()) {
 
             // 서버용
-            File uploadfile = new File(path + "/timeline.jpg");
+            File uploadfile = new File(timelinePath);
+            log.info("uploadfile :  " + uploadfile.getAbsolutePath());
+            // -> uploadfile :  C:\dev\springboot\workplace\tiltest3\build\resources\main\image\timeline.jpg
 
             // 로컬테스트용
 //             multipartFile = (MultipartFile) new File(absolutePath + "\\src\\main\\resources\\image\\timeline.jpg");
@@ -68,40 +86,57 @@ public class FileHandler {
             // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
             SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
             String newfileName = date.format(new Date()) + "-" + uploadfile.getName();
+            log.info("newfileName :  " + newfileName);
+            // -> newfileName :  20214514204558-timeline.jpg
+            File newFile = new File(file.getAbsolutePath()+ "/" + newfileName);
+
+            try {
+                FileUtils.copyFile(uploadfile, newFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             // 생성 후 리스트에 추가
             timelinePicture = TimelinePicture.builder()
                     .timelineMasterId(timelineID)
                     .originalFileName(uploadfile.getName())
-                    .storedFilePath(path + "/" + newfileName)
-                    .fileSize(multipartFile.getSize())
+                    .storedFilePath(newFile.getAbsolutePath())
+                    .fileSize(newFile.length())
                     .build();
 
-            // 저장된 파일로 변경하여 이를 보여주기 위함
-            File newFile = new File(path + "/" + newfileName);
-            multipartFile.transferTo(newFile);
+//            // 저장된 파일로 변경하여 이를 보여주기 위함
+//            multipartFile.transferTo(newFile);
+//            log.info("multipartFile.getSize :  " + multipartFile.getSize());
+//            log.info("multipartFile.getContentType :  " + multipartFile.getContentType());
 
             return timelinePicture;
 
         } else {
 
+            log.info("- 넘어온 파일이 있을 때 ");
             // 넘어온 파일이 있을 때
 
             // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
             SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
             String newfileName = date.format(new Date()) + "-" + multipartFile.getOriginalFilename();
 
+            log.info("newfileName :  " + newfileName);
+            File newFile = new File(file.getAbsolutePath()+ "/" + newfileName);
+            log.info("newfile location :  " + newFile.getAbsolutePath());
+
             // 생성 후 리스트에 추가
             timelinePicture = TimelinePicture.builder()
                     .timelineMasterId(timelineID)
                     .originalFileName(multipartFile.getOriginalFilename())
-                    .storedFilePath(path + "/" + newfileName)
+                    .storedFilePath(newFile.getAbsolutePath())
                     .fileSize(multipartFile.getSize())
                     .build();
 
+
             // 저장된 파일로 변경하여 이를 보여주기 위함
-            file = new File(absolutePath + path + "/" + newfileName);
-            multipartFile.transferTo(file);
+            multipartFile.transferTo(newFile);
+            log.info("multipartFile.getSize :  " + multipartFile.getSize());
+            log.info("multipartFile.getContentType :  " + multipartFile.getContentType());
 
             return timelinePicture;
 
@@ -194,19 +229,28 @@ public class FileHandler {
 
         // master_id로 TimelinePicture리턴
         TimelinePicture picture = timelinePictureRepository.findByTimelineMasterId(id);
+        if(picture != null){
+            // 실제 저장된 위치 삭제
+            File storedfile = new File(picture.getStoredFilePath());
+            log.info("storedFile : " + storedfile);
+            if(storedfile.delete()){
+                System.out.println("파일삭제 성공");
+                // TimelinePicture 삭제
+                timelinePictureRepository.delete(picture);
 
-        // 실제 저장된 위치 삭제
-        File storedfile = new File(picture.getStoredFilePath());
-        if(storedfile.delete()){
-            System.out.println("파일삭제 성공");
-            // TimelinePicture 삭제
-            timelinePictureRepository.delete(picture);
-            checkDelete = true;
-            return checkDelete;
+                // 파일 삭제 후 폴더가 비었으면 폴더도 삭제해주는 것도 추가
+
+                checkDelete = true;
+                return checkDelete;
+            } else {
+                System.out.println("파일삭제 실패");
+                return checkDelete;
+            }
         } else {
-            System.out.println("파일삭제 실패");
+            System.out.println("TimelinePicture 없음");
             return checkDelete;
         }
+
 
 
     }
