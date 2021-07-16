@@ -110,6 +110,7 @@ public class TimelineService {
         TimelineMaster timelineMaster = timelineMasterRepository.save(timelineMasterSaveRequestDto.toTimelineMaster());
 
         log.info("master_id : " + timelineMaster.getId());
+        log.info("getCategory : " + timelineMasterSaveRequestDto.getCategory());
 
         // 3. 파일을 저장하고 그 TimelinePicture 에 대한 list 를 가지고 있는다
         TimelinePicture timelinePicture = fileHandler.parseFileInfoOne(timelineMaster.getId(), file);

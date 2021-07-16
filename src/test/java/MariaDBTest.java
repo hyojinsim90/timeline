@@ -17,9 +17,8 @@ public class MariaDBTest {
 //       Connection con = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/timeline", "root", "maria1234"); // 마리아 DB
 
 //       Connection con = DriverManager.getConnection("jdbc:mariadb://timeline.cmo8b1bgzk71.ap-northeast-2.rds.amazonaws.com:3306/timeline", "admin", "maria1234"); // 마리아 DB
-       Connection con = DriverManager.getConnection("jdbc:mysql://be949bab251ff0:c0683bb9@us-cdbr-east-04.cleardb.com:3306/heroku_5c9afded824fe81", "be949bab251ff0", "c0683bb9"); // mysql DB
+       Connection con = DriverManager.getConnection("jdbc:mysql://mfli1shnwhgt4evj:ohn9ca3mz3wdtbw3@kfgk8u2ogtoylkq9.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/qoeq2gfiz0laftgd", "mfli1shnwhgt4evj", "ohn9ca3mz3wdtbw3"); // heroku jawsDB : mysql DB
 
        System.out.println(con);
-
    }
 }
