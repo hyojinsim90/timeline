@@ -1,6 +1,7 @@
 package com.timeline.entity.classes;
 
 import com.timeline.entity.BaseTimeEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -57,9 +58,6 @@ public class ClassMaster extends BaseTimeEntity {
     @Column(name = "place_sorting")
     private String placeSorting; // 장소구분
 
-    @Column(columnDefinition = "TEXT")
-    private String filePath; // 대표이미지
-
     @Column(name = "class_start_date")
     private String classStartDate; // 클래스 시작일
 
@@ -74,6 +72,42 @@ public class ClassMaster extends BaseTimeEntity {
 
     @Column(name = "organizer_email")
     private String organizerEmail; // 담당자 이메일
+
+    @Builder
+    public ClassMaster(String masterId,
+                       int likeCount,
+                       String recuitStartDate,
+                       String recuitEndDate,
+                       String bank,
+                       Long account,
+                       String depositor,
+                       String category,
+                       String className,
+                       String simpleInfo,
+                       String placeSorting,
+                       String classStartDate,
+                       String classEndDate,
+                       String detailInfo,
+                       String organizerName,
+                       String organizerEmail) {
+        this.masterId = masterId;
+        this.likeCount = likeCount;
+        this.recuitStartDate = recuitStartDate;
+        this.recuitEndDate = recuitEndDate;
+        this.bank = bank;
+        this.account = account;
+        this.depositor = depositor;
+        this.category = category;
+        this.className = className;
+        this.simpleInfo = simpleInfo;
+        this.placeSorting = placeSorting;
+        this.classStartDate = classStartDate;
+        this.classEndDate = classEndDate;
+        this.detailInfo = detailInfo;
+        this.organizerName = organizerName;
+        this.organizerEmail = organizerEmail;
+    }
+
 
 
 }

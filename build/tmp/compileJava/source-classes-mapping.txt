@@ -3,14 +3,14 @@ com/timeline/entity/timeline/TimelineLike.java
  com.timeline.entity.timeline.TimelineLike$TimelineLikeBuilder
 com/timeline/controller/dto/timeline/comment/TimelineCommentRequestDto.java
  com.timeline.controller.dto.timeline.comment.TimelineCommentRequestDto
-com/timeline/entity/classes/ClassDetail.java
- com.timeline.entity.classes.ClassDetail
+com/timeline/entity/timeline/TimelineLikePK.java
+ com.timeline.entity.timeline.TimelineLikePK
 com/timeline/controller/dto/timeline/like/TimelineLikeRequestDto.java
  com.timeline.controller.dto.timeline.like.TimelineLikeRequestDto
 com/timeline/repository/ClassLikeRepository.java
  com.timeline.repository.ClassLikeRepository
-com/timeline/repository/ClassMasterRepository.java
- com.timeline.repository.ClassMasterRepository
+com/timeline/oauth/social/NaverOauth.java
+ com.timeline.oauth.social.NaverOauth
 com/timeline/entity/timeline/TimelinePicture.java
  com.timeline.entity.timeline.TimelinePicture
  com.timeline.entity.timeline.TimelinePicture$TimelinePictureBuilder
@@ -25,8 +25,8 @@ com/timeline/entity/member/Member.java
  com.timeline.entity.member.Member$MemberBuilder
 com/timeline/repository/TimelineDetailRepository.java
  com.timeline.repository.TimelineDetailRepository
-com/timeline/repository/ClassDetailRepository.java
- com.timeline.repository.ClassDetailRepository
+com/timeline/repository/TimelinePictureRepository.java
+ com.timeline.repository.TimelinePictureRepository
 com/timeline/oauth/social/SocialOauth.java
  com.timeline.oauth.social.SocialOauth
 com/timeline/entity/timeline/TimelineMaster.java
@@ -75,8 +75,8 @@ com/timeline/oauth/SocialLoginType.java
 com/timeline/controller/dto/member/MemberUpdateRequestDto.java
  com.timeline.controller.dto.member.MemberUpdateRequestDto
  com.timeline.controller.dto.member.MemberUpdateRequestDto$MemberUpdateRequestDtoBuilder
-com/timeline/entity/classes/ClassMaster.java
- com.timeline.entity.classes.ClassMaster
+com/timeline/config/SecurityConfig.java
+ com.timeline.config.SecurityConfig
 com/timeline/controller/dto/member/MemberOauthAttributeDto.java
  com.timeline.controller.dto.member.MemberOauthAttributeDto
  com.timeline.controller.dto.member.MemberOauthAttributeDto$MemberOauthAttributeDtoBuilder
@@ -164,17 +164,38 @@ com/timeline/repository/RefreshTokenRepository.java
  com.timeline.repository.RefreshTokenRepository
 com/timeline/controller/dto/member/MemberEmailRequestDto.java
  com.timeline.controller.dto.member.MemberEmailRequestDto
-com/timeline/entity/timeline/TimelineLikePK.java
- com.timeline.entity.timeline.TimelineLikePK
-com/timeline/oauth/social/NaverOauth.java
- com.timeline.oauth.social.NaverOauth
-com/timeline/config/SecurityConfig.java
- com.timeline.config.SecurityConfig
-com/timeline/repository/TimelinePictureRepository.java
- com.timeline.repository.TimelinePictureRepository
+com/timeline/entity/classes/ClassDetail.java
+ com.timeline.entity.classes.ClassDetail
+ com.timeline.entity.classes.ClassDetail$ClassDetailBuilder
+com/timeline/repository/ClassMasterRepository.java
+ com.timeline.repository.ClassMasterRepository
+com/timeline/controller/dto/classes/ClassMasterUpdateRequestDto.java
+ com.timeline.controller.dto.classes.ClassMasterUpdateRequestDto
+com/timeline/controller/dto/classes/ClassMasterResponseDto.java
+ com.timeline.controller.dto.classes.ClassMasterResponseDto
+com/timeline/repository/ClassDetailRepository.java
+ com.timeline.repository.ClassDetailRepository
+com/timeline/controller/dto/timeline/TimelinePictureResponseDto.java
+ com.timeline.controller.dto.timeline.TimelinePictureResponseDto
 com/timeline/util/FileHandler.java
  com.timeline.util.FileHandler
+com/timeline/service/ClassService.java
+ com.timeline.service.ClassService
+com/timeline/entity/classes/ClassMaster.java
+ com.timeline.entity.classes.ClassMaster
+ com.timeline.entity.classes.ClassMaster$ClassMasterBuilder
+com/timeline/controller/ClassController.java
+ com.timeline.controller.ClassController
 com/timeline/service/TimelineService.java
  com.timeline.service.TimelineService
+com/timeline/repository/ClassPictureRepository.java
+ com.timeline.repository.ClassPictureRepository
+com/timeline/entity/classes/ClassPicture.java
+ com.timeline.entity.classes.ClassPicture
+ com.timeline.entity.classes.ClassPicture$ClassPictureBuilder
+com/timeline/controller/dto/classes/ClassMasterSaveRequestDto.java
+ com.timeline.controller.dto.classes.ClassMasterSaveRequestDto
+com/timeline/controller/dto/classes/ClassDetailSaveRequestDto.java
+ com.timeline.controller.dto.classes.ClassDetailSaveRequestDto
 com/timeline/controller/TimelineController.java
  com.timeline.controller.TimelineController

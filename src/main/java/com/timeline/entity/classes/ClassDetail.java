@@ -1,6 +1,7 @@
 package com.timeline.entity.classes;
 
 import com.timeline.entity.BaseTimeEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,7 +31,7 @@ public class ClassDetail extends BaseTimeEntity {
     private Long id; // 클래스 detail_id
 
     @Column(name = "group_name")
-    private String group_name; // 그룹명
+    private String groupName; // 그룹명
 
     @Column(name = "quantity")
     private int quantity; // 수량
@@ -38,6 +39,14 @@ public class ClassDetail extends BaseTimeEntity {
     @Column(name = "price")
     private int price; // 금액
 
+    @Builder
+    public ClassDetail(Long masterId, Long id, String groupName, int quantity, int price) {
+        this.masterId = masterId;
+        this.id = id;
+        this.groupName = groupName;
+        this.quantity = quantity;
+        this.price = price;
+    }
 
 
 }

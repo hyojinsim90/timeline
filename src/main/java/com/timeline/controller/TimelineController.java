@@ -33,13 +33,12 @@ public class TimelineController {
     private final TimelineService timelineService;
     private final FileHandler fileHandler;
 
+
     /* 전체 타임라인 마스터 조회 */
     @GetMapping("/master/list")
     public List<TimelineMasterListResponseDto> findAllMaster() {
         return timelineService.findAllMaster();
     }
-
-    /* 타임라인 마스터 아이디별 조회 */
 
     /* 내 타임라인 마스터 조회 */
     @GetMapping("/master/{email}")
@@ -112,15 +111,16 @@ public class TimelineController {
         return ResponseEntity.ok(timelineService.updateDetail(masterId, timelineDetailList));
     }
 
-    /* 타임라인 마스터 이미지 삭제 */
-    @DeleteMapping("master/image/{masterId}")
-    public boolean deleteFilePath(@PathVariable Long masterId) throws Exception { return fileHandler.deleteFileOne(masterId); }
-
     /* 타임라인 디테일 삭제 */
     @DeleteMapping("detail/{masterId}")
     public void deleteDetail(@PathVariable Long masterId) {
         timelineService.deleteDetail(masterId);
     }
+
+
+    /* 타임라인 마스터 이미지 삭제 */
+    @DeleteMapping("master/image/{masterId}")
+    public boolean deleteFilePath(@PathVariable Long masterId) throws Exception { return fileHandler.deleteFileOne(masterId); }
 
     /* 타임라인 전체 삭제 */
     @DeleteMapping("/{masterId}")
@@ -134,5 +134,18 @@ public class TimelineController {
         return timelineService.findBestLikes();
     }
 
+
+    /* 타임라임 이미지 전체 조회 */
+    @GetMapping("/master/image/list")
+    public List<TimelinePictureResponseDto> findAllImages(){
+        return timelineService.findAllImages();
+    }
+
+
+    /* 타임라임 이미지 하나만 조회 */
+    @GetMapping("/master/image/{masterId}")
+    public TimelinePictureResponseDto findOneImage(@PathVariable Long masterId){
+        return timelineService.findOneImage(masterId);
+    }
 
 }

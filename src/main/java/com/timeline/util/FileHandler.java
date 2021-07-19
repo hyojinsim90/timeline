@@ -1,5 +1,6 @@
 package com.timeline.util;
 
+import com.timeline.entity.classes.ClassPicture;
 import com.timeline.entity.timeline.TimelinePicture;
 import com.timeline.repository.TimelinePictureRepository;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +60,7 @@ public class FileHandler {
 
         // 경로를 지정하고 그곳에다가 저장할 심산이다
         // 서버용
-        String path = goMainPath + "/image/" + current_date;
+        String path = goMainPath + "/image/timeline/" + current_date;
         log.info("path :  " + path);
         // -> path :  C:\dev\springboot\workplace\tiltest3\build\resources\main/image/20210714
 
@@ -141,6 +142,65 @@ public class FileHandler {
             return timelinePicture;
 
         }
+    }
+
+    /* 파일 하나 저장 _ 클래스 */
+    public ClassPicture parseFileInfoOneClass(
+            Long classID,
+            MultipartFile multipartFile
+    ) throws Exception {
+
+        // 반환을 할 파일 정보 클래스
+        ClassPicture classPicture = new ClassPicture();
+
+        // 프로젝트 폴더에 저장하기 위해 절대경로를 설정 (Window 의 Tomcat 은 Temp 파일을 이용한다)
+        String absolutePath = new File("").getAbsolutePath();
+        log.info("absolutePath :  " + absolutePath);
+
+        String goMainPath = new File("../resources/main").getCanonicalPath();
+        log.info("goMainPath :  " + goMainPath);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        String current_date = simpleDateFormat.format(new Date());
+
+        // 경로를 지정하고 그곳에다가 저장할 심산이다
+        // 서버용
+        String path = goMainPath + "/image/class/" + current_date;
+        log.info("path :  " + path);
+
+        File file = new File(path);
+        log.info("file :  " + file.getAbsolutePath());
+
+        // 저장할 위치의 디렉토리가 존지하지 않을 경우
+        if (!file.exists()) {
+            // mkdir() 함수와 다른 점은 상위 디렉토리가 존재하지 않을 때 그것까지 생성
+            file.mkdirs();
+        }
+
+            // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
+            SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
+            String newfileName = date.format(new Date()) + "-" + multipartFile.getOriginalFilename();
+
+            log.info("newfileName :  " + newfileName);
+            File newFile = new File(file.getAbsolutePath()+ "/" + newfileName);
+            log.info("newfile location :  " + newFile.getAbsolutePath());
+
+            // 생성 후 리스트에 추가
+        classPicture = ClassPicture.builder()
+                    .classMasterId(classID)
+                    .originalFileName(multipartFile.getOriginalFilename())
+                    .storedFilePath(newFile.getAbsolutePath())
+                    .fileSize(multipartFile.getSize())
+                    .build();
+
+
+            // 저장된 파일로 변경하여 이를 보여주기 위함
+            multipartFile.transferTo(newFile);
+            log.info("multipartFile.getSize :  " + multipartFile.getSize());
+            log.info("multipartFile.getContentType :  " + multipartFile.getContentType());
+
+            return classPicture;
+
     }
 
     /* 파일들 저장

@@ -119,7 +119,7 @@ public class TimelineService {
         timelinePictureRepository.save(timelinePicture);
 
         // 5. timelineMaster 저장된 정보를 리턴함
-        return new TimelineMasterListResponseDto(timelineMasterRepository.save(timelineMaster));
+        return new TimelineMasterListResponseDto(timelineMaster);
 
     }
 
@@ -270,5 +270,19 @@ public class TimelineService {
                 .collect(Collectors.toList());
     }
 
+    /* 타임라임 이미지 전체 조회 */
+    public List<TimelinePictureResponseDto> findAllImages() {
+        log.info("[ timeline_picture 전체 조회 ]");
 
+        return timelinePictureRepository.findAll().stream()
+                .map(TimelinePictureResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 타임라임 이미지 하나만 조회 */
+    public TimelinePictureResponseDto findOneImage(Long masterId) {
+        log.info("[ 내 timeline_picture 조회 ]");
+
+        return new TimelinePictureResponseDto(timelinePictureRepository.findByTimelineMasterId(masterId));
+    }
 }
