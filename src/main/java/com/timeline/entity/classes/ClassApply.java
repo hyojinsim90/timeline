@@ -1,6 +1,7 @@
 package com.timeline.entity.classes;
 
 import com.timeline.entity.BaseTimeEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,5 +33,10 @@ public class ClassApply extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long memberId; // member_id
 
-
+    @Builder
+    public ClassApply(Long masterId, Long detailId, Long memberId) {
+        this.masterId = masterId;
+        this.detailId = detailId;
+        this.memberId = memberId;
+    }
 }

@@ -1,6 +1,7 @@
 package com.timeline.entity.classes;
 
 import com.timeline.entity.BaseTimeEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,11 @@ public class ClassLike extends BaseTimeEntity {
     @Id
     @Column(name = "member_id")
     private Long memberId; // member_id
+
+    @Builder
+    public ClassLike(Long masterId, Long memberId) {
+        this.masterId = masterId;
+        this.memberId = memberId;
+    }
+
 }

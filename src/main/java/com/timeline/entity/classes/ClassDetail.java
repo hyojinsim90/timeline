@@ -49,4 +49,9 @@ public class ClassDetail extends BaseTimeEntity {
     }
 
 
+    public void update(String groupName, int quantity, int price) {
+        this.groupName = groupName;
+        this.quantity = quantity;
+        this.price = price;
+    }
 }

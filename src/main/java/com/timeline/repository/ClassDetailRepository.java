@@ -4,6 +4,7 @@ import com.timeline.entity.classes.ClassDetail;
 import com.timeline.entity.timeline.TimelineDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -14,6 +15,10 @@ import java.util.List;
  * @brief : class detail용 repository
  **/
 public interface ClassDetailRepository extends JpaRepository<ClassDetail, Long> {
+
+    @Query("SELECT m FROM ClassDetail m WHERE m.masterId = :masterId AND m.id = :id")
+    ClassDetail findDetail(@Param("masterId") Long masterId, @Param("id") Long id);
+
 
     @Query("SELECT m FROM ClassDetail m WHERE m.masterId = :masterId")
     List<ClassDetail> findByMasterId(Long masterId);

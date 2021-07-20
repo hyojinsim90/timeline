@@ -1,5 +1,6 @@
 package com.timeline.entity.classes;
 
+import com.timeline.controller.dto.classes.ClassMasterUpdateRequestDto;
 import com.timeline.entity.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +27,7 @@ public class ClassMaster extends BaseTimeEntity {
     private Long id; // pk
 
     @Column(name = "master_id")
-    private String masterId; // 타임라인 id
+    private Long masterId; // 타임라인 id
 
     @Column(name="like_count")
     private int likeCount; // 추천수
@@ -36,6 +37,9 @@ public class ClassMaster extends BaseTimeEntity {
 
     @Column(name = "recuit_end_date")
     private String recuitEndDate; // 모집종료일
+
+    @Column(name = "priceSorting") // 가격정책 구분
+    private String priceSorting;
 
     @Column(name = "bank")
     private String bank; // 은행
@@ -58,6 +62,9 @@ public class ClassMaster extends BaseTimeEntity {
     @Column(name = "place_sorting")
     private String placeSorting; // 장소구분
 
+    @Column(name="place")
+    private String place; // 장소상세
+
     @Column(name = "class_start_date")
     private String classStartDate; // 클래스 시작일
 
@@ -74,10 +81,11 @@ public class ClassMaster extends BaseTimeEntity {
     private String organizerEmail; // 담당자 이메일
 
     @Builder
-    public ClassMaster(String masterId,
+    public ClassMaster(Long masterId,
                        int likeCount,
                        String recuitStartDate,
                        String recuitEndDate,
+                       String priceSorting,
                        String bank,
                        Long account,
                        String depositor,
@@ -85,6 +93,7 @@ public class ClassMaster extends BaseTimeEntity {
                        String className,
                        String simpleInfo,
                        String placeSorting,
+                       String place,
                        String classStartDate,
                        String classEndDate,
                        String detailInfo,
@@ -94,6 +103,7 @@ public class ClassMaster extends BaseTimeEntity {
         this.likeCount = likeCount;
         this.recuitStartDate = recuitStartDate;
         this.recuitEndDate = recuitEndDate;
+        this.priceSorting = priceSorting;
         this.bank = bank;
         this.account = account;
         this.depositor = depositor;
@@ -101,6 +111,7 @@ public class ClassMaster extends BaseTimeEntity {
         this.className = className;
         this.simpleInfo = simpleInfo;
         this.placeSorting = placeSorting;
+        this.place = place;
         this.classStartDate = classStartDate;
         this.classEndDate = classEndDate;
         this.detailInfo = detailInfo;
@@ -109,5 +120,24 @@ public class ClassMaster extends BaseTimeEntity {
     }
 
 
+    public void update(ClassMasterUpdateRequestDto masterUpdateDto) {
+        this.recuitStartDate = masterUpdateDto.getRecuitStartDate(); // 모집시작일
+        this.recuitEndDate = masterUpdateDto.getRecuitEndDate(); // 모집종료일
+        this.bank = masterUpdateDto.getBank(); // 은행
+        this.account = masterUpdateDto.getAccount(); // 계좌번호
+        this.depositor = masterUpdateDto.getDepositor(); // 예금주성명
+        this.category = masterUpdateDto.getCategory(); // 분야
+        this.className = masterUpdateDto.getClassName(); // 클래스명
+        this.simpleInfo = masterUpdateDto.getSimpleInfo(); // 간단 소개
+        this.placeSorting = masterUpdateDto.getPlaceSorting(); // 장소구분
+        this.classStartDate = masterUpdateDto.getClassStartDate(); // 클래스 시작일
+        this.classEndDate = masterUpdateDto.getClassEndDate(); // 클래스 종료일
+        this.detailInfo = masterUpdateDto.getDetailInfo(); // 상세정보
+        this.organizerName = masterUpdateDto.getOrganizerName(); // 담당자 성명
+        this.organizerEmail = masterUpdateDto.getOrganizerEmail(); // 담당자 이메일
+    }
 
+    public void updateLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
 }

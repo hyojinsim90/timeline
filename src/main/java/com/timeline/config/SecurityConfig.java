@@ -37,6 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/h2-console/**", "/favicon.ico");
     }
 
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/image/**")
+                .addResourceLocations("classpath:/src/main/resources/image/");
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 

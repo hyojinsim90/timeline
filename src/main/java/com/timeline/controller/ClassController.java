@@ -1,8 +1,6 @@
 package com.timeline.controller;
 
-import com.timeline.controller.dto.classes.ClassDetailSaveRequestDto;
-import com.timeline.controller.dto.classes.ClassMasterResponseDto;
-import com.timeline.controller.dto.classes.ClassMasterSaveRequestDto;
+import com.timeline.controller.dto.classes.*;
 import com.timeline.controller.dto.timeline.*;
 import com.timeline.entity.classes.ClassDetail;
 import com.timeline.entity.timeline.TimelineDetail;
@@ -58,11 +56,14 @@ public class ClassController {
         return classService.findMasterCategory(category);
     }
 
-//    /* 클래스 검색 조회 */
-//    @GetMapping("/search")
-//    public List<ClassMasterResponseDto> search(@RequestParam(value="category") String category, @RequestParam(value="keyword") String keyword) {
-//        return classService.search(category, keyword);
-//    }
+    /* 클래스 검색 조회 */
+    @GetMapping("/search")
+    public List<ClassMasterResponseDto> search(@RequestParam(value="category") String category,
+                                               @RequestParam(value="priceSorting") String priceSorting,
+                                               @RequestParam(value="placeSorting") String placeSorting,
+                                               @RequestParam(value="keyword") String keyword) {
+        return classService.search(category, priceSorting, placeSorting, keyword);
+    }
 
 
     /* 클래스 마스터 저장 */
@@ -76,15 +77,15 @@ public class ClassController {
         return ResponseEntity.ok(classService.saveMaster(classMasterSaveRequestDto, file));
     }
 
-//    /* 클래스 마스터 수정 */
-//    @PutMapping(path = "/master/{id}",consumes = {"multipart/form-data"})
-//    public ResponseEntity<ClassMasterResponseDto> updateMaster(
-//            @PathVariable Long id,
-//            @RequestPart(value="dto") ClassMasterUpdateRequestDto classMasterUpdateRequestDto,
-//            @RequestPart(value="file",required = false) MultipartFile file) throws Exception
-//    {
-//        return ResponseEntity.ok(classService.updateMaster(id, classMasterUpdateRequestDto, file));
-//    }
+    /* 클래스 마스터 수정 */
+    @PutMapping(path = "/master/{id}",consumes = {"multipart/form-data"})
+    public ResponseEntity<ClassMasterResponseDto> updateMaster(
+            @PathVariable Long id,
+            @RequestPart(value="dto") ClassMasterUpdateRequestDto classMasterUpdateRequestDto,
+            @RequestPart(value="file",required = false) MultipartFile file) throws Exception
+    {
+        return ResponseEntity.ok(classService.updateMaster(id, classMasterUpdateRequestDto, file));
+    }
 
     /* 내 클래스 디테일 조회 */
     @GetMapping("/detail/{masterId}")
@@ -97,30 +98,30 @@ public class ClassController {
     public ResponseEntity<List<ClassDetail>> saveDetail(@RequestBody List<ClassDetailSaveRequestDto> classDetailList) {
         return classService.saveDetail(classDetailList);
     }
-//
-//    /* 클래스 디테일 수정 */
-//    @PutMapping("/detail/{masterId}")
-//    public ResponseEntity updateDetail(@PathVariable Long masterId, @RequestBody List<ClassDetailUpdateRequestDto> classDetailList) {
-//        log.info("[/detail/{masterId}]");
-//        return ResponseEntity.ok(classService.updateDetail(masterId, classDetailList));
-//    }
-//
-//    /* 클래스 디테일 삭제 */
-//    @DeleteMapping("detail/{masterId}")
-//    public void deleteDetail(@PathVariable Long masterId) {
-//        classService.deleteDetail(masterId);
-//    }
-//
-//
-//    /* 클래스 마스터 이미지 삭제 */
-//    @DeleteMapping("master/image/{masterId}")
-//    public boolean deleteFilePath(@PathVariable Long masterId) throws Exception { return fileHandler.deleteFileOne(masterId); }
-//
-//    /* 클래스 전체 삭제 */
-//    @DeleteMapping("/{masterId}")
-//    public void delete(@PathVariable Long masterId) throws Exception {
-//        classService.delete(masterId);
-//    }
+
+    /* 클래스 디테일 수정 */
+    @PutMapping("/detail/{masterId}")
+    public ResponseEntity updateDetail(@PathVariable Long masterId, @RequestBody List<ClassDetailSaveRequestDto> classDetailList) {
+        log.info("[/detail/{masterId}]");
+        return ResponseEntity.ok(classService.updateDetail(masterId, classDetailList));
+    }
+
+    /* 클래스 디테일 삭제 */
+    @DeleteMapping("detail/{masterId}")
+    public void deleteDetail(@PathVariable Long masterId) {
+        classService.deleteDetail(masterId);
+    }
+
+
+    /* 클래스 마스터 이미지 삭제 */
+    @DeleteMapping("master/image/{masterId}")
+    public boolean deleteFilePath(@PathVariable Long masterId) throws Exception { return fileHandler.deleteFileOneClass(masterId); }
+
+    /* 클래스 전체 삭제 */
+    @DeleteMapping("/{masterId}")
+    public void delete(@PathVariable Long masterId) throws Exception {
+        classService.delete(masterId);
+    }
 //
 //    /* 100개 넘어간 클래스 게시물 조회 */
 //    @GetMapping("/like/list/best")
@@ -128,18 +129,18 @@ public class ClassController {
 //        return classService.findBestLikes();
 //    }
 //
-//
-//    /* 클래스 이미지 전체 조회 */
-//    @GetMapping("/master/image/list")
-//    public List<ClassPictureResponseDto> findAllImages(){
-//        return classService.findAllImages();
-//    }
-//
-//
-//    /* 클래스 이미지 하나만 조회 */
-//    @GetMapping("/master/image/{masterId}")
-//    public ClassPictureResponseDto findOneImage(@PathVariable Long masterId){
-//        return classService.findOneImage(masterId);
-//    }
+
+    /* 클래스 이미지 전체 조회 */
+    @GetMapping("/master/image/list")
+    public List<ClassPictureResponseDto> findAllImages(){
+        return classService.findAllImages();
+    }
+
+
+    /* 클래스 이미지 하나만 조회 */
+    @GetMapping("/master/image/{masterId}")
+    public ClassPictureResponseDto findOneImage(@PathVariable Long masterId){
+        return classService.findOneImage(masterId);
+    }
 
 }

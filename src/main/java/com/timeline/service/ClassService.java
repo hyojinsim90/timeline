@@ -1,8 +1,6 @@
 package com.timeline.service;
 
-import com.timeline.controller.dto.classes.ClassDetailSaveRequestDto;
-import com.timeline.controller.dto.classes.ClassMasterResponseDto;
-import com.timeline.controller.dto.classes.ClassMasterSaveRequestDto;
+import com.timeline.controller.dto.classes.*;
 import com.timeline.controller.dto.timeline.*;
 import com.timeline.entity.classes.ClassDetail;
 import com.timeline.entity.classes.ClassMaster;
@@ -80,15 +78,15 @@ public class ClassService {
                 .collect(Collectors.toList());
     }
 
-//    /* 클래스 검색 조회 */
-//    public List<ClassMasterResponseDto> search(String category, String keyword) {
-//        log.info("[ class search ]");
-//
-//        return classMasterRepository.searchByKeyword(category,'%'+keyword+'%').stream()
-//                .map(ClassMasterResponseDto::new)
-//                .collect(Collectors.toList());
-//
-//    }
+    /* 클래스 검색 조회 */
+    public List<ClassMasterResponseDto> search(String category, String priceSorting, String placeSorting, String keyword) {
+        log.info("[ class search ]");
+
+        return classMasterRepository.searchByKeyword('%'+category+'%','%'+priceSorting+'%','%'+placeSorting+'%','%'+keyword+'%').stream()
+                .map(ClassMasterResponseDto::new)
+                .collect(Collectors.toList());
+
+    }
 
     /* 클래스 마스터 저장 */
     @Transactional
@@ -114,31 +112,48 @@ public class ClassService {
 
     }
 
-//    /* 클래스 마스터 수정 */
-//    @Transactional
-//    public ClassMasterResponseDto updateMaster(Long id, ClassMasterUpdateRequestDto masterUpdateDto, MultipartFile file) throws Exception {
-//        log.info("[ class_master 수정 ]");
-//
-//        // 파일 삭제 처리 : 파일 삭제 + ClassPicture 삭제
-//        boolean deleteOk = fileHandler.deleteFileOne(id);
-//
-//        if(deleteOk){
-//            // 새로 전달된 파일을 저장하고 그 ClassPicture 에 대한 list 를 가지고 있는다
-//            ClassMaster master = classMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + id));
-//            ClassPicture classPicture = fileHandler.parseFileInfoOne(master.getId(), file);
-//
-//            // ClassPicture 저장
-//            classPictureRepository.save(classPicture);
-//
-//            // classMaster 업데이트
-//            master.update(masterUpdateDto);
-//
-//            return new ClassMasterResponseDto(master);
-//        }else {
-//            return null;
-//        }
-//
-//    }
+    /* 클래스 마스터 수정 */
+    @Transactional
+    public ClassMasterResponseDto updateMaster(Long id, ClassMasterUpdateRequestDto masterUpdateDto, MultipartFile file) throws Exception {
+        log.info("[ class_master 수정 ]");
+
+        if(file == null || file.isEmpty()){
+            log.info("- 수정할 파일 없음");
+            // 넘어온 파일이 없을 경우 -> 파일에 관한 처리 안함
+            ClassMaster master = classMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + id));
+
+            // classMaster 업데이트
+            master.update(masterUpdateDto);
+
+            return new ClassMasterResponseDto(master);
+
+        } else {
+            // 넘어온 파일이 있을 경우 -> 기존파일 삭제 + 넘어온 파일 저장 처리
+
+            // 파일 삭제 처리 : 파일 삭제 + ClassPicture 삭제
+            boolean deleteOk = fileHandler.deleteFileOne(id);
+
+            if(deleteOk){
+                // 새로 전달된 파일을 저장하고 그 ClassPicture 에 대한 list 를 가지고 있는다
+                ClassMaster master = classMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + id));
+                ClassPicture classPicture = fileHandler.parseFileInfoOneClass(master.getId(), file);
+
+                // ClassPicture 저장
+                classPictureRepository.save(classPicture);
+
+                // classMaster 업데이트
+                master.update(masterUpdateDto);
+
+                return new ClassMasterResponseDto(master);
+            }else {
+                return null;
+            }
+        }
+
+
+
+
+    }
 
     /* 내 클래스 디테일 조회 */
     @Transactional(readOnly = true)
@@ -169,74 +184,74 @@ public class ClassService {
         // class_detail List전체 저장
         return ResponseEntity.ok(classDetailRepository.saveAll(classDetails));
     }
-//
-//    /* 클래스 디테일 수정 */
-//    @Transactional
-//    public ResponseEntity updateDetail(Long masterId, List<ClassDetailUpdateRequestDto> classDetailList) {
-//        log.info("[ class_detail 수정 ]");
-//
-//        //  변수선언 : 날짜변환, detail entity, detail담을 리스트
-//        List<ClassDetail> classDetails = new ArrayList<>();
-//
-//        // 넘어온 리스트를 꺼내 날짜변환후 다시 저장
-//        for (int i = 0; i < classDetailList.size(); i++) {
-//
-//            // 클래스 마스터아이디, 디테일 아이디로 class_detail entity가져오기
-//            ClassDetail classDetail = classDetailRepository.findDetail(masterId, classDetailList.get(i).getId());
-//            if (classDetail == null){
-//                new IllegalArgumentException(("timelne_detail 정보가 없습니다"));
-//            }
-//
-//            // class_detail 저장
-//            classDetail.update(classDetailList.get(i).getScheduleDate(), classDetailList.get(i).getTitle(), classDetailList.get(i).getContent());
-//
-//            // detail 리스트에 객체 저장
-//            classDetails.add(classDetail);
-//        }
-//
-////        log.info("[ classDetails ]" + classDetails);
-//
-//        return ResponseEntity.ok(classDetails);
-//    }
-//
-//    /* 클래스 디테일 삭제 */
-//    @Transactional
-//    public void deleteDetail(Long masterId) {
-//        List<ClassDetail> classDetail = classDetailRepository.findByMasterId(masterId);
-//
-//        log.info("classDetail.isEmpty() : " + classDetail.isEmpty());
-//
-//        if(!classDetail.isEmpty()){
-//            for (int i = 0; i < classDetail.size(); i++) {
-//                classDetailRepository.delete(classDetail.get(i));
-//            }
-//        }
-//    }
-//
-//    /* 클래스 전체 삭제 */
-//    @Transactional
-//    public void delete(Long masterId) throws Exception {
-//
-//        ClassMaster classMaster = classMasterRepository.findById(masterId).orElseThrow(() -> new IllegalArgumentException("class_master 정보가 없습니다. masterId =" + masterId));
-//        List<ClassDetail> classDetail = classDetailRepository.findByMasterId(masterId);
-//
-//        // 파일 삭제 처리 : 파일 삭제 + ClassPicture 삭제
-//        Boolean deleteCk = fileHandler.deleteFileOne(masterId);
-//        if(deleteCk){
-//            // 마스터 삭제
-//            classMasterRepository.delete(classMaster);
-//
-//            for (int i = 0; i < classDetail.size(); i++) {
-//
-//                // 디테일 삭제
-//                classDetailRepository.delete(classDetail.get(i));
-//            }
-//        } else {
-//            throw new Exception("파일이 삭제되지 않았습니다");
-//        }
-//
-//    }
-//
+
+    /* 클래스 디테일 수정 */
+    @Transactional
+    public ResponseEntity updateDetail(Long masterId, List<ClassDetailSaveRequestDto> classDetailList) {
+        log.info("[ class_detail 수정 ]");
+
+        //  변수선언 : 날짜변환, detail entity, detail담을 리스트
+        List<ClassDetail> classDetails = new ArrayList<>();
+
+        // 넘어온 리스트를 꺼내 날짜변환후 다시 저장
+        for (int i = 0; i < classDetailList.size(); i++) {
+
+            // 클래스 마스터아이디, 디테일 아이디로 class_detail entity가져오기
+            ClassDetail classDetail = classDetailRepository.findDetail(masterId, classDetailList.get(i).getId());
+            if (classDetail == null){
+                new IllegalArgumentException(("timelne_detail 정보가 없습니다"));
+            }
+
+            // class_detail 저장
+            classDetail.update(classDetailList.get(i).getGroupName(), classDetailList.get(i).getQuantity(), classDetailList.get(i).getPrice());
+
+            // detail 리스트에 객체 저장
+            classDetails.add(classDetail);
+        }
+
+//        log.info("[ classDetails ]" + classDetails);
+
+        return ResponseEntity.ok(classDetails);
+    }
+
+    /* 클래스 디테일 삭제 */
+    @Transactional
+    public void deleteDetail(Long masterId) {
+        List<ClassDetail> classDetail = classDetailRepository.findByMasterId(masterId);
+
+        log.info("classDetail.isEmpty() : " + classDetail.isEmpty());
+
+        if(!classDetail.isEmpty()){
+            for (int i = 0; i < classDetail.size(); i++) {
+                classDetailRepository.delete(classDetail.get(i));
+            }
+        }
+    }
+
+    /* 클래스 전체 삭제 */
+    @Transactional
+    public void delete(Long masterId) throws Exception {
+
+        ClassMaster classMaster = classMasterRepository.findById(masterId).orElseThrow(() -> new IllegalArgumentException("class_master 정보가 없습니다. masterId =" + masterId));
+        List<ClassDetail> classDetail = classDetailRepository.findByMasterId(masterId);
+
+        // 파일 삭제 처리 : 파일 삭제 + ClassPicture 삭제
+        Boolean deleteCk = fileHandler.deleteFileOneClass(masterId);
+        if(deleteCk){
+            // 마스터 삭제
+            classMasterRepository.delete(classMaster);
+
+            for (int i = 0; i < classDetail.size(); i++) {
+
+                // 디테일 삭제
+                classDetailRepository.delete(classDetail.get(i));
+            }
+        } else {
+            throw new Exception("파일이 삭제되지 않았습니다");
+        }
+
+    }
+
 //    /* 100개 넘어간 클래스 게시물 조회 */
 //    @Transactional(readOnly = true)
 //    public List<ClassMasterResponseDto> findBestLikes() {
@@ -246,20 +261,20 @@ public class ClassService {
 //                .map(ClassMasterResponseDto::new)
 //                .collect(Collectors.toList());
 //    }
-//
-//    /* 클래스 이미지 전체 조회 */
-//    public List<ClassPictureResponseDto> findAllImages() {
-//        log.info("[ class_picture 전체 조회 ]");
-//
-//        return classPictureRepository.findAll().stream()
-//                .map(ClassPictureResponseDto::new)
-//                .collect(Collectors.toList());
-//    }
-//
-//    /* 클래스 이미지 하나만 조회 */
-//    public ClassPictureResponseDto findOneImage(Long masterId) {
-//        log.info("[ 내 class_picture 조회 ]");
-//
-//        return new ClassPictureResponseDto(classPictureRepository.findByClassMasterId(masterId));
-//    }
+
+    /* 클래스 이미지 전체 조회 */
+    public List<ClassPictureResponseDto> findAllImages() {
+        log.info("[ class_picture 전체 조회 ]");
+
+        return classPictureRepository.findAll().stream()
+                .map(ClassPictureResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 클래스 이미지 하나만 조회 */
+    public ClassPictureResponseDto findOneImage(Long masterId) {
+        log.info("[ 내 class_picture 조회 ]");
+
+        return new ClassPictureResponseDto(classPictureRepository.findByClassMasterId(masterId));
+    }
 }

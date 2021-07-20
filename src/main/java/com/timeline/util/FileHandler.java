@@ -2,6 +2,7 @@ package com.timeline.util;
 
 import com.timeline.entity.classes.ClassPicture;
 import com.timeline.entity.timeline.TimelinePicture;
+import com.timeline.repository.ClassPictureRepository;
 import com.timeline.repository.TimelinePictureRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ import java.util.List;
 public class FileHandler {
 
     private final TimelinePictureRepository timelinePictureRepository;
+    private final ClassPictureRepository classPictureRepository;
 
     /* 파일 하나 저장 */
     public TimelinePicture parseFileInfoOne(
@@ -294,7 +296,7 @@ public class FileHandler {
             File storedfile = new File(picture.getStoredFilePath());
             log.info("storedFile : " + storedfile);
             if(storedfile.delete()){
-                System.out.println("파일삭제 성공");
+                log.info("파일삭제 성공");
                 // TimelinePicture 삭제
                 timelinePictureRepository.delete(picture);
 
@@ -303,15 +305,45 @@ public class FileHandler {
                 checkDelete = true;
                 return checkDelete;
             } else {
-                System.out.println("파일삭제 실패");
+                log.info("파일삭제 실패");
                 return checkDelete;
             }
         } else {
-            System.out.println("TimelinePicture 없음");
+            log.info("TimelinePicture 없음");
             return checkDelete;
         }
+    }
 
+    /* 파일 하나 삭제 -> 클래스 */
+    public boolean deleteFileOneClass(
+            Long id
+    ) throws Exception {
 
+        boolean checkDelete = false;
 
+        // master_id로 ClassPicture리턴
+        ClassPicture picture = classPictureRepository.findByClassMasterId(id);
+        if(picture != null){
+            // 실제 저장된 위치 삭제
+            File storedfile = new File(picture.getStoredFilePath());
+            log.info("storedFile : " + storedfile);
+
+            if(storedfile.delete()){
+                log.info("파일삭제 성공");
+                // ClassPicture 삭제
+                classPictureRepository.delete(picture);
+
+                // 파일 삭제 후 폴더가 비었으면 폴더도 삭제해주는 것도 추가
+
+                checkDelete = true;
+                return checkDelete;
+            } else {
+                log.info("파일삭제 실패");
+                return checkDelete;
+            }
+        } else {
+            log.info("ClassPicture 없음");
+            return checkDelete;
+        }
     }
 }

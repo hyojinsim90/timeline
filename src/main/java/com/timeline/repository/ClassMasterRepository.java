@@ -1,6 +1,7 @@
 package com.timeline.repository;
 
 import com.timeline.entity.classes.ClassMaster;
+import com.timeline.entity.timeline.TimelineMaster;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,5 +23,8 @@ public interface ClassMasterRepository extends JpaRepository<ClassMaster, Long> 
 
     @Query("SELECT m FROM ClassMaster m WHERE m.category = :category")
     List<ClassMaster> findByCategory(@Param("category") String category);
+
+    @Query("SELECT m FROM ClassMaster m WHERE m.category like ':category' m.priceSorting like ':priceSorting' m.placeSorting like ':placeSorting' and m.title like ':keyword'")
+    List<ClassMaster> searchByKeyword(@Param("category") String category, @Param("category") String priceSorting, @Param("placeSorting") String placeSorting, @Param("keyword") String keyword);
 
 }

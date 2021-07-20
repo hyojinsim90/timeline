@@ -18,10 +18,11 @@ import javax.persistence.Column;
 @NoArgsConstructor
 public class ClassMasterSaveRequestDto {
 
-    private String masterId; // 타임라인 id
+    private Long masterId; // 타임라인 id
     private int likeCount; // 추천수
     private String recuitStartDate; // 모집시작일
     private String recuitEndDate; // 모집종료일
+    private String priceSorting; // 가격정책 구분
     private String bank; // 은행
     private Long account; // 계좌번호
     private String depositor; // 예금주성명
@@ -29,6 +30,7 @@ public class ClassMasterSaveRequestDto {
     private String className; // 클래스명
     private String simpleInfo; // 간단 소개
     private String placeSorting; // 장소구분
+    private String place; // 장소
     private String classStartDate; // 클래스 시작일
     private String classEndDate; // 클래스 종료일
     private String detailInfo; // 상세정보
@@ -41,6 +43,7 @@ public class ClassMasterSaveRequestDto {
                 .likeCount(likeCount)
                 .recuitStartDate(recuitStartDate)
                 .recuitEndDate(recuitEndDate)
+                .priceSorting(priceSorting)
                 .bank(bank)
                 .account(account)
                 .depositor(depositor)
@@ -48,6 +51,7 @@ public class ClassMasterSaveRequestDto {
                 .className(className)
                 .simpleInfo(simpleInfo)
                 .placeSorting(placeSorting)
+                .place(place)
                 .classStartDate(classStartDate)
                 .classEndDate(classEndDate)
                 .detailInfo(detailInfo)
