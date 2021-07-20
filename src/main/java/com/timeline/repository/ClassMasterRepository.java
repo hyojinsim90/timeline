@@ -24,7 +24,7 @@ public interface ClassMasterRepository extends JpaRepository<ClassMaster, Long> 
     @Query("SELECT m FROM ClassMaster m WHERE m.category = :category")
     List<ClassMaster> findByCategory(@Param("category") String category);
 
-    @Query("SELECT m FROM ClassMaster m WHERE m.category like ':category' m.priceSorting like ':priceSorting' m.placeSorting like ':placeSorting' and m.title like ':keyword'")
-    List<ClassMaster> searchByKeyword(@Param("category") String category, @Param("category") String priceSorting, @Param("placeSorting") String placeSorting, @Param("keyword") String keyword);
+    @Query("SELECT m FROM ClassMaster m WHERE m.category like ':category' and m.priceSorting like ':priceSorting' and m.placeSorting like ':placeSorting' and m.className like ':keyword'")
+    List<ClassMaster> searchByKeyword(@Param("category") String category, @Param("priceSorting") String priceSorting, @Param("placeSorting") String placeSorting, @Param("keyword") String keyword);
 
 }

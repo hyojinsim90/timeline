@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 public class ClassApplyService {
 
     private final ClassApplyRepository classApplyRepository;
-    private final ClassMasterRepository classMasterRepository;
 
     /* 클래스 신청할 시 */
     @Transactional

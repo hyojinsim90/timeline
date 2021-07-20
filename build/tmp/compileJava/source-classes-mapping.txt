@@ -166,8 +166,8 @@ com/timeline/repository/RefreshTokenRepository.java
 com/timeline/entity/classes/ClassDetail.java
  com.timeline.entity.classes.ClassDetail
  com.timeline.entity.classes.ClassDetail$ClassDetailBuilder
-com/timeline/repository/ClassMasterRepository.java
- com.timeline.repository.ClassMasterRepository
+com/timeline/controller/dto/classes/ClassDetailSaveRequestDto.java
+ com.timeline.controller.dto.classes.ClassDetailSaveRequestDto
 com/timeline/repository/ClassLikeRepository.java
  com.timeline.repository.ClassLikeRepository
 com/timeline/controller/dto/classes/ClassMasterUpdateRequestDto.java
@@ -176,15 +176,15 @@ com/timeline/controller/dto/classes/like/ClassMasterLikeCountResponseDto.java
  com.timeline.controller.dto.classes.like.ClassMasterLikeCountResponseDto
 com/timeline/controller/dto/classes/ClassPictureResponseDto.java
  com.timeline.controller.dto.classes.ClassPictureResponseDto
-com/timeline/controller/ClassLikeController.java
- com.timeline.controller.ClassLikeController
+com/timeline/controller/dto/classes/like/ClassLikeResponseDto.java
+ com.timeline.controller.dto.classes.like.ClassLikeResponseDto
 com/timeline/entity/classes/ClassLike.java
  com.timeline.entity.classes.ClassLike
  com.timeline.entity.classes.ClassLike$ClassLikeBuilder
 com/timeline/repository/ClassDetailRepository.java
  com.timeline.repository.ClassDetailRepository
-com/timeline/service/ClassService.java
- com.timeline.service.ClassService
+com/timeline/controller/TimelineController.java
+ com.timeline.controller.TimelineController
 com/timeline/controller/dto/classes/apply/ClassApplyResponseDto.java
  com.timeline.controller.dto.classes.apply.ClassApplyResponseDto
 com/timeline/entity/classes/ClassApply.java
@@ -194,30 +194,30 @@ com/timeline/controller/dto/classes/ClassMasterSaveRequestDto.java
  com.timeline.controller.dto.classes.ClassMasterSaveRequestDto
 com/timeline/controller/dto/classes/apply/ClassApplyRequestDto.java
  com.timeline.controller.dto.classes.apply.ClassApplyRequestDto
-com/timeline/controller/ClassApplyController.java
- com.timeline.controller.ClassApplyController
+com/timeline/controller/dto/classes/like/ClassLikeRequestDto.java
+ com.timeline.controller.dto.classes.like.ClassLikeRequestDto
 com/timeline/repository/ClassApplyRepository.java
  com.timeline.repository.ClassApplyRepository
-com/timeline/service/ClassLikeService.java
- com.timeline.service.ClassLikeService
+com/timeline/service/TimelineService.java
+ com.timeline.service.TimelineService
 com/timeline/controller/dto/classes/ClassMasterResponseDto.java
  com.timeline.controller.dto.classes.ClassMasterResponseDto
-com/timeline/service/ClassApplyService.java
- com.timeline.service.ClassApplyService
-com/timeline/util/FileHandler.java
- com.timeline.util.FileHandler
 com/timeline/entity/classes/ClassMaster.java
  com.timeline.entity.classes.ClassMaster
  com.timeline.entity.classes.ClassMaster$ClassMasterBuilder
-com/timeline/controller/dto/classes/like/ClassLikeResponseDto.java
- com.timeline.controller.dto.classes.like.ClassLikeResponseDto
+com/timeline/util/FileHandler.java
+ com.timeline.util.FileHandler
+com/timeline/controller/ClassApplyController.java
+ com.timeline.controller.ClassApplyController
+com/timeline/service/ClassApplyService.java
+ com.timeline.service.ClassApplyService
+com/timeline/service/ClassService.java
+ com.timeline.service.ClassService
+com/timeline/repository/ClassMasterRepository.java
+ com.timeline.repository.ClassMasterRepository
 com/timeline/controller/ClassController.java
  com.timeline.controller.ClassController
-com/timeline/service/TimelineService.java
- com.timeline.service.TimelineService
-com/timeline/controller/dto/classes/ClassDetailSaveRequestDto.java
- com.timeline.controller.dto.classes.ClassDetailSaveRequestDto
-com/timeline/controller/TimelineController.java
- com.timeline.controller.TimelineController
-com/timeline/controller/dto/classes/like/ClassLikeRequestDto.java
- com.timeline.controller.dto.classes.like.ClassLikeRequestDto
+com/timeline/service/ClassLikeService.java
+ com.timeline.service.ClassLikeService
+com/timeline/controller/ClassLikeController.java
+ com.timeline.controller.ClassLikeController

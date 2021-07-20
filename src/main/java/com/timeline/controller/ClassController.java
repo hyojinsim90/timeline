@@ -61,7 +61,7 @@ public class ClassController {
     public List<ClassMasterResponseDto> search(@RequestParam(value="category") String category,
                                                @RequestParam(value="priceSorting") String priceSorting,
                                                @RequestParam(value="placeSorting") String placeSorting,
-                                               @RequestParam(value="keyword") String keyword) {
+                                               @RequestParam(value="className") String keyword) {
         return classService.search(category, priceSorting, placeSorting, keyword);
     }
 
