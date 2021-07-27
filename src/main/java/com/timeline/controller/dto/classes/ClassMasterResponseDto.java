@@ -17,6 +17,8 @@ public class ClassMasterResponseDto {
 
     private Long id; // pk
     private Long masterId; // 타임라인 id
+    private String nickname; // 닉네임
+    private int viewCount; // 조회수
     private int likeCount; // 추천수
     private String recuitStartDate; // 모집시작일
     private String recuitEndDate; // 모집종료일
@@ -39,6 +41,8 @@ public class ClassMasterResponseDto {
     public ClassMasterResponseDto(ClassMaster entity) {
         this.id = entity.getId();
         this.masterId = entity.getMasterId();
+        this.nickname = entity.getNickname();
+        this.viewCount = entity.getViewCount();
         this.likeCount = entity.getLikeCount();
         this.recuitStartDate = entity.getRecuitStartDate();
         this.recuitEndDate = entity.getRecuitEndDate();

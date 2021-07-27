@@ -29,6 +29,12 @@ public class ClassMaster extends BaseTimeEntity {
     @Column(name = "master_id")
     private Long masterId; // 타임라인 id
 
+    @Column(name = "nickname")
+    private String nickname; // 멤버 nickname
+
+    @Column(name="view_count")
+    private int viewCount; // 조회수
+
     @Column(name="like_count")
     private int likeCount; // 추천수
 
@@ -82,6 +88,8 @@ public class ClassMaster extends BaseTimeEntity {
 
     @Builder
     public ClassMaster(Long masterId,
+                       String nickname,
+                       int viewCount,
                        int likeCount,
                        String recuitStartDate,
                        String recuitEndDate,
@@ -100,6 +108,8 @@ public class ClassMaster extends BaseTimeEntity {
                        String organizerName,
                        String organizerEmail) {
         this.masterId = masterId;
+        this.nickname = nickname;
+        this.viewCount = viewCount;
         this.likeCount = likeCount;
         this.recuitStartDate = recuitStartDate;
         this.recuitEndDate = recuitEndDate;
@@ -137,7 +147,8 @@ public class ClassMaster extends BaseTimeEntity {
         this.organizerEmail = masterUpdateDto.getOrganizerEmail(); // 담당자 이메일
     }
 
-    public void updateLikeCount(int likeCount) {
-        this.likeCount = likeCount;
-    }
+    public void updateView(int viewCount){ this.viewCount = viewCount; }
+
+    public void updateLike(int likeCount){ this.likeCount = likeCount; }
+
 }

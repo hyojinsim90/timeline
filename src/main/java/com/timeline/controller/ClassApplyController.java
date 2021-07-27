@@ -32,7 +32,7 @@ public class ClassApplyController {
 
     /* 클래스 신청 취소할 시 */
     @DeleteMapping("/apply")
-    public boolean deleteApply(@PathVariable Long id){
+    public boolean deleteApply(@RequestParam(value = "id") Long id){
         return classApplyService.deleteApply(id);
     }
 

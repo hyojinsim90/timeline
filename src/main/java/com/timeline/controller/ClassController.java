@@ -1,11 +1,8 @@
 package com.timeline.controller;
 
 import com.timeline.controller.dto.classes.*;
-import com.timeline.controller.dto.timeline.*;
 import com.timeline.entity.classes.ClassDetail;
-import com.timeline.entity.timeline.TimelineDetail;
 import com.timeline.service.ClassService;
-import com.timeline.service.TimelineService;
 import com.timeline.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,15 +53,44 @@ public class ClassController {
         return classService.findMasterCategory(category);
     }
 
+    /* 클래스 시작일시순 */
+    @GetMapping("/master/regist")
+    public List<ClassMasterResponseDto> findRegist() {
+        return classService.findRegist();
+    }
+
+    /* 클래스 등록일시순 */
+    @GetMapping("/master/latest")
+    public List<ClassMasterResponseDto> findLatest() {
+        return classService.findLatest();
+    }
+
+    /* 클래스 좋아요 갯수순(인기순) */
+    @GetMapping("/master/like")
+    public List<ClassMasterResponseDto> findLike() {
+        return classService.findLike();
+    }
+
     /* 클래스 검색 조회 */
     @GetMapping("/search")
-    public List<ClassMasterResponseDto> search(@RequestParam(value="category") String category,
-                                               @RequestParam(value="priceSorting") String priceSorting,
-                                               @RequestParam(value="placeSorting") String placeSorting,
-                                               @RequestParam(value="className") String keyword) {
+    public List<ClassMasterResponseDto> search(@RequestParam(value="category",required = false) String category,
+                                               @RequestParam(value="priceSorting",required = false) String priceSorting,
+                                               @RequestParam(value="placeSorting",required = false) String placeSorting,
+                                               @RequestParam(value="className",required = false) String keyword) {
         return classService.search(category, priceSorting, placeSorting, keyword);
     }
 
+    /* 클래스 조회수 조회 */
+    @GetMapping("/view/{id}")
+    public int viewCount(@PathVariable Long id){
+        return classService.viewCount(id);
+    }
+
+    /* 클래스 추천수 조회 */
+    @GetMapping("/like/{id}")
+    public int likeCount(@PathVariable Long id){
+        return classService.likeCount(id);
+    }
 
     /* 클래스 마스터 저장 */
     @PostMapping(path = "/master/save",consumes = {"multipart/form-data"})
@@ -87,10 +113,28 @@ public class ClassController {
         return ResponseEntity.ok(classService.updateMaster(id, classMasterUpdateRequestDto, file));
     }
 
+    /* 클래스 조회수 증가 */
+    @PutMapping(path = "/view/{id}")
+    public ClassMasterResponseDto updateView(@PathVariable Long id) {
+        return classService.updateView(id);
+    }
+
+    /* 클래스 추천수 증가 */
+    @PutMapping(path = "/like/{id}")
+    public ClassMasterResponseDto updateLike(@PathVariable Long id) {
+        return classService.updateLike(id);
+    }
+
     /* 내 클래스 디테일 조회 */
     @GetMapping("/detail/{masterId}")
     public ResponseEntity<List<ClassDetail>> getMytimelieDetail(@PathVariable Long masterId) {
         return classService.getMytimelieDetail(masterId);
+    }
+
+    /* 클래스 최소가격 가져오기 */
+    @GetMapping("/detail/price/{masterId}")
+    public int minPrice(@PathVariable Long masterId) {
+        return classService.minPrice(masterId);
     }
 
     /* 클래스 디테일 저장 */
@@ -106,12 +150,17 @@ public class ClassController {
         return ResponseEntity.ok(classService.updateDetail(masterId, classDetailList));
     }
 
-    /* 클래스 디테일 삭제 */
+    /* 클래스 디테일 전체 삭제 */
     @DeleteMapping("detail/{masterId}")
     public void deleteDetail(@PathVariable Long masterId) {
         classService.deleteDetail(masterId);
     }
 
+    /* 클래스 디테일 하나만 삭제 */
+    @DeleteMapping("detail/one")
+    public void deleteDetailOne(@RequestParam(value = "masterId") Long masterId, @RequestParam(value = "detailId") Long detailid) {
+        classService.deleteDetailOne(masterId, detailid);
+    }
 
     /* 클래스 마스터 이미지 삭제 */
     @DeleteMapping("master/image/{masterId}")

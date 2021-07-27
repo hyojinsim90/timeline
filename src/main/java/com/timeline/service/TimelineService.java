@@ -4,19 +4,27 @@ import com.timeline.controller.dto.timeline.*;
 import com.timeline.entity.timeline.TimelineDetail;
 import com.timeline.entity.timeline.TimelineMaster;
 import com.timeline.entity.timeline.TimelinePicture;
+import com.timeline.repository.ClassMasterRepository;
 import com.timeline.repository.TimelineDetailRepository;
 import com.timeline.repository.TimelineMasterRepository;
 import com.timeline.repository.TimelinePictureRepository;
 import com.timeline.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -98,6 +106,13 @@ public class TimelineService {
 
     }
 
+    /* 타임라인 조회수 조회 */
+    @Transactional(readOnly = true)
+    public int viewCount(Long id) {
+        return timelineMasterRepository.viewCount(id);
+    }
+
+
     /* 타임라인 마스터 저장 */
     @Transactional
     public TimelineMasterListResponseDto saveMaster(
@@ -147,8 +162,12 @@ public class TimelineService {
             return null;
         }
 
+    }
 
-
+    /* 타임라인 조회수 증가 */
+    @Transactional
+    public int updateView(Long id) {
+        return timelineMasterRepository.updateView(id);
     }
 
     /* 내 타임라인 디테일 조회 */
@@ -280,9 +299,28 @@ public class TimelineService {
     }
 
     /* 타임라임 이미지 하나만 조회 */
-    public TimelinePictureResponseDto findOneImage(Long masterId) {
+    public ResponseEntity<Resource> findOneImage(Long masterId) throws IOException {
         log.info("[ 내 timeline_picture 조회 ]");
 
-        return new TimelinePictureResponseDto(timelinePictureRepository.findByTimelineMasterId(masterId));
+        TimelinePicture timelinePicture = timelinePictureRepository.findByTimelineMasterId(masterId);
+
+        Resource resource = new FileSystemResource(timelinePicture.getStoredFilePath());
+
+        if(!resource.exists())
+            return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+
+        HttpHeaders header = new HttpHeaders();
+        Path filePath = null;
+
+        try {
+            filePath = Paths.get(timelinePicture.getStoredFilePath());
+            header.add("Content-Type", Files.probeContentType(filePath));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+
     }
+
 }

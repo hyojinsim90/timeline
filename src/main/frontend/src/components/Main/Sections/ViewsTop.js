@@ -102,7 +102,7 @@ const ViewsTop = (props) => {
               cover={
                 <img
                   alt="img"
-                  src={props.viewsList[i].imgFullPath}
+                  src={`/timeline/master/image/${item.id}`}
                 />
               }
             >

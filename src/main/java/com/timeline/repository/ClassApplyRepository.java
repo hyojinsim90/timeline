@@ -1,7 +1,6 @@
 package com.timeline.repository;
 
 import com.timeline.entity.classes.ClassApply;
-import com.timeline.entity.classes.ClassLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

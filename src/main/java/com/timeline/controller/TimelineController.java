@@ -2,16 +2,15 @@ package com.timeline.controller;
 
 import com.timeline.controller.dto.timeline.*;
 import com.timeline.entity.timeline.TimelineDetail;
-import com.timeline.repository.TimelinePictureRepository;
 import com.timeline.service.TimelineService;
 import com.timeline.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
@@ -70,6 +69,11 @@ public class TimelineController {
         return timelineService.search(category, keyword);
     }
 
+    /* 타임라인 조회수 조회 */
+    @GetMapping("/view/{id}")
+    public int viewCount(@PathVariable Long id){
+        return timelineService.viewCount(id);
+    }
 
     /* 타임라인 마스터 저장 */
     @PostMapping(path = "/master/save",consumes = {"multipart/form-data"})
@@ -91,6 +95,14 @@ public class TimelineController {
     {
         return ResponseEntity.ok(timelineService.updateMaster(id, timelineMasterUpdateRequestDto, file));
     }
+
+
+    /* 타임라인 조회수 증가 */
+    @PutMapping(path = "/view/{id}")
+    public int updateView(@PathVariable Long id) {
+        return timelineService.updateView(id);
+    }
+
 
     /* 내 타임라인 디테일 조회 */
     @GetMapping("/detail/{masterId}")
@@ -144,7 +156,7 @@ public class TimelineController {
 
     /* 타임라임 이미지 하나만 조회 */
     @GetMapping("/master/image/{masterId}")
-    public TimelinePictureResponseDto findOneImage(@PathVariable Long masterId){
+    public ResponseEntity<Resource> findOneImage(@PathVariable Long masterId) throws IOException {
         return timelineService.findOneImage(masterId);
     }
 

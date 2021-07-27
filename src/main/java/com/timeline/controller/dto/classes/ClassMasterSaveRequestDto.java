@@ -19,6 +19,8 @@ import javax.persistence.Column;
 public class ClassMasterSaveRequestDto {
 
     private Long masterId; // 타임라인 id
+    private String nickname; // 닉네임
+    private int viewCount; // 조회수
     private int likeCount; // 추천수
     private String recuitStartDate; // 모집시작일
     private String recuitEndDate; // 모집종료일
@@ -40,6 +42,8 @@ public class ClassMasterSaveRequestDto {
     public ClassMaster toClassMaster() {
         return ClassMaster.builder()
                 .masterId(masterId)
+                .nickname(nickname)
+                .viewCount(viewCount)
                 .likeCount(likeCount)
                 .recuitStartDate(recuitStartDate)
                 .recuitEndDate(recuitEndDate)

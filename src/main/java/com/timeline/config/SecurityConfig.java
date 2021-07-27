@@ -34,13 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-            .antMatchers("/h2-console/**", "/favicon.ico");
+            .antMatchers("/h2-console/**", "/favicon.ico","/resources/**");
     }
 
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/image/**")
-                .addResourceLocations("classpath:/src/main/resources/image/");
-    }
+//    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/image/**")
+//                .addResourceLocations("classpath:/src/main/resources/image/");
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

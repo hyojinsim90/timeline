@@ -4,10 +4,8 @@ import com.timeline.controller.dto.classes.apply.ClassApplyRequestDto;
 import com.timeline.controller.dto.classes.apply.ClassApplyResponseDto;
 import com.timeline.entity.classes.ClassApply;
 import com.timeline.repository.ClassApplyRepository;
-import com.timeline.repository.ClassMasterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

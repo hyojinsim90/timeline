@@ -13,9 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,56 +38,36 @@ public class FileHandler {
             MultipartFile multipartFile
     ) throws Exception {
 
-        // 반환을 할 파일 정보 클래스
-        TimelinePicture timelinePicture = new TimelinePicture();
+        File file = null;
+        TimelinePicture timelinePicture = null; // 반환을 할 파일 정보 클래스
 
         // 프로젝트 폴더에 저장하기 위해 절대경로를 설정 (Window 의 Tomcat 은 Temp 파일을 이용한다)
         String absolutePath = new File("").getAbsolutePath();
-        log.info("absolutePath :  " + absolutePath);
-        // absolutePath :  C:\dev\springboot\workplace\tiltest3\build\libs
+        log.info("기준점 path :  " + absolutePath); // 기준점 path :  C:\dev\springboot\workplace\tiltest3\build\libs
 
-        String goMainPath = new File("../resources/main").getCanonicalPath();
-        log.info("goMainPath :  " + goMainPath);
-        // -> goMainPath :  C:\dev\springboot\workplace\tiltest3\build\resources\main
 
-        String timelinePath = new File("../resources/main/image/timeline.jpg").getCanonicalPath();
-        log.info("timelinePath = " + timelinePath);
-        // -> timelinePath = C:\dev\springboot\workplace\tiltest3\build\resources\main\image\timeline.jpg
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String current_date = simpleDateFormat.format(new Date());
+        file = new File("../../src/main/resources/image/timeline");
+        log.info("timeline 폴더 path :  " + file.getCanonicalPath()); // -> imeline 폴더 path :  C:\dev\springboot\workplace\tiltest3\build\resources\main
 
-        // 경로를 지정하고 그곳에다가 저장할 심산이다
-        // 서버용
-        String path = goMainPath + "/image/timeline/" + current_date;
-        log.info("path :  " + path);
-        // -> path :  C:\dev\springboot\workplace\tiltest3\build\resources\main/image/20210714
-
-        File file = new File(path);
-        log.info("file :  " + file.getAbsolutePath());
-        // -> file :  C:\dev\springboot\workplace\tiltest3\build\resources\main\image\20210714
         // 저장할 위치의 디렉토리가 존지하지 않을 경우
         if (!file.exists()) {
-            // mkdir() 함수와 다른 점은 상위 디렉토리가 존재하지 않을 때 그것까지 생성
-            file.mkdirs();
+            file.mkdirs(); // mkdir() 함수와 다른 점은 상위 디렉토리가 존재하지 않을 때 그것까지 생성
         }
+
 
         // 파일이 빈 것이 들어오면 기존 이미지로 저장
         if (multipartFile == null || multipartFile.isEmpty()) {
 
-            // 서버용
-            File uploadfile = new File(timelinePath);
-            log.info("uploadfile :  " + uploadfile.getAbsolutePath());
-            // -> uploadfile :  C:\dev\springboot\workplace\tiltest3\build\resources\main\image\timeline.jpg
-
-            // 로컬테스트용
-//             multipartFile = (MultipartFile) new File(absolutePath + "\\src\\main\\resources\\image\\timeline.jpg");
+            // 기본 timeline 이미지 경로
+            File uploadfile = new File("../../src/main/resources/image/timeline.jpg");
+            log.info("timeline path :  " + uploadfile.getAbsolutePath()); // -> uploadfile :  C:\dev\springboot\workplace\tiltest3\build\resources\main\image\timeline.jpg
 
             // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
             SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
             String newfileName = date.format(new Date()) + "-" + uploadfile.getName();
-            log.info("newfileName :  " + newfileName);
-            // -> newfileName :  20214514204558-timeline.jpg
+            log.info("new fileName :  " + newfileName);   // -> new fileName :  20214514204558-timeline.jpg
+
             File newFile = new File(file.getAbsolutePath()+ "/" + newfileName);
 
             try {
@@ -100,6 +77,7 @@ public class FileHandler {
             }
 
             // 생성 후 리스트에 추가
+            // 반환을 할 파일 정보 클래스
             timelinePicture = TimelinePicture.builder()
                     .timelineMasterId(timelineID)
                     .originalFileName(uploadfile.getName())
@@ -107,23 +85,24 @@ public class FileHandler {
                     .fileSize(newFile.length())
                     .build();
 
-//            // 저장된 파일로 변경하여 이를 보여주기 위함
-//            multipartFile.transferTo(newFile);
-//            log.info("multipartFile.getSize :  " + multipartFile.getSize());
-//            log.info("multipartFile.getContentType :  " + multipartFile.getContentType());
+            // 저장된 파일로 변경하여 이를 보여주기 위함
+            // multipartFile.transferTo(newFile);
+            // log.info("multipartFile.getSize :  " + multipartFile.getSize());
+            // log.info("multipartFile.getContentType :  " + multipartFile.getContentType());
 
             return timelinePicture;
+
+
 
         } else {
 
             log.info("- 넘어온 파일이 있을 때 ");
-            // 넘어온 파일이 있을 때
 
             // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
             SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
             String newfileName = date.format(new Date()) + "-" + multipartFile.getOriginalFilename();
+            log.info("new fileName :  " + newfileName);
 
-            log.info("newfileName :  " + newfileName);
             File newFile = new File(file.getAbsolutePath()+ "/" + newfileName);
             log.info("newfile location :  " + newFile.getAbsolutePath());
 
@@ -152,31 +131,19 @@ public class FileHandler {
             MultipartFile multipartFile
     ) throws Exception {
 
-        // 반환을 할 파일 정보 클래스
-        ClassPicture classPicture = new ClassPicture();
+        File file = null;
+        ClassPicture classPicture = null; // 반환을 할 파일 정보 클래스
 
         // 프로젝트 폴더에 저장하기 위해 절대경로를 설정 (Window 의 Tomcat 은 Temp 파일을 이용한다)
         String absolutePath = new File("").getAbsolutePath();
-        log.info("absolutePath :  " + absolutePath);
+        log.info("기준점 path :  " + absolutePath); // 기준점 path :  C:\dev\springboot\workplace\tiltest3\build\libs
 
-        String goMainPath = new File("../resources/main").getCanonicalPath();
-        log.info("goMainPath :  " + goMainPath);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String current_date = simpleDateFormat.format(new Date());
-
-        // 경로를 지정하고 그곳에다가 저장할 심산이다
-        // 서버용
-        String path = goMainPath + "/image/class/" + current_date;
-        log.info("path :  " + path);
-
-        File file = new File(path);
-        log.info("file :  " + file.getAbsolutePath());
+        file = new File("../../src/main/resources/image/class");
+        log.info("timeline 폴더 path :  " + file.getCanonicalPath()); // -> imeline 폴더 path :  C:\dev\springboot\workplace\tiltest3\build\resources\main
 
         // 저장할 위치의 디렉토리가 존지하지 않을 경우
         if (!file.exists()) {
-            // mkdir() 함수와 다른 점은 상위 디렉토리가 존재하지 않을 때 그것까지 생성
-            file.mkdirs();
+            file.mkdirs(); // mkdir() 함수와 다른 점은 상위 디렉토리가 존재하지 않을 때 그것까지 생성
         }
 
             // 고유한 key값을 갖기 위해 현재 시간을 postfix로 붙여줌
@@ -194,7 +161,6 @@ public class FileHandler {
                     .storedFilePath(newFile.getAbsolutePath())
                     .fileSize(multipartFile.getSize())
                     .build();
-
 
             // 저장된 파일로 변경하여 이를 보여주기 위함
             multipartFile.transferTo(newFile);

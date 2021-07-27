@@ -3,15 +3,9 @@ package com.timeline.service;
 import com.timeline.controller.dto.classes.like.ClassLikeRequestDto;
 import com.timeline.controller.dto.classes.like.ClassLikeResponseDto;
 import com.timeline.controller.dto.classes.like.ClassMasterLikeCountResponseDto;
-import com.timeline.controller.dto.timeline.TimelineMasterLikeCountResponseDto;
-import com.timeline.controller.dto.timeline.like.TimelineLikeRequestDto;
-import com.timeline.controller.dto.timeline.like.TimelineLikeResponseDto;
 import com.timeline.entity.classes.ClassMaster;
-import com.timeline.entity.timeline.TimelineMaster;
 import com.timeline.repository.ClassLikeRepository;
 import com.timeline.repository.ClassMasterRepository;
-import com.timeline.repository.TimelineLikeRepository;
-import com.timeline.repository.TimelineMasterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -82,8 +76,11 @@ public class ClassLikeService {
             classLikeRepository.save(classLikeRequestDto.toClassLike());
 
             // class_master의 추천 수도 올려줌
-            ClassMaster master = classMasterRepository.findById(classLikeRequestDto.getMasterId()).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + classLikeRequestDto.getMasterId()));
-            master.updateLikeCount(master.getLikeCount()+1);
+            ClassMaster master = classMasterRepository.findByMasterId(classLikeRequestDto.getMasterId());
+            if(master == null){
+                new IllegalArgumentException((" Master 정보가 없습니다. id = "+  classLikeRequestDto.getMasterId()));
+            }
+            master.updateLike(master.getLikeCount()+1);
 
             // 변경된 class_master 반환
             return ClassMasterLikeCountResponseDto.of(master);
@@ -95,8 +92,11 @@ public class ClassLikeService {
             classLikeRepository.delete(classLikeRequestDto.toClassLike());
 
             // class_master의 추천 수도 내려줌
-            ClassMaster master = classMasterRepository.findById(classLikeRequestDto.getMasterId()).orElseThrow(() -> new IllegalArgumentException("Master 정보가 없습니다. id =" + classLikeRequestDto.getMasterId()));
-            master.updateLikeCount(master.getLikeCount()-1);
+            ClassMaster master = classMasterRepository.findByMasterId(classLikeRequestDto.getMasterId());
+            if(master == null){
+                new IllegalArgumentException((" Master 정보가 없습니다. id = "+  classLikeRequestDto.getMasterId()));
+            }
+            master.updateLike(master.getLikeCount()-1);
 
             // 변경된 class_master 반환
             return ClassMasterLikeCountResponseDto.of(master);

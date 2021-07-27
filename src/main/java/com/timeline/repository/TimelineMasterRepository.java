@@ -32,5 +32,11 @@ public interface TimelineMasterRepository extends JpaRepository<TimelineMaster, 
 
     @Query("SELECT m FROM TimelineMaster m WHERE m.category = :category and m.title like ':keyword'")
     List<TimelineMaster> searchByKeyword(@Param("category") String category, @Param("keyword") String keyword);
+
+    @Query("SELECT viewCount+1 FROM TimelineMaster m WHERE m.id = :id")
+    int updateView(@Param("id") Long id);
+
+    @Query("SELECT viewCount FROM TimelineMaster m WHERE m.id = :id")
+    int viewCount(Long id);
 }
 

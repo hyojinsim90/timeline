@@ -1,20 +1,20 @@
 package com.timeline.service;
 
 import com.timeline.controller.dto.classes.*;
-import com.timeline.controller.dto.timeline.*;
 import com.timeline.entity.classes.ClassDetail;
 import com.timeline.entity.classes.ClassMaster;
 import com.timeline.entity.classes.ClassPicture;
-import com.timeline.entity.timeline.TimelineDetail;
-import com.timeline.entity.timeline.TimelineMaster;
-import com.timeline.entity.timeline.TimelinePicture;
-import com.timeline.repository.*;
+import com.timeline.repository.ClassDetailRepository;
+import com.timeline.repository.ClassMasterRepository;
+import com.timeline.repository.ClassPictureRepository;
 import com.timeline.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -70,6 +70,7 @@ public class ClassService {
     }
 
     /* 클래스 분야별 조회 */
+    @Transactional(readOnly = true)
     public List<ClassMasterResponseDto> findMasterCategory(String category) {
         log.info("[ class_master 분야별 조회 ]");
 
@@ -78,14 +79,63 @@ public class ClassService {
                 .collect(Collectors.toList());
     }
 
+    /* 클래스 시작일시순(일시순) */
+    @Transactional(readOnly = true)
+    public List<ClassMasterResponseDto> findRegist() {
+
+        return classMasterRepository.findAllByOrderByIdAsc().stream()
+                .map(ClassMasterResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 클래스 등록일시순(최신순) */
+    @Transactional(readOnly = true)
+    public List<ClassMasterResponseDto> findLatest() {
+        return classMasterRepository.findAllByOrderByIdDesc().stream()
+                .map(ClassMasterResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /* 클래스 좋아요 갯수순(인기순) */
+    @Transactional(readOnly = true)
+    public List<ClassMasterResponseDto> findLike() {
+        return classMasterRepository.findAllByOrderByLikeCountDesc().stream()
+                .map(ClassMasterResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     /* 클래스 검색 조회 */
+    @Transactional(readOnly = true)
     public List<ClassMasterResponseDto> search(String category, String priceSorting, String placeSorting, String keyword) {
         log.info("[ class search ]");
+
+        log.info("category -> " + category);
+        log.info("priceSorting -> " + priceSorting);
+        log.info("placeSorting -> " + placeSorting);
+        log.info("keyword -> " + keyword);
+
+        if(category == null) category = "";
+        if(priceSorting == null) priceSorting = "";
+        if(placeSorting == null) placeSorting = "";
+        if(keyword == null) keyword = "";
 
         return classMasterRepository.searchByKeyword('%'+category+'%','%'+priceSorting+'%','%'+placeSorting+'%','%'+keyword+'%').stream()
                 .map(ClassMasterResponseDto::new)
                 .collect(Collectors.toList());
 
+    }
+
+    /* 클래스 조회수 조회 */
+    @Transactional(readOnly = true)
+    public int viewCount(Long id) {
+        return classMasterRepository.viewCount(id);
+    }
+
+
+    /* 클래스 추천수 조회 */
+    @Transactional(readOnly = true)
+    public int likeCount(@PathVariable Long id){
+        return classMasterRepository.likeCount(id);
     }
 
     /* 클래스 마스터 저장 */
@@ -149,11 +199,26 @@ public class ClassService {
                 return null;
             }
         }
-
-
-
-
     }
+
+    /* 클래스 조회수 증가 */
+    @Transactional
+    public ClassMasterResponseDto updateView(Long id) {
+        ClassMaster classMaster = classMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("class_master 정보가 없습니다. id =" + id));
+        int viewCount = classMaster.getViewCount() + 1;
+        classMaster.updateView(viewCount);
+        return new ClassMasterResponseDto(classMaster);
+    }
+
+    /* 클래스 추천수 증가 */
+    @Transactional
+    public ClassMasterResponseDto updateLike(Long id) {
+        ClassMaster classMaster = classMasterRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("class_master 정보가 없습니다. id =" + id));
+        int likeCount = classMaster.getLikeCount() + 1;
+        classMaster.updateLike(likeCount);
+        return new ClassMasterResponseDto(classMaster);
+    }
+
 
     /* 내 클래스 디테일 조회 */
     @Transactional(readOnly = true)
@@ -161,6 +226,12 @@ public class ClassService {
         log.info("[ 내 class_detail 조회 ]");
 
         return ResponseEntity.ok(classDetailRepository.findByMasterId(masterId));
+    }
+
+    /* 클래스 최소가격 가져오기 */
+    @Transactional(readOnly = true)
+    public int minPrice(Long masterId) {
+        return classDetailRepository.minPrice(masterId);
     }
 
     /* 클래스 디테일 저장 */
@@ -214,7 +285,7 @@ public class ClassService {
         return ResponseEntity.ok(classDetails);
     }
 
-    /* 클래스 디테일 삭제 */
+    /* 클래스 디테일 전부 삭제 */
     @Transactional
     public void deleteDetail(Long masterId) {
         List<ClassDetail> classDetail = classDetailRepository.findByMasterId(masterId);
@@ -226,6 +297,19 @@ public class ClassService {
                 classDetailRepository.delete(classDetail.get(i));
             }
         }
+    }
+
+    /* 클래스 디테일 일부 삭제 */
+    @Transactional
+    public void deleteDetailOne(Long masterId, Long detailId) {
+
+        // 클래스 마스터아이디, 디테일 아이디로 class_detail entity가져오기
+        ClassDetail classDetail = classDetailRepository.findDetail(masterId, detailId);
+        if (classDetail == null){
+            new IllegalArgumentException(("timelne_detail 정보가 없습니다"));
+        }
+
+        classDetailRepository.delete(classDetail);
     }
 
     /* 클래스 전체 삭제 */
@@ -277,4 +361,5 @@ public class ClassService {
 
         return new ClassPictureResponseDto(classPictureRepository.findByClassMasterId(masterId));
     }
+
 }
