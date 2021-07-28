@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="MariaDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-07-27T15:58:19" hostname="DESKTOP-UK9VMDU" time="6.421">
+  <properties/>
+  <testcase name="test()" classname="MariaDBTest" time="6.421"/>
+  <system-out><![CDATA[windows 10
+com.mysql.cj.jdbc.ConnectionImpl@603e258a
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
